@@ -2,6 +2,7 @@
 include_once 'header.php';
 include_once 'includes/session.php';
 include 'includes/initialization.php';
+include 'includes/isDaisy.php';
 
 
 function getMaintenanceRequestById($connection, $id)
@@ -320,7 +321,7 @@ if (isset($_GET['id'])) {
               <div class="form-group row">
                 <label class="col-form-label col-md-3 col-sm-3 label-align"></label>
                 <div class="col-md-4 col-sm-3">
-                  <?php if ($maintenanceRequest['maintenance_status'] == 0 ): ?> <!-- && $row['ic'] == '000719120127' -->
+                  <?php if ($maintenanceRequest['maintenance_status'] == 0 && checkIsDaisy($row['ic'])): ?> <!-- && $row['ic'] == '000719120127' -->
                     <button type="button" name="approve_maintenance" class="btn btn-success"
                       onclick="showApproveModal('<?php echo $id; ?>')">Terima</button>
                     <button type="button" name="reject_maintenance" class="btn btn-danger"
