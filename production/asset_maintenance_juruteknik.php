@@ -71,14 +71,17 @@ if (isset($_POST["technician_id"])) {
     $work_status = 0;
     // EMAIL IS DEFAULT TO DAISY ONLY!!!
     $email_pemohon = mysqli_real_escape_string($connection, $_POST['email_pemohon']);
-    echo "oii".$maintenance_id."--".$technician_id."--".$assignment_date."--".$work_status."--".$email_pemohon."--";
+    // echo "oii".$maintenance_id."--".$technician_id."--".$assignment_date."--".$work_status."--".$email_pemohon."--";
     // Bind parameters
     $stmt->bind_param("ssss", $maintenance_id, $technician_id, $assignment_date, $work_status);
     send_asset_email( $maintenance_id, $email_pemohon);
 
     // Execute the statement        window.location.href='asset_maintenance_view.php'
     if ($stmt->execute()) {
-        echo "<script>alert('Pemberian Tugas Berjaya.'); </script>".$email_pemohon;
+        echo "<script>
+                    alert('Pemberian Tugas Berjaya.');
+                    window.location.href = 'asset_maintenance_view.php';
+                </script>";
     } else {
         echo "ERROR: Hush! Sorry " . $stmt->error;
     }

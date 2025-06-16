@@ -80,7 +80,7 @@ function register_user($name, $username, $ic, $password, $jawatan, $lokasi, $uni
     $register_user_query = mysqli_query($connection, $query);
     print_r($_POST);
     confirmQuery($register_user_query);
-    echo ("Error description: " . $mysqli->error);
+    echo ("Error description: " . $connection->error);
 }
 
 
@@ -117,8 +117,8 @@ function login_user($username, $password, $asset_id)
     $db_user_role = $row['role'];
     $db_user_access = $row['access'];
 
-    if (($db_user_role == "Admin" || $db_user_role == "Pendaftar" || $db_user_role == "Juruteknik") && $db_user_access == "1") {
-        if ($password == $db_user_password) { // password_verify($password, $db_user_password)
+    if (($db_user_role == "Admin" || $db_user_role == "Pendaftar" ) && $db_user_access == "1") { // || $db_user_role == "Juruteknik"
+        if ($password == password_verify($password, $db_user_password)) { // $db_user_password
             session_start();
             $_SESSION['username'] = $db_username;
             $_SESSION['role'] = $db_user_role;

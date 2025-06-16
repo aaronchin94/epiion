@@ -25,7 +25,7 @@ function send_maintenance_email($token, $asset_id, $row)
 
         //Recipients
         $mail->setFrom('noreply.doasbh@gmail.com', 'Sistem Pengurusan Inventori ICT (e-PII)');
-        $mail->addAddress('aarondalejchin@gmail.com'); // Add a recipient
+        $mail->addAddress('Daisy.Francis@sabah.gov.my'); // Add a recipient    aarondalejchin@gmail.com
         //$mail->addCC('kurohx@gmail.com');
 
 

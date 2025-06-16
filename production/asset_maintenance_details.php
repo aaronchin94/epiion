@@ -1,4 +1,5 @@
 <?php
+
 //include_once 'header.php';
 require_once 'includes/db.php';
 include 'includes/initialization.php';
@@ -349,6 +350,7 @@ if (isset($_GET['token'])) {
   function approveMaintenance(token) {
     var estimatedCompletionDate = $('#estimated_completion_date').val();
     var estimated_deliver_date = $('#estimated_deliver_date').val();
+    console.log("asd: ", estimatedCompletionDate, " wwqe: ", estimated_deliver_date);
 
     // Perform validation if necessary
     if (!estimatedCompletionDate || !estimated_deliver_date) {
@@ -358,13 +360,14 @@ if (isset($_GET['token'])) {
 
     $('#terimaBtn').prop('disabled', true);
     $('#terimaClose').prop('disabled', true);
-
+/**/
     // Send data using AJAX
     $.ajax({
       type: 'POST',
       url: 'asset_maintenance_approve.php',
       data: { token: token, estimated_completion_date: estimatedCompletionDate, estimated_deliver_date: estimated_deliver_date },
       success: function (response) {
+        console.log(response);
         // Handle success response if needed
         $('#approveModal').modal('hide');
         alert("Permohonan Penyelenggaraan Telah Diluluskan");
@@ -377,7 +380,7 @@ if (isset($_GET['token'])) {
         alert('Error occurred while processing your request. Please try again later.');
         console.error(xhr, status, error);
       }
-    });
+    }); 
   }
 
 
