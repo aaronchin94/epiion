@@ -58,6 +58,9 @@ if (isset($_POST["maintenance_type"])) {
     include 'includes/db.php';
 
 
+    
+
+
     // File upload handling
     $allowedtypes = ['image/jpeg', 'image/png', 'application/pdf'];
     $allowedextensions = ['jpg', 'jpeg', 'png', 'pdf'];
@@ -66,7 +69,7 @@ if (isset($_POST["maintenance_type"])) {
 
     if (!empty($_FILES['maintenance_files']['name'][0])) {
         for ($i = 0; $i < count($_FILES['maintenance_files']['name']); $i++) {
-            $filename = basename($_FILES['maintenance_files']['name'][$i]);
+            $filename = $_POST["maintenance_type"]."-".time() . '-' .basename($_FILES['maintenance_files']['name'][$i]);
             $uploadfile = $_FILES['maintenance_files']['tmp_name'][$i];
             $targetpath = "uploads/" . $filename;
 
@@ -103,10 +106,6 @@ if (isset($_POST["maintenance_type"])) {
         maintenance_date, RequestedBy, InsertedAt, UpdatedAt) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)");  // token, tokenexpiry, 
 
-    // Bind parameters
-    $stmt->bind_param("ssssssssssssss", $staff_id, $asset_type, $asset_id, $model, $serial, $maintenance_type, $maintenance_priority, $maintenance_description, $maintenance_files, $maintenance_reason, $maintenance_date, $RequestedBy, $InsertedAt, $UpdatedAt);  // $token, $tokenexpiry, 
-
-
     // Taking all values from the form data
     $staff_id = mysqli_real_escape_string($connection, $_POST['staff_id']);
     $asset_type = mysqli_real_escape_string($connection, $_POST['asset_type']);
@@ -124,6 +123,12 @@ if (isset($_POST["maintenance_type"])) {
     $tokenexpirys = date('Y-m-d H:i:s', strtotime('+1 week'));
     $InsertedAt = date('Y-m-d H:i:s');
     $UpdatedAt = date('Y-m-d H:i:s');
+
+    // Bind parameters
+    $stmt->bind_param("ssssssssssssss", $staff_id, $asset_type, $asset_id, $model, $serial, $maintenance_type, $maintenance_priority, $maintenance_description, $maintenance_files, $maintenance_reason, $maintenance_date, $RequestedBy, $InsertedAt, $UpdatedAt);  // $token, $tokenexpiry, 
+
+
+    
 
     //For Email Purpose
     send_maintenance_email($token, $asset_id, $row);

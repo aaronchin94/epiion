@@ -68,7 +68,7 @@ function register_user($name, $username, $ic, $password, $jawatan, $lokasi, $uni
     $jawatan = mysqli_real_escape_string($connection, $jawatan);
     $lokasi = mysqli_real_escape_string($connection, $lokasi);
     $unit = mysqli_real_escape_string($connection, $unit);
-    $email = mysqli_real_escape_string($connection, $emal);
+    $email = mysqli_real_escape_string($connection, $email);
     $tel = mysqli_real_escape_string($connection, $tel);
     $role = mysqli_real_escape_string($connection, $role);
 
