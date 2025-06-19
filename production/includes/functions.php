@@ -118,7 +118,7 @@ function login_user($username, $password, $asset_id)
     $db_user_access = $row['access'];
 
     if (($db_user_role == "Admin" || $db_user_role == "Pendaftar" ) && $db_user_access == "1") { // || $db_user_role == "Juruteknik"
-        if ($password == password_verify($password, $db_user_password)) { // $db_user_password
+        if ($password == password_verify($password, $db_user_password)) { //    password_verify($password, $db_user_password)   $db_user_password
             session_start();
             $_SESSION['username'] = $db_username;
             $_SESSION['role'] = $db_user_role;
@@ -267,6 +267,78 @@ function add_password_validation_script()
         }
     </script>
     <?php
+}
+
+
+function login_user_testing($username, $password, $asset_id)
+{
+
+    // Set the timezone to your local timezone
+    date_default_timezone_set('Asia/Kuching');
+
+
+    global $connection;
+
+    $username = trim($username);
+    $password = trim($password);
+
+    $username = mysqli_real_escape_string($connection, $username);
+    $password = mysqli_real_escape_string($connection, $password);
+
+    $query = "SELECT * FROM staff WHERE access = 1 AND ic = '$username' ";
+    $select_user_query = mysqli_query($connection, $query);
+
+    if (!$select_user_query) {
+        die ("QUERY FAILED" . mysqli_error($connection));
+    }
+
+    if (mysqli_num_rows($select_user_query) == 0) {
+        return false; // No user found
+    }
+
+    $row = mysqli_fetch_array($select_user_query);
+    $db_user_id = $row['id'];
+    $db_username = $row['ic'];
+    $db_user_password = $row['password'];
+    $db_user_role = $row['role'];
+    $db_user_access = $row['access'];
+
+    if (($db_user_role == "Admin" || $db_user_role == "Pendaftar" ) && $db_user_access == "1") { // || $db_user_role == "Juruteknik"
+        if ($password == $db_user_password) { //    password_verify($password, $db_user_password)
+            session_start();
+            $_SESSION['username'] = $db_username;
+            $_SESSION['role'] = $db_user_role;
+            $_SESSION['id'] = $db_user_id;
+
+
+            $login_time = date('Y-m-d H:i:s');
+            session_start();
+            $_SESSION['login_time'] = $login_time;
+
+
+            $insert_query = "INSERT INTO login_session (staff_id, staff_ic, login_time, last_seen_time) VALUES ($db_user_id, '$db_username', '$login_time', '$login_time')";
+            $result = mysqli_query($connection, $insert_query);
+            if (!$result) {
+                die ("QUERY FAILED" . mysqli_error($connection));
+            }
+
+            if (!empty ($asset_id)) {
+                // Redirect to halo.php with asset_id parameter
+                asset_redirect($asset_id);
+            } else {
+                // Redirect to index.php
+                header("Location: index.php");
+            }
+
+            exit();
+        } else {
+            return false; // Invalid password
+        }
+    } else {
+        header("Location: login.php"); // Invalid user role or access
+        exit();
+    }
+
 }
 
 ?>
