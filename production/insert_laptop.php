@@ -39,15 +39,20 @@ if (isset($_POST["usetype"])) {
             `kad_grafik`, `network_lan`, `modem`, `ip_address`, `subnet_mask`,
             `def_gateway`, `dns_server`, `InsertedAt`
         ) VALUES (
-            '$usetype', '$staff_id', 'Laptop', '$assetid', '$model', '$tahun',
-            '$serial', '$kewpa', '$status', '$perolehan', '$sumber',
-            '$os', '$app_kerja', '$anti_v', '$processor', '$ram', '$harddisk',
-            '$grafik', '$networklan', '$modem', '$ipv4', '$subnet',
-            '$defaultgateway', '$dnsserver', NOW()
+            ?, ?, 'Laptop', ?, ?, ?,
+            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?,
+            ?, ?, NOW()
         )";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("siisissssssssssssssssss", $usetype, $staff_id, $assetid, $model, $tahun,
+                                $serial, $kewpa, $status, $perolehan, $sumber,
+                                $os, $app_kerja, $anti_v, $processor, $ram, $harddisk,
+                                $grafik, $networklan, $modem, $ipv4, $subnet,
+                                $defaultgateway, $dnsserver);
 
-
-    if (mysqli_query($connection, $sql)) {
+    if ($stmt->execute()) {
         echo "<script>alert('Pendaftaran Berjaya');
             window.location.href='asset_view.php'</script>";
 

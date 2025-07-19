@@ -3,6 +3,7 @@ include_once 'header.php';
 include_once 'includes/session.php';
 require_once 'includes/db.php';
 require_once 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 $asset = getasset('avr', 'a_id', $id, $connection, $row);
 $kewpa_check = getkewpa('avr', $connection);

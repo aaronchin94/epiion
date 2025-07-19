@@ -1,5 +1,9 @@
 <?php
 
+function sanitizeText($value) { 
+    return htmlspecialchars(trim(strip_tags($value)), ENT_QUOTES, 'UTF-8'); 
+}
+
 function confirmQuery($result)
 {
 
@@ -60,17 +64,17 @@ function register_user($name, $username, $ic, $password, $jawatan, $lokasi, $uni
 
     global $connection;
 
-    $name = mysqli_real_escape_string($connection, $name);
-    $username = mysqli_real_escape_string($connection, $username);
-    $ic = mysqli_real_escape_string($connection, $ic);
-    $password = mysqli_real_escape_string($connection, $password);
+    $name = sanitizeText($name);
+    $username = sanitizeText($username);
+    $ic = sanitizeText( $ic);
+    $password = sanitizeText( $password);
 
-    $jawatan = mysqli_real_escape_string($connection, $jawatan);
-    $lokasi = mysqli_real_escape_string($connection, $lokasi);
-    $unit = mysqli_real_escape_string($connection, $unit);
-    $email = mysqli_real_escape_string($connection, $email);
-    $tel = mysqli_real_escape_string($connection, $tel);
-    $role = mysqli_real_escape_string($connection, $role);
+    $jawatan = sanitizeText( $jawatan);
+    $lokasi = sanitizeText( $lokasi);
+    $unit = sanitizeText($unit);
+    $email = sanitizeText($email);
+    $tel = sanitizeText($tel);
+    $role = sanitizeText($role);
 
     $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
 

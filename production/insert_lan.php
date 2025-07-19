@@ -17,30 +17,41 @@ if (isset($_POST["usetype"])) {
     $port = $_POST['port'];
     // Performing insert query execution
     // here our table name is college
+
+    // $sql = "INSERT INTO `lan_switch` (
+    //         `penggunaan`, `staff_id`, `asset`, `asset_id`, `model`, 
+    //         `serial`, `kewpa`, `status`, `jen_perolehan`, `sumber`, 
+    //         `bil_port`, `InsertedAt`
+    //     ) VALUES (
+    //         '$usetype', '$staff_id', 'LAN', '$assetid', '$model', 
+    //         '$serial', '$kewpa', '$status', '$perolehan', '$sumber', 
+    //         '$port', NOW()
+    //     )";
+
     $sql = "INSERT INTO `lan_switch` (
-            `penggunaan`, `staff_id`, `asset`, `asset_id`, `model`, 
-            `serial`, `kewpa`, `status`, `jen_perolehan`, `sumber`, 
-            `bil_port`, `InsertedAt`
-        ) VALUES (
-            '$usetype', '$staff_id', 'LAN', '$assetid', '$model', 
-            '$serial', '$kewpa', '$status', '$perolehan', '$sumber', 
-            '$port', NOW()
-        )";
-
-
-    if (mysqli_query($connection, $sql)) {
+        `penggunaan`, `staff_id`, `asset`, `asset_id`, `model`, 
+        `serial`, `kewpa`, `status`, `jen_perolehan`, `sumber`, 
+        `bil_port`, `InsertedAt`
+    ) VALUES (?, ?, 'LAN', ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param(
+    "ssssssssss",  
+    $usetype, $staff_id, $assetid, $model, $serial,
+        $kewpa, $status, $perolehan, $sumber, $port
+    );
+    
+    
+    if ($stmt->execute()) {
         echo "<script>alert('Pendaftaran Berjaya');
             window.location.href='asset_view.php'</script>";
-
-        //echo "<h3>data stored in a database successfully."
-        //  . " Please browse your localhost php my admin"
-        //. " to view the updated data</h3>";
-
 
     } else {
         echo "ERROR: Hush! Sorry $sql. "
             . mysqli_error($connection);
     }
+
+    $stmt->close();
+
 } else {
     header("Location: ../index.php");
     // Close connection

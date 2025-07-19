@@ -30,12 +30,16 @@
             `name`, `username`, `ic`, `password`, `jawatan`,
             `lokasi`, `unit`, `email`, `tel`, `role`
         ) VALUES (
-            '$name', '$username', '$ic', '$password', '$jawatan',
-            '$lokasi', '$unit', '$email', '$tel', '$role'
+            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?
         )";
 
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssssss", $name, $username, $ic, $password, $jawatan,
+                        $lokasi, $$unit, $email, $tel, $role);
+        
          
-        if(mysqli_query($connection, $sql)){
+        if($stmt->execute()){
             echo '<script>alert("Data has been stored successfully")</script>';
             //echo "<h3>data stored in a database successfully."
               //  . " Please browse your localhost php my admin"

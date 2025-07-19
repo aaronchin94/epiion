@@ -2,6 +2,7 @@
 require_once '../PhpSpreadSheet/PhpOffice/autoload.php';
 require_once 'includes/db.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -34,8 +35,12 @@ foreach ($worksheet->getRowIterator() as $row) {
     $email = mysqli_real_escape_string($connection, $email);
 
   // check if email already exists in database
-  $result = mysqli_query($connection, "SELECT email FROM staff WHERE email = '$email'");
-  if (mysqli_num_rows($result) > 0) {
+  // $result = mysqli_query($connection, "SELECT email FROM staff WHERE email = '$email'");
+  $stmt = $conn->prepare("SELECT email FROM staff WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->free_result();
+  if ($result->num_rows() > 0) {
     // email already exists, add to existing_emails array
     array_push($existing_emails, $email);
   } else {
@@ -51,12 +56,17 @@ foreach ($worksheet->getRowIterator() as $row) {
     ));
     
     // build the SQL query and execute it
-    $sql = "INSERT INTO staff (name, ic, jawatan, gred, lokasi, unit, email, tel) VALUES ('$nama', '$ic', '$jawatan', '$gred', '$lokasi', '$unit', '$email', '$tel')";
-  
-    if (!mysqli_query($connection, $sql)) {
+    $sql = "INSERT INTO staff (name, ic, jawatan, gred, lokasi, unit, email, tel) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmtIS = $conn->prepare($sql);
+    $stmtIS->bind_param("ssssssss",$nama, $ic, $jawatan, $gred, $lokasi, $unit, $email, $tel);
+    
+    if (!$stmtIS->execute()) {
       echo "Error: " . $sql . "<br>" . mysqli_error($connection);
     }
   }
+
+  $stmt->close();
+  $stmtIS->close();
 }
 
 // create alert messages
@@ -101,7 +111,7 @@ $alert_msg .= $new_emails_msg;
 <div id="alert-modal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <p><?php echo $alert_msg; ?></p>
+    <p><?php echo sanitizeText($alert_msg); ?></p>
     <button align-center id="ok-btn">OK</button>
   </div>
 </div>
