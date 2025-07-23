@@ -3,6 +3,8 @@ include_once 'header.php';
 include_once 'includes/session.php';
 include_once 'includes/adminonly.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
+
 ?>
 
 <script>
@@ -107,7 +109,7 @@ $email_check = getemail($connection);
                         <option value="" id="myInput" onkeyup="filterFunction()" onclick="myFunction()">-- Sila Pilih --</option>
                         <?php
 foreach ($result_drop1 as $row) {
-    echo '<option value="' . $row["daerah"] . '">' . $row["daerah"] . '</option>';
+    echo '<option value="' . sanitizeText($row["daerah"]) . '">' . sanitizeText($row["daerah"]) . '</option>';
 }
 ?>  
                     </select>
@@ -122,7 +124,7 @@ foreach ($result_drop1 as $row) {
                         <option value="" id="myInput" onkeyup="filterFunction()" onclick="myFunction()">-- Sila Pilih --</option>
                         <?php
 foreach ($result_drop as $row) {
-    echo '<option value="' . $row["unit"] . '">' . $row["unit"] . '</option>';
+    echo '<option value="' . sanitizeText($row["unit"]) . '">' . sanitizeText($row["unit"]) . '</option>';
 }
 ?>  
                     </select>
@@ -304,7 +306,7 @@ foreach ($result_drop as $row) {
     });
 
     $('#registration-form').submit(function (e) {
-      var email_arr = <?php echo $email_check ?>;
+      var email_arr = <?php echo sanitizeEmail($email_check) ?>;
       var email = $('#email').val();
 
       if (email_arr.indexOf(email) !== -1) {

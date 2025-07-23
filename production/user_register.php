@@ -3,6 +3,7 @@
 include_once 'header.php';
 include_once 'includes/adminonly.php';
 include_once 'includes/firstlogincheck.php';
+include_once 'includes/secure_function.php';
 ?>
 
 <?php
@@ -31,11 +32,14 @@ $result_drop2 = $connection->query($query_drop2);
 //selected name info
 if (isset($_GET['name'])) {
   $user_name = mysqli_real_escape_string($connection, $_GET['name']);
-  $query = "SELECT * FROM staff WHERE name='$user_name' ";
-  $query_run = mysqli_query($connection, $query);
+  $query = "SELECT * FROM staff WHERE name = ?";
+  $stmt = $connection->prepare($query);
+  $stmt->bind_param("s", $user_name);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-  if (mysqli_num_rows($query_run) > 0) {
-    $staff = mysqli_fetch_array($query_run);
+  if ($result->num_rows > 0) {
+    $staff = $result->fetch_assoc();
   }
 }
 
@@ -65,7 +69,7 @@ if (isset($_GET['name'])) {
             <form role="form" action="includes/registeruser.php" method="post" id="registration-form"
               autocomplete="off">
               <div class="form-group row">
-                <input type="text" hidden name="id" value="<?php echo $staff['id'] ?>">
+                <input type="text" hidden name="id" value="<?php echo sanitizeText($staff['id']) ?>">
 
                 <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Nama Penuh <span
                     class="required">*</span>
@@ -77,9 +81,9 @@ if (isset($_GET['name'])) {
                     <?php
                     foreach ($result_drop2 as $row) {
                       if ($staff['name'] == $row['name']) {
-                        echo '<option selected="selected" value="' . $row["name"] . '">' . $row["name"] . '</option>';
+                        echo '<option selected="selected" value="' . sanitizeText($row["name"]) . '">' . sanitizeText($row["name"]) . '</option>';
                       } else {
-                        echo '<option value="' . $row["name"] . '">' . $row["name"] . '</option>';
+                        echo '<option value="' . sanitizeText($row["name"]) . '">' . sanitizeText($row["name"]) . '</option>';
                       }
 
                     }
@@ -95,7 +99,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input readonly type="text" name="ic" id="ic" required="required" class="form-control"
-                    placeholder="No Kad Pengenalan (tanpa -)" maxlength="12" value="<?php echo $staff['ic'] ?>">
+                    placeholder="No Kad Pengenalan (tanpa -)" maxlength="12" value="<?php echo sanitizeText($staff['ic']) ?>">
                 </div>
               </div>
 
@@ -106,7 +110,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input readonly type="text" name="jawatan" id="jawatan" required="required" class="form-control"
-                    placeholder="Jawatan" value="<?php echo $staff['jawatan'] ?>">
+                    placeholder="Jawatan" value="<?php echo sanitizeText($staff['jawatan']) ?>">
                 </div>
               </div>
 
@@ -121,9 +125,9 @@ if (isset($_GET['name'])) {
                     <?php
                     foreach ($result_drop1 as $row) {
                       if ($staff['lokasi'] == $row['daerah']) {
-                        echo '<option selected="selected" value="' . $row["daerah"] . '">' . $row["daerah"] . '</option>';
+                        echo '<option selected="selected" value="' . sanitizeText($row["daerah"]) . '">' . sanitizeText($row["daerah"]) . '</option>';
                       } else {
-                        echo '<option value="' . $row["daerah"] . '">' . $row["daerah"] . '</option>';
+                        echo '<option value="' . sanitizeText($row["daerah"]) . '">' . sanitizeText($row["daerah"]) . '</option>';
                       }
 
                     }
@@ -144,9 +148,9 @@ if (isset($_GET['name'])) {
                     <?php
                     foreach ($result_drop as $row) {
                       if ($staff['unit'] == $row['unit']) {
-                        echo '<option selected="selected" value="' . $row["unit"] . '">' . $row["unit"] . '</option>';
+                        echo '<option selected="selected" value="' . sanitizeText($row["unit"]) . '">' . sanitizeText($row["unit"]) . '</option>';
                       } else {
-                        echo '<option value="' . $row["unit"] . '">' . $row["unit"] . '</option>';
+                        echo '<option value="' . sanitizeText($row["unit"]) . '">' . sanitizeText($row["unit"]) . '</option>';
                       }
 
                     }
@@ -162,7 +166,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input type="email" name="email" id="email" required="required" class="form-control"
-                    placeholder="Emel Rasmi" value="<?php echo $staff['email'] ?>" readonly>
+                    placeholder="Emel Rasmi" value="<?php echo sanitizeEmail($staff['email']) ?>" readonly>
                 </div>
               </div>
 
@@ -172,7 +176,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input readonly type="text" name="tel" id="tel" required="required" class="form-control"
-                    placeholder="0123456789" value="<?php echo $staff['tel'] ?>">
+                    placeholder="0123456789" value="<?php echo sanitizeText($staff['tel']) ?>">
                 </div>
               </div>
 

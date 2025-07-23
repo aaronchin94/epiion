@@ -2,6 +2,7 @@
 include_once 'header.php';
 include_once 'includes/session.php';
 include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
 
 ?>
 
@@ -38,24 +39,28 @@ $result_drop = $connection->query($query_drop);
                         if(isset($_GET['id']))
                         {
                             $user_id = mysqli_real_escape_string($connection, $_GET['id']);
-                            $query = "SELECT * FROM staff WHERE id='$user_id' ";
-                            $query_run = mysqli_query($connection, $query);
+                            $query = "SELECT * FROM staff WHERE id = ?";
+                            $stmt = $connection->prepare($query);
+                            $stmt->bind_param("i", $user_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            // $query_run = mysqli_query($connection, $query);
 
-                            if(mysqli_num_rows($query_run) > 0)
+                            if($result->num_rows > 0)
                             {
-                                $user = mysqli_fetch_array($query_run);
+                                $user = $result->fetch_assoc();
                                 ?>
 
                             
 
-                    <form role="form" action="./staff-edit.php?id=<?php echo $user['id'] ?>" method="post" id="registration-form" autocomplete="off">
+                    <form role="form" action="./staff-edit.php?id=<?php echo sanitizeText($user['id']) ?>" method="post" id="registration-form" autocomplete="off">
 
                     <div class="form-group row">
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="name" >Nama Penuh <span class="required">*</span>
                         </label>
                         
                         <div class="col-md-4 col-sm-6 ">
-                        <input type="text" name="name" id="Name" class="form-control" disabled="disabled" value="<?php echo $user['name']?>" placeholder="Username digunakan untuk log masuk">
+                        <input type="text" name="name" id="Name" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['name'])?>" placeholder="Username digunakan untuk log masuk">
                         </div>
                         </div>
 
@@ -63,7 +68,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">No Kad Pengenalan <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo $user['ic']?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
+                          <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['ic'])?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
                           >
                         </div>
                       </div>
@@ -72,7 +77,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">Jawatan <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo $user['jawatan']?>" placeholder="Jawatan"
+                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['jawatan'])?>" placeholder="Jawatan"
                           >
                         </div>
                       </div>
@@ -81,7 +86,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="gred">Gred <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="gred" id="gred" required="required" class="form-control" disabled="disabled" value="<?php echo $user['gred']?>" placeholder="Gred"
+                          <input type="text" name="gred" id="gred" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['gred'])?>" placeholder="Gred"
                           >
                         </div>
                       </div>
@@ -91,7 +96,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="lokasi">Daerah <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="lokasi" id="lokasi" required="required" class="form-control " disabled="disabled" value="<?php echo $user['lokasi']?>" placeholder="Lokasi Pejabat"
+                          <input type="text" name="lokasi" id="lokasi" required="required" class="form-control " disabled="disabled" value="<?php echo sanitizeText($user['lokasi'])?>" placeholder="Lokasi Pejabat"
                           >
                         </div>
                       </div>
@@ -105,10 +110,10 @@ $result_drop = $connection->query($query_drop);
                         <?php
 foreach ($result_drop as $row) {
    if($user['unit']==$row['unit']){
-    echo '<option selected="selected" value="' . $row["unit"] .'">' . $row["unit"] . '</option>';
+    echo '<option selected="selected" value="' . sanitizeText($row["unit"]) .'">' . sanitizeText($row["unit"]) . '</option>';
    }
    else{
-    echo '<option value="' . $row["unit"] .'">' . $row["unit"] . '</option>';
+    echo '<option value="' . sanitizeText($row["unit"]) .'">' . sanitizeText($row["unit"]) . '</option>';
    }
     
 }
@@ -121,7 +126,7 @@ foreach ($result_drop as $row) {
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Email <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="email" name="email" id="email" required="required" class="form-control" disabled="disabled" value="<?php echo $user['email']?>" placeholder="Email Rasmi"
+                          <input type="email" name="email" id="email" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeEmail($user['email'])?>" placeholder="Email Rasmi"
                           >
                         </div>
                       </div>
@@ -130,7 +135,7 @@ foreach ($result_drop as $row) {
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">No. Telefon <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $user['tel']?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['tel'])?>" placeholder="0123456789"
                           >
                         </div>
                       </div>

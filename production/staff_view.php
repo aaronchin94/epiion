@@ -2,10 +2,13 @@
 include_once "header.php";
 include_once "includes/session.php";
 include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
 
 ?>
 <?php
 require_once "includes/db.php";
+$role = $row["role"];
+$unit = $row["unit"];
 $query_drop = "
                             SELECT unit FROM lokasi
 				WHERE unit = 
@@ -131,15 +134,15 @@ $result_drop = $connection->query($query_drop);
                             $ic= $row['ic'];
 
                             echo "<tr>";
-                            echo "<td>$name</td> ";
-                            echo "<td>$jawatan</td>";
-                            echo "<td>$lokasi</td>";
-                            echo "<td>$unit </td>";
+                            echo "<td>".sanitizeText($name)."</td> ";
+                            echo "<td>".sanitizeText($jawatan)."</td>";
+                            echo "<td>".sanitizeText($lokasi)."</td>";
+                            echo "<td>".sanitizeText($unit)."</td>";
 				echo '<td>
-                        <a href="staff-review.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
-                        <a href="staff-edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
-			<a href="staff_asset.php?id=' . $id . '"><i class="fa fa-tasks" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Papar Aset"></i></a>
-                        <a href="staff-delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
+                        <a href="staff-review.php?id=' . sanitizeText($id) . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
+                        <a href="staff-edit.php?id=' . sanitizeText($id) . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
+			<a href="staff_asset.php?id=' . sanitizeText($id) . '"><i class="fa fa-tasks" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Papar Aset"></i></a>
+                        <a href="staff-delete.php?id=' . sanitizeText($id) . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         </td>';
                         echo "</tr>";
                       }

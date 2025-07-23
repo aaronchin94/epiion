@@ -2,6 +2,8 @@
 include_once 'header.php';
 include_once 'includes/session.php';
 include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
+include_once 'includes/utils.php';
 ?>
 
 <?php
@@ -37,10 +39,14 @@ $result_drop = $connection->query($query_drop);
                   <?php
 if (isset($_GET['id'])) {
     $user_id = mysqli_real_escape_string($connection, $_GET['id']);
-    $query = "SELECT * FROM staff WHERE id='$user_id' ";
-    $query_run = mysqli_query($connection, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        $user = mysqli_fetch_array($query_run);
+    $query = "SELECT * FROM staff WHERE id = ?";
+    $stmtquery = $connection->prepare($query);
+    $stmtquery->bind_param("s", $user_id);
+    $stmtquery->execute();
+    $resultquery = $stmtquery->get_result();
+    
+    if ($resultquery->num_rows > 0) {
+        $user = $resultquery->fetch_assoc();
     }
 }
 ?>
@@ -51,21 +57,21 @@ if (isset($_GET['id'])) {
                     <label class="col-form-label col-md-1 col-sm-1 label-align">Nama</label>
                     <div class="col-md-2 col-sm-1 ">
                       <input type="text" id="nama" class="form-control" name="nama" readonly="readonly" placeholder="<?php
-echo $user['name'];
+echo sanitizeText($user['name']);
 ?>">
                     </div>
 
                     <label class="col-form-label col-md-1 col-sm-1 label-align">Jawatan</label>
                     <div class="col-md-2 col-sm-1 ">
                       <input type="text" id="jawatan" class="form-control" name="nama" readonly="readonly" placeholder="<?php
-echo $user['jawatan'];
+echo sanitizeText($user['jawatan']);
 ?>">
                     </div>
 
                     <label class="col-form-label col-md-2 col-sm-1 label-align">Bahagian/Seksyen/Unit</label>
                     <div class="col-md-3 col-sm-1 ">
                       <input type="text" id="unit" class="form-control" name="unit" readonly="readonly" placeholder="<?php
-echo $user['unit'];
+echo sanitizeText($user['unit']);
 ?>">
                     </div>
                   </div>
@@ -99,24 +105,28 @@ echo $user['unit'];
                       <tbody>
 
 <?php
-$query = "SELECT * FROM komputer WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$stmtq2 = $connection->prepare("SELECT * FROM komputer WHERE staff_id = ?");
+$stmtq2->bind_param("s", $user_id);
+$stmtq2->execute();
+$resultq2 = $stmtq2->get_result();
+// $resultq2 = mysqli_query($connection, $query);
+if ($resultq2->num_rows <= 0) {
+    noRecordFound(5, true);
 }
+
 $i = 0;
-while ($row = mysqli_fetch_assoc($result)) {
-    $i = $i + 1;
+while ($row = $resultq2->fetch_assoc()) {
+    $i++;
     $assetid = $row["asset_id"];
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $k_id = $row["k_id"];
+    $k_id = intval($row["k_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_komputer.php?id=$k_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -124,6 +134,8 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+
+$stmtq2->close();
 ?>
 </tbody>
                     </table>
@@ -159,31 +171,38 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <tbody>
 
 <?php
-$query = "SELECT * FROM monitor WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM monitor WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows < 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = $result->fetch_assoc()) {
     $i = $i + 1;
     $assetid = $row["asset_id"];
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $m_id = $row["m_id"];
+    $m_id = intval($row["m_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_monitor.php?id=$m_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
 ?>
        <?php
     echo "</tr>";
+
 }
+
+  $stmt->close();
 ?>
 </tbody>
                       </table>
@@ -221,10 +240,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                       <tbody>
 
 <?php
-$query = "SELECT * FROM laptop WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM laptop WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -233,12 +256,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $la_id = $row["la_id"];
+    $la_id = intval($row["la_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_laptop.php?id=$la_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -281,10 +304,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <tbody>
 
 <?php
-$query = "SELECT * FROM scanner WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM scanner WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -293,12 +320,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $s_id = $row["s_id"];
+    $s_id = intval($row["s_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_scanner.php?id=$s_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -306,6 +333,7 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+$stmt->close();
 ?>
 </tbody>
                       </table>
@@ -348,10 +376,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                       <tbody>
 
 <?php
-$query = "SELECT * FROM printer WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM printer WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -360,12 +392,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $p_id = $row["p_id"];
+    $p_id = intval($row["p_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_printer.php?id=$p_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -373,6 +405,7 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+$stmt->close();
 ?>
 </tbody>
                     </table>
@@ -406,10 +439,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <tbody>
 
                         <?php
-$query = "SELECT * FROM lcd WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM lcd WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -418,12 +455,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $l_id = $row["l_id"];
+    $l_id = intval($row["l_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_lcd.php?id=$l_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -431,6 +468,8 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+
+$stmt->close();
 ?>
 </tbody>
                       </table>
@@ -466,10 +505,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                       <tbody>
 
 <?php
-$query = "SELECT * FROM ups WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM ups WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -478,12 +521,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $u_id = $row["u_id"];
+    $u_id = intval($row["u_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_ups.php?id=$u_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -491,6 +534,10 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+
+$stmt->close();
+    
+
 ?>
 </tbody>
                     </table>
@@ -524,10 +571,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <tbody>
 
 <?php
-$query = "SELECT * FROM avr WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM avr WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -536,12 +587,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $a_id = $row["a_id"];
+    $a_id = intval($row["a_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_avr.php?id=$a_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -549,6 +600,9 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+
+$stmt->close();
+
 ?>
 </tbody>
                       </table>
@@ -585,10 +639,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                       <tbody>
 
 <?php
-$query = "SELECT * FROM lan_switch WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM lan_switch WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -597,12 +655,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $ls_id = $row["ls_id"];
+    $ls_id = intval($row["ls_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_lan.php?id=$ls_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -610,6 +668,9 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+
+$stmt->close();
+
 ?>
 </tbody>
                     </table>
@@ -643,10 +704,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                       <tbody>
 
 <?php
-$query = "SELECT * FROM tablet WHERE staff_id = $user_id";
-$result = mysqli_query($connection, $query);
-if ($result === false) {
-    die(mysqli_error($connection));
+$query = "SELECT * FROM tablet WHERE staff_id = ?";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows <= 0) {
+    noRecordFound(5, true);
 }
 $i = 0;
 while ($row = mysqli_fetch_assoc($result)) {
@@ -655,12 +720,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     $model = $row["model"];
     $status = $row["status"];
     $asset = $row["asset"];
-    $t_id = $row["t_id"];
+    $t_id = intval($row["t_id"]);
     echo "<tr>";
     echo "<th scope='row'>$i</th>";
-    echo "<td>$assetid</td> ";
-    echo "<td>$model</td>";
-    echo "<td>$status</td>";
+    echo "<td>".sanitizeText($assetid)."</td> ";
+    echo "<td>".sanitizeText($model)."</td>";
+    echo "<td>".sanitizeText($status)."</td>";
     echo "<td>";
     echo "<a href='asset_review_tablet.php?id=$t_id' class='badge btn-success'>Papar</a>";
     echo "</td>";
@@ -668,6 +733,8 @@ while ($row = mysqli_fetch_assoc($result)) {
        <?php
     echo "</tr>";
 }
+
+$stmt->close();
 ?>
 </tbody>
                     </table>

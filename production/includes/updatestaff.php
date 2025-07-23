@@ -16,21 +16,17 @@
         $tel       	=   mysqli_real_escape_string($connection, $_POST['tel']);
         // Performing insert query execution
         // here our table name is college
-        $sql = "UPDATE staff  SET name='$name', ic='$ic', jawatan='$jawatan', gred='$gred', lokasi='$lokasi', unit='$unit', email='$email', tel='$tel' 
-                WHERE id='$id' ";
-         
-        if(mysqli_query($connection, $sql)){
+        $sql = "UPDATE staff SET name = ?, ic = ?, jawatan = ?, gred = ?, lokasi = ?, unit = ?, email = ?, tel = ? WHERE id = ?";
+         //      "UPDATE staff SET name = ?, ic = ?, jawatan = ?, gred = ?, lokasi = ?, unit = ?, email = ?, tel = ?, id = ? WHERE name = ? AND ic = ? AND jawatan = ? AND gred = ? AND lokasi = ? AND unit = ? AND email = ? AND tel = ? AND id = ?"
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ssssssssi", $name, $ic, $jawatan, $gred, $lokasi, $unit, $email, $tel, $id);
 
-	//echo "ERROR: Hush! Sorry $sql. "
-                //. mysqli_error($connection);
-
+        if($stmt->execute()){
 
 
             echo "<script>alert('Kemaskini Berjaya');
             window.location.href='../staff_view.php'</script>";
 
-                
- 
         } 
         else{
             echo "ERROR: Hush! Sorry $sql. "

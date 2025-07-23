@@ -2,6 +2,7 @@
 include_once "header.php";
 include_once 'includes/adminonly.php';
 include_once 'includes/firstlogincheck.php';
+include_once 'includes/secure_function.php';
 ?>
 <?php
 $query_drop = "
@@ -77,9 +78,9 @@ function checkDelete(){
                             <option value="">-- Sila Pilih --</option>
                             <?php foreach ($result_drop as $row) {
                                 echo '<option value="' .
-                                    $row["unit"] .
+                                    sanitizeText($row["unit"]) .
                                     '">' .
-                                    $row["unit"] .
+                                    sanitizeText($row["unit"]) .
                                     "</option>";
                             } ?>  
                           </select>
@@ -143,14 +144,14 @@ function checkDelete(){
           $unit = $row["unit"];
 
           echo "<tr>";
-          echo "<td>$name <span class='badge badge-info'>". $row['role'] ."</span> </td> ";
-          echo "<td>$jawatan</td>";
-          echo "<td>$lokasi</td>";
-          echo "<td>$unit </td>";
+          echo "<td>".sanitizeText($name)." <span class='badge badge-info'>". $row['role'] ."</span> </td> ";
+          echo "<td>".sanitizeText($jawatan)."</td>";
+          echo "<td>".sanitizeText($lokasi)."</td>";
+          echo "<td>".sanitizeText($unit)." </td>";
 	echo '<td>
-                        <a href="user-review.php?id='.$id.'" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
-                        <a href="user-edit.php?id='.$id.'" ><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
-                        <a href="user-delete.php?id='.$id.'" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
+                        <a href="user-review.php?id='.sanitizeText($id).'" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
+                        <a href="user-edit.php?id='.sanitizeText($id).'" ><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
+                        <a href="user-delete.php?id='.sanitizeText($id).'" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         </td>';
                         echo "</tr>";
                       }

@@ -5,7 +5,7 @@
         if(isset($_POST["submit"])){
         
         // Taking all 5 values from the form data(input)
-        $id = mysqli_real_escape_string($connection, $_POST['id']);
+        $id = intval($_POST['id']);
         $name       =   mysqli_real_escape_string($connection, $_POST['name']);
         $ic       =   mysqli_real_escape_string($connection, $_POST['ic']);
         $jawatan       =   mysqli_real_escape_string($connection, $_POST['jawatan']);
@@ -15,10 +15,11 @@
         $tel       =   mysqli_real_escape_string($connection, $_POST['tel']);
         // Performing insert query execution
         // here our table name is college
-        $sql = "UPDATE staff  SET name='$name', ic='$ic', jawatan='$jawatan', lokasi='$lokasi', unit='$unit', email='$email', tel='$tel' 
-                WHERE id='$id'";
-         
-        if(mysqli_query($connection, $sql)){
+        $sql = "UPDATE staff SET name = ?, ic = ?, jawatan = ?, lokasi = ?, unit = ?, email = ?, tel = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssssssi", $name, $ic, $jawatan, $lokasi, $unit, $email, $tel, $id);
+        
+        if($stmt->execute()){
 
 
             echo "<script>alert('Kemaskini Berjaya');
@@ -34,6 +35,7 @@
             echo "ERROR: Hush! Sorry $sql. "
                 . mysqli_error($connection);
         }
+        $stmt->close();
     }
     else{
         header("Location: ../index.php");

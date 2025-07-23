@@ -19,30 +19,36 @@ if (isset($_POST["submit"])) {
     // Performing insert query execution
     // here our table name is college
     $sql = "
-        UPDATE ups SET 
-        penggunaan='$penggunaan',
-        staff_id='$staff_id',
-        model='$model',
-        tahun='$tahun',
-        serial='$serial',
-        kewpa='$kewpa',
-        status='$status',
-        jen_perolehan='$jen_perolehan',
-        sumber='$sumber'
-        WHERE u_id='$u_id'
-        ";
+    UPDATE ups SET 
+        penggunaan = ?,
+        staff_id = ?,
+        model = ?,
+        tahun = ?,
+        serial = ?,
+        kewpa = ?,
+        status = ?,
+        jen_perolehan = ?,
+        sumber = ?
+    WHERE u_id = ?
+";
 
-    if (mysqli_query($connection, $sql)) {
+$stmt = $conn->prepare($sql);
+$stmt->bind_param(
+    "sssssssssi",  // 10 parameters, all assumed to be strings
+    $penggunaan,
+    $staff_id,
+    $model,
+    $tahun,
+    $serial,
+    $kewpa,
+    $status,
+    $jen_perolehan,
+    $sumber,
+    $u_id
+);
 
-
-        echo "<script>alert('Kemaskini Berjaya');
-            window.location.href='../asset_review_ups.php?id=$u_id'</script>";
-
-        //echo "<h3>data stored in a database successfully."
-        //  . " Please browse your localhost php my admin"
-        //. " to view the updated data</h3>";
-
-
+    if ($stmt->execute()) {
+        echo "<script>alert('Kemaskini Berjaya'); window.location.href='../asset_review_ups.php?id=$u_id'</script>";
     } else {
         echo "ERROR: Hush! Sorry $sql. "
             . mysqli_error($connection);

@@ -2,6 +2,7 @@
 include_once 'header.php';
 include_once 'includes/session.php';
 include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
 
 ?>
 
@@ -54,12 +55,17 @@ function checkUpdate(){
                         if(isset($_GET['id']))
                         {
                             $user_id = mysqli_real_escape_string($connection, $_GET['id']);
-                            $query = "SELECT * FROM staff WHERE id='$user_id' ";
-                            $query_run = mysqli_query($connection, $query);
+                            $query1 = "SELECT * FROM staff WHERE id = ?";
+                            $stmt1 = $connection->prepare($query1);
+                            $stmt1->bind_param("i", $user_id);
+                            $stmt1->execute();
+                            $result1 = $stmt1->get_result();
 
-                            if(mysqli_num_rows($query_run) > 0)
+                            
+
+                            if($result1->num_rows > 0)
                             {
-                                $user = mysqli_fetch_array($query_run);
+                                $user = $result1->fetch_assoc();
                                 ?>
 
 
@@ -70,7 +76,7 @@ function checkUpdate(){
                     <label class="col-form-label col-md-3 col-sm-3 label-align" for="name" >Nama Penuh <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                        <input type="text" name="name" id="Name" class="form-control" value="<?php echo $user['name']?>" placeholder="Username digunakan untuk log masuk">
+                        <input type="text" name="name" id="Name" class="form-control" value="<?php echo sanitizeText($user['name'])?>" placeholder="Username digunakan untuk log masuk">
                         </div>
                         </div>
 
@@ -78,7 +84,7 @@ function checkUpdate(){
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">No Kad Pengenalan <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="ic" id="ic" required="required" class="form-control" value="<?php echo $user['ic']?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
+                          <input type="text" name="ic" id="ic" required="required" class="form-control" value="<?php echo sanitizeText($user['ic'])?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
                           >
                         </div>
                       </div>
@@ -87,7 +93,7 @@ function checkUpdate(){
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">Jawatan <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" value="<?php echo $user['jawatan']?>" placeholder="Jawatan"
+                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" value="<?php echo sanitizeText($user['jawatan'])?>" placeholder="Jawatan"
                           >
                         </div>
                       </div>
@@ -97,7 +103,7 @@ function checkUpdate(){
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="gred">Gred <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="gred" id="gred" required="required" class="form-control" value="<?php echo $user['gred']?>" placeholder="Gred"
+                          <input type="text" name="gred" id="gred" required="required" class="form-control" value="<?php echo sanitizeText($user['gred'])?>" placeholder="Gred"
                           >
                         </div>
                       </div>
@@ -111,10 +117,10 @@ function checkUpdate(){
                         <?php
 foreach ($result_drop1 as $row) {
    if($user['lokasi']==$row['daerah']){
-    echo '<option selected="selected" value="' . $row["daerah"] .'">' . $row["daerah"] . '</option>';
+    echo '<option selected="selected" value="' . sanitizeText($row["daerah"]) .'">' . sanitizeText($row["daerah"]) . '</option>';
    }
    else{
-    echo '<option value="' . $row["daerah"] .'">' . $row["daerah"] . '</option>';
+    echo '<option value="' . sanitizeText($row["daerah"]) .'">' . sanitizeText($row["daerah"]) . '</option>';
    }
     
 }
@@ -132,10 +138,10 @@ foreach ($result_drop1 as $row) {
                         <?php
 foreach ($result_drop as $row) {
    if($user['unit']==$row['unit']){
-    echo '<option selected="selected" value="' . $row["unit"] .'">' . $row["unit"] . '</option>';
+    echo '<option selected="selected" value="' . sanitizeText($row["unit"]) .'">' . sanitizeText($row["unit"]) . '</option>';
    }
    else{
-    echo '<option value="' . $row["unit"] .'">' . $row["unit"] . '</option>';
+    echo '<option value="' . sanitizeText($row["unit"]) .'">' . sanitizeText($row["unit"]) . '</option>';
    }
     
 }
@@ -148,7 +154,7 @@ foreach ($result_drop as $row) {
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Email <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="email" name="email" id="email" required="required" class="form-control" value="<?php echo $user['email']?>" placeholder="Email Rasmi"
+                          <input type="email" name="email" id="email" required="required" class="form-control" value="<?php echo sanitizeText($user['email'])?>" placeholder="Email Rasmi"
                           >
                         </div>
                       </div>
@@ -157,7 +163,7 @@ foreach ($result_drop as $row) {
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">No. Telefon <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" value="<?php echo $user['tel']?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" value="<?php echo sanitizeText($user['tel'])?>" placeholder="0123456789"
                           >
                         </div>
                       </div>
@@ -171,7 +177,8 @@ foreach ($result_drop as $row) {
                         </div>
                       </div>
                       </form>
-                      <?php
+                      <?php 
+                          $stmt1->close();
                             }
                             else
                             {

@@ -1,3 +1,7 @@
+<?php 
+  include_once 'includes/secure_function.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,9 +27,14 @@
               </div>
     <?php 
     
-    $connection = mysqli_connect("localhost", "sabah_wuser", "70be8036125732e724d96024de2339d15a3194f3d2f6c462","inventory");
-    $query_drop = "SELECT * FROM staff where staff.ic = '$var_value' ";
-    $result_drop = $connection->query($query_drop);
+    include_once 'includes/db.php';
+    $query_drop = "SELECT * FROM staff WHERE staff.ic = ?";
+    $stmt = $connection->prepare($query_drop);
+    $stmt->bind_param("s", $var_value);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $$result_drop = $result->fetch_assoc();
+    // $result_drop = $connection->query($query_drop);
     
 ?>
   </head>
@@ -125,7 +134,7 @@
                                       readonly="readonly" value="<?php 
 
                             foreach($result_drop as $row){
-                                echo $row["name"];
+                                echo sanitizeText($row["name"]);
                             }
                             ?>" >
                     </div>
@@ -179,6 +188,10 @@
                       <tbody>
                       <?php
                       $query = "SELECT * FROM komputer WHERE komputer.ic = '$var_value'";
+                      $stmt1 = $connection->prepare("SELECT * FROM komputer WHERE komputer.ic = ?");
+                      $stmt1->bind_param("s", $var_value);
+                      $stmt1->execute();
+                      $result1 = $stmt1->get_result();
                       $result = mysqli_query($connection, $query);
 
                       if ($result === FALSE) {

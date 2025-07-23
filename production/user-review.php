@@ -2,6 +2,7 @@
 include_once 'header.php';
 include_once 'includes/db.php';
 include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
 
 ?>
 
@@ -41,14 +42,18 @@ include_once 'includes/adminonly.php';
                         <?php
                         if (isset($_GET['id']) && $_SESSION['role'] = 'Admin') {
                             $user_id = mysqli_real_escape_string($connection, $_GET['id']);
-                            $query = "SELECT * FROM staff WHERE id='$user_id' ";
-                            $query_run = mysqli_query($connection, $query);
+                            $query = "SELECT * FROM staff WHERE id = ?";
 
-                            if (mysqli_num_rows($query_run) > 0) {
-                                $user = mysqli_fetch_array($query_run);
+                            $stmt = $connection->prepare($query);
+                            $stmt->bind_param("i", $user_id);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            if ($result->num_rows > 0) {
+                                $user = $result->fetch_assoc();
                         ?>
 
-                                <form role="form" action="./user-edit.php?id=<?php echo $user['id'] ?>" method="post" id="registration-form" autocomplete="off">
+                                <form role="form" action="./user-edit.php?id=<?php echo sanitizeText($user['id']) ?>" method="post" id="registration-form" autocomplete="off">
 
                                     <div class="form-group row">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">
@@ -63,7 +68,7 @@ include_once 'includes/adminonly.php';
                                         </label>
 
                                         <div class="col-md-4 col-sm-6 ">
-                                            <input type="text" name="name" id="Name" class="form-control" disabled="disabled" value="<?php echo $user['name'] ?>" placeholder="Username digunakan untuk log masuk">
+                                            <input type="text" name="name" id="Name" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['name']) ?>" placeholder="Username digunakan untuk log masuk">
                                         </div>
                                     </div>
 
@@ -71,7 +76,7 @@ include_once 'includes/adminonly.php';
                                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">No Kad Pengenalan <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-6 ">
-                                            <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo $user['ic'] ?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12">
+                                            <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['ic']) ?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12">
                                         </div>
                                     </div>
 
@@ -79,7 +84,7 @@ include_once 'includes/adminonly.php';
                                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">Jawatan <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-6 ">
-                                            <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo $user['jawatan'] ?>" placeholder="Jawatan">
+                                            <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['jawatan']) ?>" placeholder="Jawatan">
                                         </div>
                                     </div>
 
@@ -87,7 +92,7 @@ include_once 'includes/adminonly.php';
                                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="lokasi">Lokasi Pejabat <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-6 ">
-                                            <input type="text" name="lokasi" id="lokasi" required="required" class="form-control " disabled="disabled" value="<?php echo $user['lokasi'] ?>" placeholder="Lokasi Pejabat">
+                                            <input type="text" name="lokasi" id="lokasi" required="required" class="form-control " disabled="disabled" value="<?php echo sanitizeText($user['lokasi']) ?>" placeholder="Lokasi Pejabat">
                                         </div>
                                     </div>
 
@@ -104,9 +109,9 @@ include_once 'includes/adminonly.php';
                                                 <?php
                                                 foreach ($result_drop as $row) {
                                                     if ($user['unit'] == $row['unit']) {
-                                                        echo '<option selected="selected" value="' . $row["unit"] . '">' . $row["unit"] . '</option>';
+                                                        echo '<option selected="selected" value="' . sanitizeText($row["unit"]) . '">' . sanitizeText($row["unit"]) . '</option>';
                                                     } else {
-                                                        echo '<option value="' . $row["unit"] . '">' . $row["unit"] . '</option>';
+                                                        echo '<option value="' . sanitizeText($row["unit"]) . '">' . sanitizeText($row["unit"]) . '</option>';
                                                     }
                                                 }
                                                 ?>
@@ -118,7 +123,7 @@ include_once 'includes/adminonly.php';
                                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Emel <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-6 ">
-                                            <input type="email" name="email" id="email" required="required" class="form-control" disabled="disabled" value="<?php echo $user['email'] ?>" placeholder="Email Rasmi">
+                                            <input type="email" name="email" id="email" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeEmail($user['email']) ?>" placeholder="Email Rasmi">
                                         </div>
                                     </div>
 
@@ -126,7 +131,7 @@ include_once 'includes/adminonly.php';
                                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">No. Telefon <span class="required">*</span>
                                         </label>
                                         <div class="col-md-4 col-sm-6 ">
-                                            <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $user['tel'] ?>" placeholder="0123456789">
+                                            <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($user['tel']) ?>" placeholder="0123456789">
                                         </div>
                                     </div>
 
@@ -151,37 +156,37 @@ include_once 'includes/adminonly.php';
 
                                 </form>
                                 <form role="form" action="includes/password_reset_email.php" method="post" class=" pure-form form-horizontal form-label-left ">
-                                    <input type="text" hidden name="id" value="<?php echo $_GET["id"] ?>">
-                                    <input type="text" hidden name="ic" value="<?php echo $user['ic'] ?>">
-                                    <input type="email" hidden name="email" value="<?php echo $user['email'] ?>">
+                                    <input type="text" hidden name="id" value="<?php echo sanitizeText($_GET["id"]) ?>">
+                                    <input type="text" hidden name="ic" value="<?php echo sanitizeText($user['ic']) ?>">
+                                    <input type="email" hidden name="email" value="<?php echo sanitizeText($user['email']) ?>">
 
                                     <button type="submit" name="resetpw" class="btn btn-danger align-center" onclick="return checkResetPassword()" action="">Tetapan Kata laluan melalui emel</button><br><span> <i>Pendaftar akan mendapat email untuk menetapkan semula katalaluan</i></span>
                                     <?php if (isset($_GET['error'])) { ?>
-                                        <p class="error" style="text-align:center"><?php echo $_GET['error']; ?></p>
+                                        <p class="error" style="text-align:center"><?php echo sanitizeText($_GET['error']); ?></p>
                                     <?php } ?>
 
                                     <?php if (isset($_GET['success'])) { ?>
-                                        <p class="success" style="text-align:center"><?php echo $_GET['success']; ?></p>
+                                        <p class="success" style="text-align:center"><?php echo sanitizeText($_GET['success']); ?></p>
                                     <?php } ?>
                                 </form>
                                 <form role="form" action="includes/password_reset_temp.php" method="post" class=" pure-form form-horizontal form-label-left ">
-                                    <input type="text" hidden name="id" value="<?php echo $_GET["id"] ?>">
-                                    <input type="text" hidden name="ic" value="<?php echo $user['ic'] ?>">
-                                    <input type="email" hidden name="email" value="<?php echo $user['email'] ?>">
+                                    <input type="text" hidden name="id" value="<?php echo sanitizeText($_GET["id"]) ?>">
+                                    <input type="text" hidden name="ic" value="<?php echo sanitizeText($user['ic']) ?>">
+                                    <input type="email" hidden name="email" value="<?php echo sanitizeText($user['email']) ?>">
 
                                     <button type="submit" name="resetpw" class="btn btn-warning align-center" onclick="return checkResetPasswordic()" action="">Tetapan Kata laluan sementara</button><br><span> <i>Kata laluan pendaftar akan ditetapkan menjadi no kad pengenalan</i></span>
                                     <?php if (isset($_GET['error'])) { ?>
-                                        <p class="error" style="text-align:center"><?php echo $_GET['error']; ?></p>
+                                        <p class="error" style="text-align:center"><?php echo sanitizeText($_GET['error']); ?></p>
                                     <?php } ?>
 
                                     <?php if (isset($_GET['success'])) { ?>
-                                        <p class="success" style="text-align:center"><?php echo $_GET['success']; ?></p>
+                                        <p class="success" style="text-align:center"><?php echo sanitizeText($_GET['success']); ?></p>
                                     <?php } ?>
                                 </form>
                     </div>
                 </div>
         <?php
-
+                            $stmt->close();
                             } else {
                                 echo "<h4>No Such Id Found</h4>";
                             }
