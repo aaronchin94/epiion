@@ -32,7 +32,7 @@ if (isset($_POST["usetype"])) {
         ?,
         ?
         )";
-    $stmt = $conn->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bind_param("siisis", $usetype, $staff_id, $assetid, $model, $tahun, $serial, $kewpa, $status, $perolehan, $sumber);
 
     if ($stmt->execute()) {

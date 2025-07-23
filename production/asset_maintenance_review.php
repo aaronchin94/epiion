@@ -3,6 +3,7 @@ include_once 'header.php';
 include_once 'includes/session.php';
 include 'includes/initialization.php';
 include 'includes/isDaisy.php';
+include_once 'includes/secure_function.php';
 
 
 function getMaintenanceRequestById($connection, $id)
@@ -11,6 +12,7 @@ function getMaintenanceRequestById($connection, $id)
   $stmt->bind_param("s", $id);
   $stmt->execute();
   $result = $stmt->get_result();
+  $stmt->close();
   return $result->fetch_assoc();
 }
 
@@ -20,6 +22,7 @@ function getPemohonById($connection, $id)
   $stmt->bind_param("s", $id);
   $stmt->execute();
   $pemohon = $stmt->get_result();
+  $stmt->close();
   return $pemohon->fetch_assoc();
 }
 
@@ -37,6 +40,8 @@ if (isset($_GET['id'])) {
     $stmt->execute();
     $result = $stmt->get_result();
     $staff_name = $result->fetch_assoc();
+
+    $stmt->close();
   } else {
     echo "Maintenance request not found.";
     exit;
@@ -218,7 +223,7 @@ if (isset($_GET['id'])) {
                 <label class="col-md-3 col-sm-3 label-align" for="maintenance_type">Nama Pemohon</label>
                 <div class="col-md-3 col-sm-6">
                   <input type="hidden" id="email_pemohon" name="email_pemohon" class="custom-span"
-                    value="<?php echo htmlspecialchars($pemohon['email']); ?>">
+                    value="<?php echo sanitizeEmail($pemohon['email']); ?>">
                   <span class="custom-span">
                     <?php echo htmlspecialchars($pemohon['name']); ?>
                   </span>

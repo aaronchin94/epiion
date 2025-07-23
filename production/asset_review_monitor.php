@@ -3,6 +3,8 @@ include_once 'header.php';
 include_once 'includes/session.php';
 require_once 'includes/db.php';
 require_once 'includes/initialization.php';
+include_once 'includes/secure_function.php';
+include_once 'includes/utils.php';
 
 $asset = getasset('monitor', 'm_id', $id, $connection, $row);
 ?>
@@ -47,9 +49,9 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
             <div class="clearfix"></div>
           </div>
           <div class="x_content">
-            <form role="form" action="asset_monitor_edit.php?id=<?php echo $id ?>" method="post" id="registration-form"
+            <form role="form" action="asset_monitor_edit.php?id=<?php echo intval($id) ?>" method="post" id="registration-form"
               autocomplete="off">
-              <input type="text" hidden name="m_id" value="<?= $asset['m_id'] ?>">
+              <input type="text" hidden name="m_id" value="<?= intval($asset['m_id']) ?>">
 
               <div class="form-group row">
                 <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Penggunaan</label>
@@ -78,14 +80,14 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Aset ID</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
-                value="<?php echo $asset['asset_id'] ?>" disabled>
+                value="<?php echo intval($asset['asset_id']) ?>" disabled>
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="model">Model</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="model" id="model" class="form-control" value="<?php echo $asset['model'] ?>"
+              <input type="text" name="model" id="model" class="form-control" value="<?php echo sanitizeText($asset['model']) ?>"
                 disabled>
             </div>
           </div>
@@ -93,7 +95,7 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="tahun">Tahun Diperoleh</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="tahun" id="tahun" class="form-control" value="<?php echo $asset['tahun'] ?>"
+              <input type="text" name="tahun" id="tahun" class="form-control" value="<?php echo intval($asset['tahun']) ?>"
                 disabled>
             </div>
           </div>
@@ -101,7 +103,7 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="saiz">Saiz Monitor</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="size" id="size" class="form-control" value="<?php echo $asset['size'] ?>"
+              <input type="text" name="size" id="size" class="form-control" value="<?php echo sanitizeText($asset['size']) ?>"
                 disabled>
             </div>
           </div>
@@ -109,7 +111,7 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="serial">No. Siri</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo $asset['serial'] ?>"
+              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo sanitizeText($asset['serial']) ?>"
                 disabled>
             </div>
           </div>
@@ -117,7 +119,7 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="kewpa">No. KewPA</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo $asset['kewpa'] ?>"
+              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo sanitizeText($asset['kewpa']) ?>"
                 disabled>
             </div>
           </div>
@@ -149,7 +151,7 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
           <div class='form-group row'>
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="sumber">Sumber Penerimaan</label>
             <div class="col-md-4 col-sm-6 ">
-              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo $asset['sumber'] ?>"
+              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo sanitizeText($asset['sumber']) ?>"
                 disabled>
             </div>
           </div>
@@ -191,13 +193,13 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
       <div class="modal-body d-flex justify-content-center align-items-center">
         <?php if (!empty($asset['qrcode'])): ?>
           <!-- If QR code exists, display the image -->
-          <img id="qrCodeImage" src="qrcode/<?php echo $asset['qrcode']; ?>" alt="QR Code">
+          <img id="qrCodeImage" src="qrcode/<?php echo sanitizeText($asset['qrcode']); ?>" alt="QR Code">
         <?php endif; ?>
       </div>
       <div class="modal-header d-flex justify-content-center align-items-center">
         <?php if (!empty($asset['qrcode'])): ?>
           <h2><span style="color: black;">QR ID:
-              <?php echo $asset['QRId']; ?>
+              <?php echo sanitizeText($asset['QRId']); ?>
             </span></h2>
         <?php else: ?>
           <img id="qrCodeImage" src="" alt="">
@@ -208,7 +210,7 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
       <div class="modal-footer">
         <?php if (!empty($asset['qrcode'])): ?>
           <!-- If QR code exists, provide download button -->
-          <a id="downloadBtn" class="btn btn-primary" href="qrcode/<?php echo $asset['qrcode']; ?>" download>Download QR
+          <a id="downloadBtn" class="btn btn-primary" href="qrcode/<?php echo sanitizeText($asset['qrcode']); ?>" download>Download QR
             Code</a>
         <?php else: ?>
           <!-- If no QR code found, provide button to generate QR code -->
@@ -238,8 +240,8 @@ $asset = getasset('monitor', 'm_id', $id, $connection, $row);
         method: 'POST',
         data: {
           id: <?php echo $id; ?>, // Pass any necessary data, such as asset ID
-          asset_type: '<?php echo $asset['asset']; ?>',
-          asset_id: '<?php echo $asset['asset_id']; ?>'
+          asset_type: '<?php echo sanitizeText($asset['asset']); ?>',
+          asset_id: '<?php echo intval($asset['asset_id']); ?>'
         },
         success: function (response) {
           // Handle success response if needed

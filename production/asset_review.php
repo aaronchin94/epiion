@@ -1,6 +1,9 @@
 <?php
 include_once 'header.php';
 include_once 'includes/session.php';
+
+include_once 'includes/secure_function.php';
+include_once 'includes/utils.php';
 ?>
 
 <?php
@@ -23,14 +26,16 @@ $result_drop = $connection->query($query_drop);
     
     
     //localhost, hubhasil.geosabah.my
-    $connection = mysqli_connect("localhost", "sabah_wuser", "70be8036125732e724d96024de2339d15a3194f3d2f6c462","inventory");
-    $query_drop = "SELECT * FROM komputer where komputer.k_id = '$var_value' ";
-    $result_drop = $connection->query($query_drop);
-      if ($result === false) {
-          die(mysqli_error($connection));
-      }
+    // $connection = mysqli_connect("localhost", "sabah_wuser", "70be8036125732e724d96024de2339d15a3194f3d2f6c462","inventory");
+    $query_drop = "SELECT * FROM komputer where komputer.k_id = ? ";
+    $stmt = $connection->prepare($query_drop);
+    $stmt->bind_param("s", $var_value);
+    $stmt->execute();
+
+    $result_drop = $stmt->get_result();
+      
       $i = 0;
-      while ($row = mysqli_fetch_assoc($result_drop)) {
+      while ($row = $result_drop->fetch_assoc()) {
 
           $i = $i + 1;
           $k_id 		= $row["k_id"];
@@ -87,7 +92,7 @@ $result_drop = $connection->query($query_drop);
                         </label>
                         
                         <div class="col-md-4 col-sm-6 ">
-                        <input type="text" name="name" id="Name" class="form-control" disabled="disabled" value="<?php echo $penggunaan?>" placeholder="Username digunakan untuk log masuk">
+                        <input type="text" name="name" id="Name" class="form-control" disabled="disabled" value="<?php echo sanitizeText($penggunaan)?>" placeholder="Username digunakan untuk log masuk">
                         </div>
                         </div>
 
@@ -95,7 +100,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="username">Nama Pengguna<span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="username" id="username" required="required" class="form-control" value="<?php echo $nama_pengguna?>" placeholder="Username digunakan untuk log masuk" disabled="disabled">
+                          <input type="text" name="username" id="username" required="required" class="form-control" value="<?php echo sanitizeText($nama_pengguna)?>" placeholder="Username digunakan untuk log masuk" disabled="disabled">
                         </div>
                       </div>
 
@@ -103,7 +108,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Asset ID<span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo $asset_id?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
+                          <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo intval($asset_id)?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
                           >
                         </div>
                       </div>
@@ -112,7 +117,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">Model <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo $model?>" placeholder="Jawatan"
+                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($model)?>" placeholder="Jawatan"
                           >
                         </div>
                       </div>
@@ -121,7 +126,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">Tahun Diperoleh <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo $tahun?>" placeholder="Jawatan"
+                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo intval($tahun)?>" placeholder="Jawatan"
                           >
                         </div>
                       </div>
@@ -131,7 +136,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">No. Serial <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo $serial?>" placeholder="Jawatan"
+                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($serial)?>" placeholder="Jawatan"
                           >
                         </div>
                       </div>
@@ -140,7 +145,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">No. KewPA <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo $kewpa?>" placeholder="Jawatan"
+                          <input type="text" name="jawatan" id="jawatan" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($kewpa)?>" placeholder="Jawatan"
                           >
                         </div>
                       </div>
@@ -151,7 +156,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="lokasi">Status <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="lokasi" id="lokasi" required="required" class="form-control " disabled="disabled" value="<?php echo $status?>" placeholder="Lokasi Pejabat"
+                          <input type="text" name="lokasi" id="lokasi" required="required" class="form-control " disabled="disabled" value="<?php echo sanitizeText($status)?>" placeholder="Lokasi Pejabat"
                           >
                         </div>
                       </div>
@@ -161,7 +166,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="email">Jenis Perolehan <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="email" name="email" id="email" required="required" class="form-control" disabled="disabled" value="<?php echo $jen_perolehan?>" placeholder="Email Rasmi"
+                          <input type="email" name="email" id="email" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($jen_perolehan)?>" placeholder="Email Rasmi"
                           >
                         </div>
                       </div>
@@ -170,7 +175,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Processor <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $processor?>" 
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($processor)?>" 
                           >
                         </div>
                       </div>
@@ -179,7 +184,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">RAM (GB)<span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $ram_gb?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($ram_gb)?>" placeholder="0123456789"
                           >
                         </div>
                       </div>
@@ -188,7 +193,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Kapasiti Harddisk (GB) <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $kapasiti_hd_gb?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($kapasiti_hd_gb)?>" placeholder="0123456789"
                           >
                         </div>
                       </div>
@@ -197,7 +202,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Kad Grafik <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $kad_grafik?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($kad_grafik)?>" placeholder="0123456789"
                           >
                         </div>
                       </div>
@@ -206,7 +211,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Network LAN <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $network_lan?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($network_lan)?>" placeholder="0123456789"
                           >
                         </div>
                       </div>
@@ -215,7 +220,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Modem  <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $modem?>" placeholder="0123456789"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($modem)?>" placeholder="0123456789"
                           >
                         </div>
                       </div>
@@ -224,7 +229,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">IP Address  <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $ip_address?>" placeholder="xxx.xxx.xxx.xxx"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($ip_address)?>" placeholder="xxx.xxx.xxx.xxx"
                           >
                         </div>
                       </div>
@@ -232,7 +237,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Subnet Mask  <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $subnet_mask?>" placeholder="255.255.255.0"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($subnet_mask)?>" placeholder="255.255.255.0"
                           >
                         </div>
                       </div>
@@ -240,7 +245,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">Default Gateway  <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $def_gateway?>" placeholder="xxx.xxx.xxx.xxx"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($def_gateway)?>" placeholder="xxx.xxx.xxx.xxx"
                           >
                         </div>
                       </div>
@@ -248,29 +253,29 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="tel">DNS Server  <span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo $dns_server?>" placeholder="xxx.xxx.xxx.xxx"
+                          <input type="text" name="tel" id="tel" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($dns_server)?>" placeholder="xxx.xxx.xxx.xxx"
                           >
                         </div>
                       </div>
                       
-                      <form role="form" action="asset_komputer_edit.php?varname=<?php echo $_GET["varname"] ?>" method="post" class=" pure-form form-horizontal form-label-left ">
-                        <input type="text" hidden name="id"  value="<?php echo $_GET["varname"] ?>">
+                      <form role="form" action="asset_komputer_edit.php?varname=<?php echo sanitizeText($_GET["varname"]) ?>" method="post" class=" pure-form form-horizontal form-label-left ">
+                        <input type="text" hidden name="id"  value="<?php echo sanitizeText($_GET["varname"]) ?>">
                     
                         <div class="form-group row">
                           <label class="col-form-label col-md-3 col-sm-3 label-align"></label>
                           <div class="col-md-3 col-sm-4 ">
-                            <button type="button" name="delete" class="btn btn-danger" onclick="return checkDelete();" href="asset_komputer_delete.php?varname=<?php echo $var_value?>">Padam</button>
+                            <button type="button" name="delete" class="btn btn-danger" onclick="return checkDelete();" href="asset_komputer_delete.php?varname=<?php echo sanitizeText($var_value)?>">Padam</button>
                             <button type="submit" name="edit" class="btn btn-success">Kemaskini</button>
                           </div>
                         </div>
                       </form>
 
                         <?php if (isset($_GET['error'])) { ?>
-     		<p class="error" style="text-align:center" ><?php echo $_GET['error']; ?></p>
+     		<p class="error" style="text-align:center" ><?php echo sanitizeText($_GET['error']); ?></p>
      	<?php } ?>
 
      	<?php if (isset($_GET['success'])) { ?>
-            <p class="success" style="text-align:center"><?php echo $_GET['success']; ?></p>
+            <p class="success" style="text-align:center"><?php echo sanitizeText($_GET['success']); ?></p>
         <?php } ?>
                         </div>
                         </div>

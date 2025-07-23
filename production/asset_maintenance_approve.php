@@ -7,10 +7,13 @@ if (isset ($_POST['token'])) {
     $estimated_completion_date = $_POST['estimated_completion_date'];
     $estimated_deliver_date = $_POST['estimated_deliver_date'];
 
-    $getmid = "SELECT a.maintenance_id FROM maintenance a LEFT JOIN maintenance_token b ON a.maintenance_id = b.maintenance_id WHERE b.token = '$token'";
-    $gmid = mysqli_query($connection, $getmid);
-    $fetchgmid = mysqli_fetch_assoc($gmid);
-    $maintID = $fetchgmid['maintenance_id'];
+    $getmid = "SELECT a.maintenance_id FROM maintenance a LEFT JOIN maintenance_token b ON a.maintenance_id = b.maintenance_id WHERE b.token = ?";
+    $stmtgetmid = $connection->prepare();
+    $stmtgetmid->bind_param("s", $token);
+    $stmtgetmid->execute();
+    $resgetmid = $stmtgetmid->get_result();
+    $fetchgmid = $resgetmid->fetch_assoc();
+    $maintID = intval($fetchgmid['maintenance_id']);
 
     $sql = "UPDATE maintenance SET maintenance_status = '2', estimated_completion_date = ?, estimated_deliver_date = ? WHERE maintenance_id = ?";
 
@@ -26,6 +29,7 @@ if (isset ($_POST['token'])) {
         $success = false;
     }
 
+    $stmtgetmid->close();
     $stmt->close();
 
     session_unset();

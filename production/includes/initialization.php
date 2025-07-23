@@ -28,9 +28,9 @@ function stafflist($staff_id, $connection, $row)
     echo '<option value="">-- Sila Pilih --</option>';
     foreach ($stafflist as $staff) {
         if ($staff_id == $staff['id']) {
-            echo '<option value="' . $staff["id"] . '" selected>' . $staff["name"] . '</option>';
+            echo '<option value="' . htmlspecialchars(trim(strip_tags($staff["id"])), ENT_QUOTES, 'UTF-8') . '" selected>' . htmlspecialchars(trim(strip_tags($staff["name"])), ENT_QUOTES, 'UTF-8') . '</option>';
         } else {
-            echo '<option value="' . $staff["id"] . '">' . $staff["name"] . '</option>';
+            echo '<option value="' . htmlspecialchars(trim(strip_tags($staff["id"])), ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars(trim(strip_tags($staff["name"])), ENT_QUOTES, 'UTF-8') . '</option>';
         }
     }
 }
@@ -60,9 +60,9 @@ function select_options($options, $edit_option)
     echo '<option value="">-- Sila Pilih --</option>';
     foreach ($options as $option) {
         if ($edit_option == $option) {
-            echo '<option value="' . $option . '" selected>' . $option . '</option>';
+            echo '<option value="' . htmlspecialchars(trim(strip_tags($option)), ENT_QUOTES, 'UTF-8') . '" selected>' . htmlspecialchars(trim(strip_tags($option)), ENT_QUOTES, 'UTF-8') . '</option>';
         } else {
-            echo '<option value="' . $option . '">' . $option . '</option>';
+            echo '<option value="' . htmlspecialchars(trim(strip_tags($option)), ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars(trim(strip_tags($option)), ENT_QUOTES, 'UTF-8') . '</option>';
         }
     }
 }

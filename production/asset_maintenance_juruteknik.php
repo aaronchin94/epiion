@@ -1,4 +1,6 @@
 <?php
+
+include_once 'includes/secure_function.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -23,17 +25,17 @@ function send_asset_email( $maintenance_id, $email_pemohon)
 
         //Recipients
         $mail->setFrom('noreply.doasbh@gmail.com', 'Sistem Pengurusan Inventori ICT (e-PII)');
-        $mail->addAddress($email_pemohon); // Add a recipient
+        $mail->addAddress(sanitizeEmail($email_pemohon)); // Add a recipient
 
         
 
         //Content
         $mail->isHTML(true); // Set email format to HTML
         $timestamp = date('Y-m-d H:i:s'); // Format the current date and time
-        $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . $maintenance_id . ' - ' . $timestamp;
+        $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . sanitizeText($maintenance_id) . ' - ' . sanitizeText($timestamp);
         $mail->Body = "
         <p>Adalah dimaklumkan bahawa permohonan penyelenggaraan:</p>
-        <p>ID Penyelenggaraan: $maintenance_id</p>
+        <p>ID Penyelenggaraan: ".intval($maintenance_id)."</p>
         <p>Permohonan Telah Diluluskan.</p>
         <p>Sila Hantar Aset Kepada Lokasi Juruteknik Dalam Pautan Berikut:</p>
         <p style='opacity: 0.8'>Sistem Pengurusan Inventori ICT (e-PII)</p>

@@ -1,5 +1,6 @@
 <?php
 require_once "includes/db.php";
+include_once 'includes/secure_function.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -25,18 +26,18 @@ function send_asset_email($workID, $maintenance_id, $email_pemohon)
 
         //Recipients
         $mail->setFrom('noreply.doasbh@gmail.com', 'Sistem Pengurusan Inventori ICT (e-PII)');
-        $mail->addAddress($email_pemohon); // Add a recipient
+        $mail->addAddress(sanitizeEmail($email_pemohon)); // Add a recipient
 
         
 
         //Content
         $mail->isHTML(true); // Set email format to HTML
         $timestamp = date('Y-m-d H:i:s'); // Format the current date and time
-        $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . $maintenance_id . ' - ' . $timestamp;
+        $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . intval($maintenance_id) . ' - ' . sanitizeText($timestamp);
         $mail->Body = "
         <p>Adalah dimaklumkan bahawa kerja penyelenggaraan:</p>
-        <p>ID Penyelenggaraan: $maintenance_id</p>
-        <p>ID Kerja: $workID</p>
+        <p>ID Penyelenggaraan: ".intval($maintenance_id)."</p>
+        <p>ID Kerja: ".intval($workID)."</p>
         <p>Penyelenggaraan Telah <b>SIAP</b>.</p>
         <p>Sila Tuntut Aset Anda.</p>
         <p style='opacity: 0.8'>Sistem Pengurusan Inventori ICT (e-PII)</p>
@@ -61,12 +62,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_pemohon = $_POST["email_pemohon"];
 
         // Update the record in the database
-        $query = "UPDATE maintenance_work SET remarks = '$remark', work_status = 1, completion_date = NOW() WHERE work_id = '$workID'";
+        $query = "UPDATE maintenance_work SET remarks = '$remark', work_status = 1, completion_date = NOW() WHERE work_id = ?";
+        $stupd = $connection->prepare();
+        $stupd->bind_param("i", $workID);
 
-
-        $result = mysqli_query($connection, $query);
-
-        if ($result) {
+        if ($stupd->execute()) {
             // Success message
             echo "Remark updated successfully.";
             send_asset_email($workID, $maintenance_id, $email_pemohon);

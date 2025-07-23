@@ -3,6 +3,7 @@ include_once 'header.php';
 include_once 'includes/session.php';
 include_once 'includes/adminonly.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 
 
@@ -16,9 +17,9 @@ function Jurutekniklist($technician_id, $connection)
     echo '<option value="">-- Sila Pilih --</option>';
     foreach ($technician_list as $technician) {
         if ($technician_id == $technician['id']) {
-            echo '<option value="' . $technician["id"] . '" selected>' . $technician["name"] . '</option>';
+            echo '<option value="' . intval($technician["id"]) . '" selected>' . sanitizeText($technician["name"]) . '</option>';
         } else {
-            echo '<option value="' . $technician["id"] . '">' . $technician["name"] . '</option>';
+            echo '<option value="' . intval($technician["id"]) . '">' . sanitizeText($technician["name"]) . '</option>';
         }
     }
 }
@@ -119,7 +120,7 @@ if ($maintenanceRequest['maintenance_status'] == 0 || $maintenanceRequest['maint
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <form role="form" action="asset_maintenance_juruteknik.php?id=<?php echo $id ?>" method="post"
+                        <form role="form" action="asset_maintenance_juruteknik.php?id=<?php echo intval($id) ?>" method="post"
                             enctype="multipart/form-data" id="maintenance_details">
                             <div class="form-group row">
                                 <label class="col-md-3 col-sm-3 col-3 label-align" for="asset_type">Jenis Aset</label>
@@ -267,7 +268,7 @@ if ($maintenanceRequest['maintenance_status'] == 0 || $maintenanceRequest['maint
                                 <label class="col-md-3 col-sm-3 label-align" for="maintenance_type">Nama Pemohon</label>
                                 <div class="col-md-3 col-sm-6">
                                     <input type="hidden" id="email_pemohon" name="email_pemohon" class="custom-span"
-                                        value="<?php echo htmlspecialchars($pemohon['email']); ?>">
+                                        value="<?php echo sanitizeEmail($pemohon['email']); ?>">
                                     <span class="custom-span">
                                         <?php echo htmlspecialchars($pemohon['name']); ?>
                                     </span>

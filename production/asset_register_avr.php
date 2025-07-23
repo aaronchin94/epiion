@@ -2,6 +2,8 @@
 include 'header.php';
 include 'includes/db.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
+include_once 'includes/utils.php';
 
 //Grab asset id
 $query_cat = "SELECT MAX(a_id) AS a_id FROM avr";

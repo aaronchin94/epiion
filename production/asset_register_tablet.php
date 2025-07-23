@@ -2,6 +2,8 @@
 include 'header.php';
 include 'includes/db.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
+include_once 'includes/utils.php';
 
 //Grab asset id
 $query_cat = "SELECT MAX(t_id) AS t_id FROM tablet";
@@ -103,7 +105,7 @@ $kewpa_check = getkewpa('tablet', $connection);
                             </label>
                             <div class="col-md-6 col-sm-6 ">
                               <input id="assetid" name="assetid" type="text" class="form-control" readonly="readonly"
-                                value=T10<?php echo $model_id ?>>
+                                value=T10<?php echo intval($model_id) ?>>
                             </div>
                           </div>
                         </div>

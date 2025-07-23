@@ -33,7 +33,7 @@ if (isset($_POST["usetype"])) {
         `serial`, `kewpa`, `status`, `jen_perolehan`, `sumber`, 
         `bil_port`, `InsertedAt`
     ) VALUES (?, ?, 'LAN', ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-    $stmt = $conn->prepare($sql);
+    $stmt = $connection->prepare($sql);
     $stmt->bind_param(
     "ssssssssss",  
     $usetype, $staff_id, $assetid, $model, $serial,

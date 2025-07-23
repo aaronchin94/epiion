@@ -34,7 +34,7 @@
             ?, ?, ?, ?, ?
         )";
 
-        $stmt = $conn->prepare($sql);
+        $stmt = $connection->prepare($sql);
         $stmt->bind_param("ssssssssss", $name, $username, $ic, $password, $jawatan,
                         $lokasi, $$unit, $email, $tel, $role);
         

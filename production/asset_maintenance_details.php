@@ -3,6 +3,7 @@
 //include_once 'header.php';
 require_once 'includes/db.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 function getMaintenanceRequestByToken($connection, $token)
 {
@@ -46,6 +47,7 @@ if (isset($_GET['token'])) {
     $stmt->execute();
     $result = $stmt->get_result();
     $staff_name = $result->fetch_assoc();
+    $stmt->close();
   } else {
     echo "Maintenance request not found.";
     exit;
@@ -255,7 +257,7 @@ if (isset($_GET['token'])) {
                   <input type="hidden" id="maintenance_id" name="maintenance_id" class="custom-span"
                     value="<?php echo htmlspecialchars($maintenanceRequest['maintenance_id']); ?>">
                   <input type="hidden" id="email_pemohon" name="email_pemohon" class="custom-span"
-                    value="<?php echo htmlspecialchars($pemohon['email']); ?>">
+                    value="<?php echo sanitizeEmail($pemohon['email']); ?>">
                   <span class="custom-span">
                     <?php echo htmlspecialchars($pemohon['name']); ?>
                   </span>
@@ -290,9 +292,9 @@ if (isset($_GET['token'])) {
                 <label class="col-form-label col-md-3 col-sm-3 label-align"></label>
                 <div class="col-md-4 col-sm-3 ">
                   <button type="button" name="approve_maintenance" class="btn btn-success"
-                    onclick="showApproveModal('<?php echo $token; ?>')">Terima</button>
+                    onclick="showApproveModal('<?php echo sanitizeText($token); ?>')">Terima</button>
                   <button type="button" name="reject_maintenance" class="btn btn-danger"
-                    onclick="showRejectModal('<?php echo $token; ?>')">Tolak</button>
+                    onclick="showRejectModal('<?php echo sanitizeText($token); ?>')">Tolak</button>
                 </div>
               </div>
             </form>
@@ -446,7 +448,7 @@ if (isset($_GET['token'])) {
       </div>
       <div class="modal-footer">
         <button type="button" id="terimaBtn" class="btn btn-success"
-          onclick="approveMaintenance('<?php echo $token; ?>')">Terima</button>
+          onclick="approveMaintenance('<?php echo sanitizeText($token); ?>')">Terima</button>
         <button type="button" id="terimaClose" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>
@@ -469,7 +471,7 @@ if (isset($_GET['token'])) {
       </div>
       <div class="modal-footer">
         <button type="button" id="tolakBtn" class="btn btn-danger"
-          onclick="rejectMaintenance('<?php echo $token; ?>')">Tolak</button>
+          onclick="rejectMaintenance('<?php echo sanitizeText($token); ?>')">Tolak</button>
         <button type="button" id="tolakClose" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
       </div>
     </div>

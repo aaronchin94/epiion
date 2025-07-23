@@ -1,0 +1,17 @@
+[33mcommit 4fdc2f991f946036d43cf28d5c387f337ab38e67[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: unknown <aaronchin1194@gmail.com>
+Date:   Sat Jun 14 16:06:40 2025 +0800
+
+    Update asset maintenance and add IsDaisy ready function
+
+[33mcommit 7b322b7fe0692f969a8ee67d0af30ea1e3ec011c[m
+Author: mallyp <peneh@graduate.utm.my>
+Date:   Fri Jun 13 11:14:46 2025 +0800
+
+    commit files
+
+[33mcommit 6fd5b8d5cf2117ffe90bf921c85c5b8ab03b0b83[m
+Author: mallyp <peneh@graduate.utm.my>
+Date:   Fri Jun 13 11:07:38 2025 +0800
+
+    first commit

@@ -1,6 +1,7 @@
 <?php
 include 'includes/initialization.php';
 require_once 'includes/db.php';
+include_once 'includes/secure_function.php';
 function Jurutekniklist($technician_id, $connection)
 {
     $query_technician = "
@@ -11,9 +12,9 @@ function Jurutekniklist($technician_id, $connection)
     echo '<option value="">-- Sila Pilih --</option>';
     foreach ($technician_list as $technician) {
         if ($technician_id == $technician['id']) {
-            echo '<option value="' . $technician["id"] . '" selected>' . $technician["name"] . '</option>';
+            echo '<option value="' . intval($technician["id"]) . '" selected>' . sanitizeText($technician["name"]) . '</option>';
         } else {
-            echo '<option value="' . $technician["id"] . '">' . $technician["name"] . '</option>';
+            echo '<option value="' . intval($technician["id"]) . '">' . sanitizeText($technician["name"]) . '</option>';
         }
     }
 }
@@ -51,6 +52,8 @@ if (isset($_GET['token'])) {
         $stmt->execute();
         $result = $stmt->get_result();
         $staff_name = $result->fetch_assoc();
+
+        $stmt->close();
     } else {
         echo "Maintenance request not found.";
         exit;
@@ -118,7 +121,7 @@ if (isset($_GET['token'])) {
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <form role="form" action="asset_maintenance_juruteknik.php?token=<?php echo $token ?>"
+                        <form role="form" action="asset_maintenance_juruteknik.php?token=<?php echo sanitizeText($token) ?>"
                             method="post" enctype="multipart/form-data" id="maintenance_details">
                             <div class="form-group row">
                                 <label class="col-md-3 col-sm-3 col-3 label-align" for="asset_type">Jenis Aset</label>
@@ -229,10 +232,10 @@ if (isset($_GET['token'])) {
                                             $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
                                             if (strtolower($fileExtension) == 'pdf') {
                                                 // Display PDF file as a clickable link
-                                                echo '<a href="' . $filePath . '" target="_blank" style="color: blue; cursor: pointer;">' . $fileName . '</a><br>';
+                                                echo '<a href="' . sanitizeText($filePath) . '" target="_blank" style="color: blue; cursor: pointer;">' . sanitizeText($fileName) . '</a><br>';
                                             } else {
                                                 // Display file name as a clickable link to open modal
-                                                echo '<a href="#" class="file-link" data-file="' . $filePath . '" style="color: blue; cursor: pointer;">' . $fileName . '</a><br>';
+                                                echo '<a href="#" class="file-link" data-file="' . sanitizeText($filePath) . '" style="color: blue; cursor: pointer;">' . sanitizeText($fileName) . '</a><br>';
 
                                             }
                                         } else {
@@ -276,7 +279,7 @@ if (isset($_GET['token'])) {
                                 <label class="col-md-3 col-sm-3 label-align" for="maintenance_type">Nama Pemohon</label>
                                 <div class="col-md-3 col-sm-6">
                                     <input type="hidden" id="email_pemohon" name="email_pemohon" class="custom-span"
-                                        value="<?php echo htmlspecialchars($pemohon['email']); ?>">
+                                        value="<?php echo sanitizeEmail($pemohon['email']); ?>">
                                     <span class="custom-span">
                                         <?php echo htmlspecialchars($pemohon['name']); ?>
                                     </span>
@@ -343,11 +346,11 @@ if (isset($_GET['token'])) {
                                                                 $total_workload = $workload_row['total_workload'];
 
                                                                 echo "<tr>";
-                                                                echo '<td>' . $rowk['name'] . '</td>';
-                                                                echo '<td>' . $rowk['jawatan'] . '</td>';
-                                                                echo '<td>' . $rowk['lokasi'] . '</td>';
-                                                                echo '<td>' . $rowk['unit'] . '</td>';
-                                                                echo '<td>' . $total_workload . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['name']) . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['jawatan']) . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['lokasi']) . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['unit']) . '</td>';
+                                                                echo '<td>' . sanitizeText($total_workload) . '</td>';
                                                                 echo "</tr>";
                                                             }
                                                             ?>
