@@ -34,32 +34,32 @@ include_once "includes/dashboard.php";
 						<div class="tile_count">
 							<div class="col-md-2 col-sm-4  tile_stats_count">
 								<span class="count_top"><i class="fa fa-desktop"></i> Jumlah Aset</span>
-								<div class="count"><?php echo $total_asset; ?></div>
+								<div class="count"><?php echo intval($total_asset); ?></div>
 								<span class="count_bottom"><i class="green"> </i> Buah </span>
 							</div>
 							<div class="col-md-2 col-sm-4  tile_stats_count">
 								<span class="count_top"><i class="fa fa-user"></i> Jumlah Admin</span>
-								<div class="count"><?php echo $total_admin; ?></div>
+								<div class="count"><?php echo intval($total_admin); ?></div>
 								<span class="count_bottom"><i class="green"> </i> Orang </span>
 							</div>
 							<div class="col-md-2 col-sm-4  tile_stats_count">
 								<span class="count_top"><i class="fa fa-user"></i> Jumlah Pendaftar</span>
-								<div class="count"><?php echo $total_pendaftar; ?></div>
+								<div class="count"><?php echo intval($total_pendaftar); ?></div>
 								<span class="count_bottom"><i class="green"> </i> Orang </span>
 							</div>
 							<div class="col-md-2 col-sm-4  tile_stats_count">
 								<span class="count_top"><i class="fa fa-user"></i> Jumlah Kakitangan</span>
-								<div class="count"><?php echo $total_staff; ?></div>
+								<div class="count"><?php echo intval($total_staff); ?></div>
 								<span class="count_bottom"><i class="green"> </i> Orang </span>
 							</div>
 							<div class="col-md-2 col-sm-4  tile_stats_count">
 								<span class="count_top"><i class="fa fa-user"></i> Pengunjung Hari Ini</span>
-								<div class="count"><?php echo $today_visitors; ?></div>
+								<div class="count"><?php echo intval($today_visitors); ?></div>
 								<span class="count_bottom">Pada <i class="green"> <?php echo $today; ?></i> </span>
 							</div>
 							<div class="col-md-2 col-sm-4  tile_stats_count">
 								<span class="count_top"><i class="fa fa-user"></i> Jumlah Pengunjung</span>
-								<div class="count"><?php echo $total_visitors; ?></div>
+								<div class="count"><?php echo intval($total_visitors); ?></div>
 								<span class="count_bottom">Sejak <i class="green"> 2023-01-01</i> </span>
 							</div>
 						</div>

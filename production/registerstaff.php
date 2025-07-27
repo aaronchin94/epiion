@@ -28,6 +28,7 @@
         // Performing insert query execution
         // here our table name is college
         $sql = "INSERT INTO staff  VALUES ('0','$name','$ic','$jawatan','$gred','$lokasi','$unit','$email','$tel')";
+               // "INSERT INTO `staff`(`id`, `name`, `ic`, `jawatan`, `gred`, `lokasi`, `unit`, `email`, `tel`, `active`, `access`, `password`, `role`, `firstlogin`, `IsApprover`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]','[value-9]','[value-10]','[value-11]','[value-12]','[value-13]','[value-14]','[value-15]')"
          
         if(mysqli_query($conn, $sql)){
             echo "<script>alert('Pendaftaran Berjaya');

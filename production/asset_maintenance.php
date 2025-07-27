@@ -3,6 +3,7 @@ include_once 'header.php';
 include_once 'includes/session.php';
 require_once 'includes/db.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 $asset_type = $_GET['asset_type'];
 switch ($asset_type) {

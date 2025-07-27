@@ -10,7 +10,7 @@ include_once 'includes/adminonly.php'
         
         // Taking all 5 values from the form data(input)
         $id = mysqli_real_escape_string($connection, $_GET['id']);
-    
+        $id = intval($id);
         // Performing insert query execution
         // here our table name is college
         $sql = "UPDATE staff SET access = 0, password = '', role = '' WHERE id='$id' ";

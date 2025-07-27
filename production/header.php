@@ -3,6 +3,7 @@ include 'includes/db.php';
 include 'includes/session.php';
 include_once 'includes/firstlogincheck.php';
 include_once 'includes/counter.php';
+include_once 'includes/secure_function.php';
 
 // Clear cache headers
 header("Cache-Control: no-cache, no-store, must-revalidate");
@@ -56,7 +57,7 @@ function checkLogout(){
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Selamat datang,</span>
-                <h2><?php echo $row['name'] ?></h2>
+                <h2><?php echo sanitizeText($row['name']) ?></h2>
                 
               </div>
               <div class="clearfix"></div>
@@ -128,7 +129,7 @@ function checkLogout(){
               <ul class=" navbar-right">
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                   <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                  <?php echo '<span class="badge badge-info">'. $row['role'] .'</span> '. $row['name'] .' ';?>  
+                  <?php echo '<span class="badge badge-info">'. sanitizeText($row['role']) .'</span> '. sanitizeText($row['name']) .' ';?>  
                   </a>
                   <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item"  href="user_changepassword.php"> Tukar Kata laluan</a>

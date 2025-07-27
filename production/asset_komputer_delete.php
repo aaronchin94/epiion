@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
-include_once 'includes/adminonly.php'
+include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
   ?>
 
 <?php
@@ -11,7 +12,7 @@ include_once 'includes/adminonly.php'
 // here our table name is college
 
 if (isset($_GET['id'])) {
-  $id = $_GET['id'];
+  $id = intval($_GET['id']);
   $sql = "
             DELETE FROM komputer
             WHERE k_id='$id'

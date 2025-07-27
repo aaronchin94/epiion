@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
 include 'includes/db.php';
+include_once 'includes/secure_function.php';
 ?>
 
   <!-- Grab all available user -->
@@ -68,7 +69,7 @@ include 'includes/db.php';
                             <option value="-">-- Sila Pilih --</option>
                             <?php 
                             foreach($result_cat as $row){
-                                echo '<option value="'.$row["category"].'">'.$row["category"].'</option>';
+                                echo '<option value="'.sanitizeText($row["category"]).'">'.sanitizeText($row["category"]).'</option>';
                             }
                             ?>  
                             </select>
@@ -114,7 +115,7 @@ include 'includes/db.php';
                             <option value="" id="myInput" onkeyup="filterFunction()" onclick="myFunction()">-- Sila Pilih --</option>
                             <?php 
                             foreach($result_drop as $row){
-                                echo '<option value="'.$row["name"].'">'.$row["name"].'</option>';
+                                echo '<option value="'.sanitizeText($row["name"]).'">'.sanitizeText($row["name"]).'</option>';
                             }
                             ?>  
                             </select>
@@ -126,7 +127,7 @@ include 'includes/db.php';
                                   </label>
                                   <div class="col-md-6 col-sm-6 ">
                                     <input id="assetid" name="assetid" type="text" class="form-control"  
-                                      readonly="readonly" value=K10<?php echo $model_id ?>>
+                                      readonly="readonly" value=K10<?php echo intval($model_id) ?>>
                                   </div>
                                 </div>
 

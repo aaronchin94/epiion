@@ -11,7 +11,7 @@ include_once 'includes/adminonly.php'
 // here our table name is college
 
 if (isset($_GET['id'])) {
-  $id = $_GET['id'];
+  $id = intval($_GET['id']);
   $sql = "
             DELETE FROM avr
             WHERE a_id='$id'
