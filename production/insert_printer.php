@@ -30,14 +30,20 @@ if (isset($_POST["usetype"])) {
             `jen_cetakan`, `network`, `ip_address`, `subnet_mask`,
             `def_gateway`, `dns_server`, `InsertedAt`
         ) VALUES (
-            '$usetype', '$staff_id', 'Printer', '$assetid', '$model', '$tahun',
-            '$serial', '$kewpa', '$status', '$perolehan', '$sumber',
-            '$jeniscetakan', '$network', '$ipv4', '$subnet',
-            '$defaultgateway', '$dnsserver', NOW()
+            ?, ?, 'Printer', ?, ?, ?,
+            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?, NOW()
         )";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("siisisssssssssss", 
+            $usetype, $staff_id, $assetid, $model, $tahun,
+            $serial, $kewpa, $status, $perolehan, $sumber,
+            $jeniscetakan, $network, $ipv4, $subnet,
+            $defaultgateway, $dnsserver
+        );
 
-
-    if (mysqli_query($connection, $sql)) {
+    if ($stmt->execute()) {
         echo "<script>alert('Pendaftaran Berjaya');
             window.location.href='asset_view.php'</script>";
 

@@ -2,6 +2,7 @@
 include_once "header.php";
 include_once "includes/session.php";
 //include_once 'includes/adminonly.php';
+include_once 'includes/secure_function.php';
 
 ?>
 <?php
@@ -148,10 +149,10 @@ require_once "includes/db.php";
                           while ($rowk = mysqli_fetch_assoc($result)) {
                             $id = $rowk['maintenance_id'];
                             echo "<tr>";
-                            echo '<td>' . $rowk['maintenance_id'] . '</td>';
-                            echo '<td>' . $rowk['asset_id'] . '</td>';
-                            echo '<td>' . $rowk['asset'] . '</td>';
-                            echo '<td>' . $rowk['model'] . '</td>';
+                            echo '<td>' . intval($rowk['maintenance_id']) . '</td>';
+                            echo '<td>' . intval($rowk['asset_id']) . '</td>';
+                            echo '<td>' . sanitizeText($rowk['asset']) . '</td>';
+                            echo '<td>' . sanitizeText($rowk['model']) . '</td>';
 
                             switch ($rowk['maintenance_priority']) {
                               case 'Biasa':
@@ -165,7 +166,7 @@ require_once "includes/db.php";
                                 break;
                             }
                             echo '<td style="text-align: center; vertical-align: middle; padding: 10px;"><span class="' . $class . '" style="width: 100%;"><b style="font-size: 1.3em;">' . $rowk['maintenance_priority'] . '</b></span></td>';
-                            echo '<td>' . $rowk['maintenance_date'] . '</td>';
+                            echo '<td>' . sanitizeText($rowk['maintenance_date']) . '</td>';
                             $status = '';
                             switch ($rowk['maintenance_status']) {
                               case 0:

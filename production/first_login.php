@@ -1,6 +1,7 @@
 <?php
 include_once 'includes/db.php';
 include_once 'includes/session.php';
+include_once 'includes/secure_function.php';
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +48,7 @@ include_once 'includes/session.php';
                     <div class="profile clearfix">
                         <div class="profile_info">
                             <span>Selamat datang,</span>
-                            <h2><?php echo $row['name'] ?></h2>
+                            <h2><?php echo sanitizeText($row['name']) ?></h2>
 
                         </div>
                         <div class="clearfix"></div>
@@ -100,12 +101,12 @@ include_once 'includes/session.php';
                                 </div>
                                 <div class="x_content">
                                     <form role="form" action="includes/first_password.php" method="post" class="pure-form form-horizontal form-label-left">
-                                        <input type="text" hidden name="id" value="<?= $row["id"] ?>">
+                                        <input type="text" hidden name="id" value="<?= intval($row["id"]) ?>">
 
                                         <div class="form-group row">
                                             <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">No Kad Pengenalan <span class="required">*</span></label>
                                             <div class="col-md-4 col-sm-6">
-                                                <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo $row['ic'] ?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12">
+                                                <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($row['ic']) ?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12">
                                             </div>
                                         </div>
 

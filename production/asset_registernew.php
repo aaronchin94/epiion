@@ -1,3 +1,6 @@
+<?php 
+  include_once 'includes/secure_function.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -173,7 +176,7 @@
                             <option value="-">-- Sila Pilih --</option>
                             <?php 
                             foreach($result_cat as $row){
-                                echo '<option value="'.$row["category"].'">'.$row["category"].'</option>';
+                                echo '<option value="'.sanitizeText($row["category"]).'">'.sanitizeText($row["category"]).'</option>';
                             }
                             ?>  
                             </select>
@@ -222,7 +225,7 @@
                             <option value="" id="myInput" onkeyup="filterFunction()" onclick="myFunction()">-- Sila Pilih --</option>
                             <?php 
                             foreach($result_drop as $row){
-                                echo '<option value="'.$row["name"].'">'.$row["name"].'</option>';
+                                echo '<option value="'.sanitizeText($row["name"]).'">'.sanitizeText($row["name"]).'</option>';
                             }
                             ?>  
                             </select>

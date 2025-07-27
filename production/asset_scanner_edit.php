@@ -3,6 +3,7 @@ include_once 'header.php';
 include_once 'includes/session.php';
 require_once 'includes/db.php';
 require_once 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 $asset = getasset('scanner', 's_id', $id, $connection, $row);
 $kewpa_check = getkewpa('scanner', $connection);
@@ -47,13 +48,13 @@ $kewpa_check = getkewpa('scanner', $connection);
   <!-- jquery.inputmask -->
   <script src="../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
   <script>
-    const def_kewpa = '<?php echo $asset['kewpa'] ?>';
+    const def_kewpa = '<?php echo sanitizeText($asset['kewpa']) ?>';
 
     function validate() {
       var valid = true;
 
       const kewpa = document.getElementById('kewpa').value;
-      var kewpa_arr = <?php echo $kewpa_check ?>;
+      var kewpa_arr = <?php echo sanitizeText($kewpa_check )?>;
       if (kewpa != def_kewpa && kewpa != "" && kewpa_arr.indexOf(kewpa) !== -1) {
         alert("No. KewPA sudah didaftar");
         valid = false;
@@ -87,7 +88,7 @@ $kewpa_check = getkewpa('scanner', $connection);
           <div class="x_content">
             <form role="form" action="includes/update_scanner.php" method="post" id="registration-form"
               autocomplete="off" onsubmit="return validate();">
-              <input type="text" hidden name="s_id" value="<?= $asset['s_id'] ?>">
+              <input type="text" hidden name="s_id" value="<?= intval($asset['s_id']) ?>">
 
               <div class="form-group row">
                 <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Penggunaan <span
@@ -120,7 +121,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Aset ID</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
-                value="<?php echo $asset['asset_id'] ?>" readonly>
+                value="<?php echo intval($asset['asset_id']) ?>" readonly>
             </div>
           </div>
 
@@ -130,7 +131,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="model" id="model" required="required" class="form-control"
-                value="<?php echo $asset['model'] ?>" placeholder="Model">
+                value="<?php echo sanitizeText($asset['model']) ?>" placeholder="Model">
             </div>
           </div>
 
@@ -140,7 +141,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="tahun" id="tahun" required="required" class="form-control"
-                value="<?php echo $asset['tahun'] ?>" placeholder="Tahun Diperoleh">
+                value="<?php echo intval($asset['tahun']) ?>" placeholder="Tahun Diperoleh">
             </div>
           </div>
 
@@ -148,7 +149,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="serial">No. Siri</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="serial" id="serial" required="required" class="form-control"
-                value="<?php echo $asset['tahun'] ?>" placeholder="No. Siri">
+                value="<?php echo intval($asset['tahun']) ?>" placeholder="No. Siri">
             </div>
           </div>
 
@@ -156,7 +157,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="kewpa">No. KewPA</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="kewpa" id="kewpa" required="required" class="form-control"
-                value="<?php echo $asset['kewpa'] ?>" placeholder="No. KewPA">
+                value="<?php echo sanitizeText($asset['kewpa']) ?>" placeholder="No. KewPA">
             </div>
           </div>
 
@@ -189,7 +190,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="sumber">Sumber Penerimaan <span
                 class="required">*</span> <?php echo tooltip('sumber'); ?></label>
             <div class="col-md-4 col-sm-6 ">
-              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo $asset['sumber'] ?>"
+              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo sanitizeText($asset['sumber']) ?>"
                 placeholder="Sumber Penerimaan" required>
             </div>
           </div>
@@ -198,7 +199,7 @@ $kewpa_check = getkewpa('scanner', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="jawatan">Resolusi</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="resolution" id="resolution" class="form-control"
-                value="<?php echo $asset['resolution'] ?>" placeholder="Resolution">
+                value="<?php echo sanitizeText($asset['resolution']) ?>" placeholder="Resolution">
             </div>
           </div>
 
@@ -217,28 +218,28 @@ $kewpa_check = getkewpa('scanner', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="ipv4">IP Address <            </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="ipv4" id="ipv4"  class="form-control"
-                value="<?php echo $asset['ip_address'] ?>" placeholder="IP Address">
+                value="<?php echo sanitizeText($asset['ip_address']) ?>" placeholder="IP Address">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="subnet">Subnet Mask             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="subnet" id="subnet"  class="form-control"
-                value="<?php echo $asset['subnet_mask'] ?>" placeholder="Subnet Mask">
+                value="<?php echo sanitizeText($asset['subnet_mask']) ?>" placeholder="Subnet Mask">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="defaultgateway">Default Gateway             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="defaultgateway" id="defaultgateway" class="form-control"
-                value="<?php echo $asset['def_gateway'] ?>" placeholder="Default Gateway">
+                value="<?php echo sanitizeText($asset['def_gateway']) ?>" placeholder="Default Gateway">
             </div>
           </div>
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="dnsserver">DNS Server             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="dnsserver" id="dnsserver"  class="form-control"
-                value="<?php echo $asset['dns_server'] ?>" placeholder="DNS Server">
+                value="<?php echo sanitizeText($asset['dns_server']) ?>" placeholder="DNS Server">
             </div>
           </div>
 

@@ -2,6 +2,7 @@
 
 require_once 'includes/db.php';
 include 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 
 function getassetbyassetID($connection, $asset_id)
@@ -92,7 +93,7 @@ if (isset($_GET['asset_id'])) {
           <div class="x_title">
             <h2 style="white-space: normal;">
               Paparan Maklumat
-              <?php echo $asset['asset'] ?>
+              <?php echo sanitizeText($asset['asset']) ?>
             </h2>
             <div class="clearfix"></div>
           </div>
@@ -139,7 +140,7 @@ if (isset($_GET['asset_id'])) {
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="model" id="model" required="required" class="form-control"
-                value="<?php echo $asset['model'] ?>" disabled>
+                value="<?php echo sanitizeText($asset['model']) ?>" disabled>
             </div>
           </div>
 
@@ -148,7 +149,7 @@ if (isset($_GET['asset_id'])) {
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="tahun" id="tahun" required="required" class="form-control"
-                value="<?php echo $asset['tahun'] ?>" disabled>
+                value="<?php echo intval($asset['tahun']) ?>" disabled>
             </div>
           </div>
 
@@ -157,7 +158,7 @@ if (isset($_GET['asset_id'])) {
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="serial">No. Siri
             </label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo $asset['serial'] ?>"
+              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo sanitizeText($asset['serial']) ?>"
                 disabled>
             </div>
           </div>
@@ -166,7 +167,7 @@ if (isset($_GET['asset_id'])) {
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="kewpa">No. KewPA
             </label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo $asset['kewpa'] ?>"
+              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo sanitizeText($asset['kewpa']) ?>"
                 disabled>
             </div>
           </div>
@@ -200,7 +201,7 @@ if (isset($_GET['asset_id'])) {
           <div class='form-group row'>
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="sumber">Sumber Penerimaan</label>
             <div class="col-md-4 col-sm-6 ">
-              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo $asset['sumber'] ?>"
+              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo sanitizeText($asset['sumber']) ?>"
                 disabled>
             </div>
           </div>

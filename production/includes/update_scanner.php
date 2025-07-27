@@ -42,10 +42,10 @@ if (isset($_POST["submit"])) {
         subnet_mask=?,
         def_gateway=?,
         dns_server=?
-        WHERE s_id=''
+        WHERE s_id=?
         ";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param(("sissssssssssssssi",  $penggunaan, $staff_id, $model, $tahun, $serial, $kewpa, $status, $jen_perolehan, $sumber, $resolution, $network, $ip_address, $subnet_mask, $def_gateway, $dns_server, $s_id));
+    $stmt->bind_param("sissssssssssssssi",  $penggunaan, $staff_id, $model, $tahun, $serial, $kewpa, $status, $jen_perolehan, $sumber, $resolution, $network, $ip_address, $subnet_mask, $def_gateway, $dns_server, $s_id);
     
 
     if ($stmt->execute()) {

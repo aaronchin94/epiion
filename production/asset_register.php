@@ -1,6 +1,7 @@
 <?php
 include_once 'header.php';
 include_once 'includes/db.php';
+include_once 'includes/secure_function.php'
 ?>
 
 <?php
@@ -73,7 +74,7 @@ $result_cat = $connection->query($query_cat);
                             <option value="-">-- Sila Pilih --</option>
                             <?php
                             foreach ($result_cat as $row) {
-                              echo '<option value="' . $row["category"] . '">' . $row["category"] . '</option>';
+                              echo '<option value="' . sanitizeText($row["category"]) . '">' . sanitizeText($row["category"]) . '</option>';
                             }
                             ?>  
                             </select>

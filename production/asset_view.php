@@ -2,6 +2,7 @@
 <?php
 include_once "header.php";
 include_once "includes/session.php";
+include_once 'includes/secure_function.php';
 
 ?>
 <?php
@@ -276,35 +277,35 @@ ORDER BY s.name ASC;
 
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna </td> ";
-                                                    echo "<td>$unit </td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_Komputer.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_komputer_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_komputer_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Desktop&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowk['tahun'] . '</td>';
-                                                    echo '<td>' . $rowk['serial'] . '</td>';
-                                                    echo '<td>' . $rowk['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowk['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowk['sumber'] . '</td>';
-                                                    echo '<td>' . $rowk['os'] . '</td>';
-                                                    echo '<td>' . $rowk['app_kerja'] . '</td>';
-                                                    echo '<td>' . $rowk['anti_v'] . '</td>';
-                                                    echo '<td>' . $rowk['processor'] . '</td>';
-                                                    echo '<td>' . $rowk['ram_gb'] . '</td>';
-                                                    echo '<td>' . $rowk['kapasiti_hd_gb'] . '</td>';
-                                                    echo '<td>' . $rowk['kad_grafik'] . '</td>';
-                                                    echo '<td>' . $rowk['network_lan'] . '</td>';
-                                                    echo '<td>' . $rowk['modem'] . '</td>';
-                                                    echo '<td>' . $rowk['ip_address'] . '</td>';
-                                                    echo '<td>' . $rowk['subnet_mask'] . '</td>';
-                                                    echo '<td>' . $rowk['def_gateway'] . '</td>';
-                                                    echo '<td>' . $rowk['dns_server'] . '</td>';
+                                                    echo '<td>' . intval($rowk['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['sumber']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['os']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['app_kerja']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['anti_v']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['processor']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['ram_gb']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['kapasiti_hd_gb']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['kad_grafik']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['network_lan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['modem']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['ip_address']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['subnet_mask']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['def_gateway']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowk['dns_server']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -368,35 +369,35 @@ ORDER BY s.name ASC;                          ";
                                                     $unit = $rowlp["unit"];
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna </td> ";
-                                                    echo "<td>$unit </td>";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_laptop.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_laptop_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_laptop_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Laptop&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowlp['tahun'] . '</td>';
-                                                    echo '<td>' . $rowlp['serial'] . '</td>';
-                                                    echo '<td>' . $rowlp['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowlp['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowlp['sumber'] . '</td>';
-                                                    echo '<td>' . $rowlp['os'] . '</td>';
-                                                    echo '<td>' . $rowlp['app_kerja'] . '</td>';
-                                                    echo '<td>' . $rowlp['anti_v'] . '</td>';
-                                                    echo '<td>' . $rowlp['processor'] . '</td>';
-                                                    echo '<td>' . $rowlp['ram_gb'] . '</td>';
-                                                    echo '<td>' . $rowlp['kapasiti_hd_gb'] . '</td>';
-                                                    echo '<td>' . $rowlp['kad_grafik'] . '</td>';
-                                                    echo '<td>' . $rowlp['network_lan'] . '</td>';
-                                                    echo '<td>' . $rowlp['modem'] . '</td>';
-                                                    echo '<td>' . $rowlp['ip_address'] . '</td>';
-                                                    echo '<td>' . $rowlp['subnet_mask'] . '</td>';
-                                                    echo '<td>' . $rowlp['def_gateway'] . '</td>';
-                                                    echo '<td>' . $rowlp['dns_server'] . '</td>';
+                                                    echo '<td>' . intval($rowlp['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['sumber']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['os']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['app_kerja']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['anti_v']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['processor']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['ram_gb']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['kapasiti_hd_gb']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['kad_grafik']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['network_lan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['modem']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['ip_address']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['subnet_mask']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['def_gateway']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlp['dns_server']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -459,12 +460,12 @@ ORDER BY s.name ASC;
                         <a href="asset_monitor_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Monitor&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowm['tahun'] . '</td>';
-                                                    echo '<td>' . $rowm['size'] . '</td>';
-                                                    echo '<td>' . $rowm['serial'] . '</td>';
-                                                    echo '<td>' . $rowm['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowm['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowm['sumber'] . '</td>';
+                                                    echo '<td>' . intval($rowm['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowm['size']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowm['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowm['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowm['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowm['sumber']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -521,28 +522,28 @@ ORDER BY s.name ASC;";
 
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_printer.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_printer_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_printer_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Printer&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowp['tahun'] . '</td>';
-                                                    echo '<td>' . $rowp['serial'] . '</td>';
-                                                    echo '<td>' . $rowp['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowp['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowp['sumber'] . '</td>';
-                                                    echo '<td>' . $rowp['jen_cetakan'] . '</td>';
-                                                    echo '<td>' . $rowp['network'] . '</td>';
-                                                    echo '<td>' . $rowp['ip_address'] . '</td>';
-                                                    echo '<td>' . $rowp['subnet_mask'] . '</td>';
-                                                    echo '<td>' . $rowp['def_gateway'] . '</td>';
-                                                    echo '<td>' . $rowp['dns_server'] . '</td>';
+                                                    echo '<td>' . intval($rowp['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['sumber']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['jen_cetakan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['network']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['ip_address']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['subnet_mask']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['def_gateway']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowp['dns_server']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -600,28 +601,28 @@ ORDER BY s.name ASC;
 
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_scanner.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_scanner_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_scanner_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Scanner&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowsc['tahun'] . '</td>';
-                                                    echo '<td>' . $rowsc['serial'] . '</td>';
-                                                    echo '<td>' . $rowsc['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowsc['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowsc['sumber'] . '</td>';
-                                                    echo '<td>' . $rowsc['resolution'] . '</td>';
-                                                    echo '<td>' . $rowsc['network'] . '</td>';
-                                                    echo '<td>' . $rowsc['ip_address'] . '</td>';
-                                                    echo '<td>' . $rowsc['subnet_mask'] . '</td>';
-                                                    echo '<td>' . $rowsc['def_gateway'] . '</td>';
-                                                    echo '<td>' . $rowsc['dns_server'] . '</td>';
+                                                    echo '<td>' . intval($rowsc['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['sumber']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['resolution']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['network']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['ip_address']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['subnet_mask']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['def_gateway']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowsc['dns_server']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -670,11 +671,11 @@ ORDER BY s.name ASC;                          ";
                                                     $unit = $rowups["unit"];
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_UPS.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_ups_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
@@ -682,10 +683,10 @@ ORDER BY s.name ASC;                          ";
                         <a href="asset_maintenance.php?asset_type=Uninterruptible Power Supply&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
                                                     echo '<td>' . $rowups['tahun'] . '</td>';
-                                                    echo '<td>' . $rowups['serial'] . '</td>';
-                                                    echo '<td>' . $rowups['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowups['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowups['sumber'] . '</td>';
+                                                    echo '<td>' . intval($rowups['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowups['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowups['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowups['sumber']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -734,22 +735,22 @@ ORDER BY s.name ASC;                          ";
                                                     $unit = $rowavr["unit"];
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_AVR.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_avr_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_avr_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Automatic Voltage Regulator&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowavr['tahun'] . '</td>';
-                                                    echo '<td>' . $rowavr['serial'] . '</td>';
-                                                    echo '<td>' . $rowavr['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowavr['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowavr['sumber'] . '</td>';
+                                                    echo '<td>' . intval($rowavr['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowavr['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowavr['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowavr['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowavr['sumber']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -800,22 +801,22 @@ ORDER BY s.name ASC;
 
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_lcd.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_lcd_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_lcd_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Projector&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowlcd['tahun'] . '</td>';
-                                                    echo '<td>' . $rowlcd['serial'] . '</td>';
-                                                    echo '<td>' . $rowlcd['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowlcd['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowlcd['sumber'] . '</td>';
+                                                    echo '<td>' . intval($rowlcd['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlcd['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlcd['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlcd['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowlcd['sumber']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -868,11 +869,11 @@ ORDER BY s.name ASC;
                                                     $unit = $rowls["unit"];
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_lan.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_lan_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
@@ -880,11 +881,11 @@ ORDER BY s.name ASC;
                         <a href="asset_maintenance.php?asset_type=Switch&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
 
-                                                    echo '<td>' . $rowls['serial'] . '</td>';
-                                                    echo '<td>' . $rowls['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowls['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowls['sumber'] . '</td>';
-                                                    echo '<td>' . $rowls['bil_port'] . '</td>';
+                                                    echo '<td>' . sanitizeText($rowls['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowls['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowls['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowls['sumber']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowls['bil_port']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>
@@ -934,22 +935,22 @@ ORDER BY s.name ASC;                          ";
 
 
                                                     echo "<tr>";
-                                                    echo "<td>$nama_pengguna</td> ";
-                                                    echo "<td>$unit</td> ";
-                                                    echo "<td>$asset_id</td>";
-                                                    echo "<td>$model </td>";
-                                                    echo "<td>$status </td>";
+                                                    echo "<td>".sanitizeText($nama_pengguna)." </td> ";
+                                                    echo "<td>".sanitizeText($unit)." </td> ";
+                                                    echo "<td>".sanitizeText($asset_id)."</td>";
+                                                    echo "<td>".sanitizeText($model)." </td>";
+                                                    echo "<td>".sanitizeText($status)." </td>";
                                                     echo '<td>
                         <a href="asset_review_tablet.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                         <a href="asset_tablet_edit.php?id=' . $id . '"><i class="fa fa-edit" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Kemaskini"></i></a>
                         <a href="asset_tablet_delete.php?id=' . $id . '" onclick="return checkDelete()")"><i class="fa fa-close"  style="font-size:19px;;color:red;margin:0px 5px 0px 5px "  title="Padam"></i></a>
                         <a href="asset_maintenance.php?asset_type=Tablet&id=' . $id . '"><i class="fa fa-wrench" style="font-size:17px;margin:0px 5px 0px 5px ;"  title="Penyelenggaraan"></i></a>
                         </td>';
-                                                    echo '<td>' . $rowtablet['tahun'] . '</td>';
-                                                    echo '<td>' . $rowtablet['serial'] . '</td>';
-                                                    echo '<td>' . $rowtablet['kewpa'] . '</td>';
-                                                    echo '<td>' . $rowtablet['jen_perolehan'] . '</td>';
-                                                    echo '<td>' . $rowtablet['sumber'] . '</td>';
+                                                    echo '<td>' . intval($rowtablet['tahun']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowtablet['serial']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowtablet['kewpa']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowtablet['jen_perolehan']) . '</td>';
+                                                    echo '<td>' . sanitizeText($rowtablet['sumber']) . '</td>';
                                                     echo "</tr>";
                                                 }
                                                 ?>

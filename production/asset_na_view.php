@@ -2,6 +2,7 @@
 <?php
 include_once "header.php";
 include_once "includes/session.php";
+include_once 'includes/secure_function.php';
 
 ?>
 <?php
@@ -157,20 +158,20 @@ ORDER BY s.name ASC;
                         $varname = $row["k_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_komputer_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_komputer_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_komputer_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_komputer_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -215,20 +216,20 @@ ORDER BY s.name ASC;
                         $varname = $row["la_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_laptop.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_laptop.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_laptop.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_laptop.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_laptop_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_laptop_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_laptop_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_laptop_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -273,20 +274,20 @@ ORDER BY s.name ASC;
                         $varname = $row["m_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_monitor.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_monitor.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_monitor.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_monitor.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_monitor_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_monitor_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_monitor_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_monitor_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -331,20 +332,20 @@ ORDER BY s.name ASC;
                         $varname = $row["p_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_printer.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_printer.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_printer.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_printer.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_printer_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_printer_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_printer_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_printer_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -389,20 +390,20 @@ ORDER BY s.name ASC;
                         $varname = $row["s_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_scanner.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_scanner.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_scanner.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_scanner.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_scanner_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_scanner_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_scanner_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_scanner_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -447,20 +448,20 @@ ORDER BY s.name ASC;
                         $varname = $row["u_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_ups.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_ups.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_ups.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_ups.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_ups_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_ups_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_ups_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_ups_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -505,20 +506,20 @@ ORDER BY s.name ASC;
                         $varname = $row["a_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_avr.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_avr.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_avr.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_avr.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_review_avr.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_review_avr.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_avr_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_avr_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -563,20 +564,20 @@ ORDER BY s.name ASC;
                         $varname = $row["l_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_lcd.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_lcd.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_lcd.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_lcd.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_lcd_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_lcd_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_lcd_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_lcd_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';
@@ -621,20 +622,20 @@ ORDER BY s.name ASC;
                         $varname = $row["ls_id"];
 
                         echo "<tr>";
-                        echo "<td>$nama_pengguna</td> ";
-                        echo "<td>$asset_id</td>";
-                        echo "<td>$model </td>";
-                        echo "<td>$status </td>";
+                        echo "<td>".sanitizeText($nama_pengguna)."</td> ";
+                        echo "<td>".intval($asset_id)."</td>";
+                        echo "<td>".sanitizeText($model)." </td>";
+                        echo "<td>".sanitizeText($status)." </td>";
                         echo '
                           <td>
                             <div class="btn-group">
-                              <a href="asset_review_lan_switch.php?varname=' . $varname . '" type="button" class="btn btn-success btn-sm " href="asset_review_lan_switch.php?varname=' . $varname . '">Papar</a>
+                              <a href="asset_review_lan_switch.php?varname=' . sanitizeText($varname) . '" type="button" class="btn btn-success btn-sm " href="asset_review_lan_switch.php?varname=' . sanitizeText($varname) . '">Papar</a>
                               <button type="button" class="btn btn-success btn-sm  dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               </button>
                               <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(69px, 38px, 0px);">
-                                <a class="dropdown-item" href="asset_lan_edit.php?varname=' . $varname . '">Kemaskini</a>
+                                <a class="dropdown-item" href="asset_lan_edit.php?varname=' . sanitizeText($varname) . '">Kemaskini</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="asset_lan_delete.php?varname=' . $varname . '" onclick="return checkDelete()")">Padam</a>
+                                <a class="dropdown-item" href="asset_lan_delete.php?varname=' . sanitizeText($varname) . '" onclick="return checkDelete()")">Padam</a>
                               </div>
                             </div>
                           </td>';

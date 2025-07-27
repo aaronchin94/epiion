@@ -3,6 +3,7 @@ include_once 'header.php';
 include_once 'includes/session.php';
 require_once 'includes/db.php';
 require_once 'includes/initialization.php';
+include_once 'includes/secure_function.php';
 
 $asset = getasset('monitor', 'm_id', $id, $connection, $row);
 $kewpa_check = getkewpa('monitor', $connection);
@@ -87,7 +88,7 @@ $kewpa_check = getkewpa('monitor', $connection);
           <div class="x_content">
             <form role="form" action="includes/update_monitor.php" method="post" id="registration-form"
               autocomplete="off" onsubmit="return validate();">
-              <input type="text" hidden name="m_id" value="<?= $asset['m_id'] ?>">
+              <input type="text" hidden name="m_id" value="<?= intval($asset['m_id']) ?>">
 
               <div class="form-group row">
                 <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Penggunaan <span
@@ -120,7 +121,7 @@ $kewpa_check = getkewpa('monitor', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Aset ID</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
-                value="<?php echo $asset['asset_id'] ?>" readonly>
+                value="<?php echo intval($asset['asset_id']) ?>" readonly>
             </div>
           </div>
 
@@ -130,7 +131,7 @@ $kewpa_check = getkewpa('monitor', $connection);
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="model" id="model" required="required" class="form-control"
-                value="<?php echo $asset['model'] ?>" placeholder="Model">
+                value="<?php echo sanitizeText($asset['model']) ?>" placeholder="Model">
             </div>
           </div>
 
@@ -140,7 +141,7 @@ $kewpa_check = getkewpa('monitor', $connection);
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="tahun" id="tahun" required="required" class="form-control"
-                value="<?php echo $asset['tahun'] ?>" placeholder="Tahun Diperoleh">
+                value="<?php echo intval($asset['tahun']) ?>" placeholder="Tahun Diperoleh">
             </div>
           </div>
 
@@ -150,14 +151,14 @@ $kewpa_check = getkewpa('monitor', $connection);
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="size" id="size" required="required" class="form-control"
-                value="<?php echo $asset['size'] ?>" placeholder="Saiz Monitor">
+                value="<?php echo sanitizeText($asset['size']) ?>" placeholder="Saiz Monitor">
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="serial">No. Siri</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo $asset['serial'] ?>"
+              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo sanitizeText($asset['serial']) ?>"
                 placeholder="No. Siri">
             </div>
           </div>
@@ -165,7 +166,7 @@ $kewpa_check = getkewpa('monitor', $connection);
           <div class="form-group row">
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="kewpa">No. KewPA</label>
             <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo $asset['kewpa'] ?>"
+              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo sanitizeText($asset['kewpa']) ?>"
                 placeholder="No. KewPA">
             </div>
           </div>
@@ -200,7 +201,7 @@ $kewpa_check = getkewpa('monitor', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="sumber">Sumber Penerimaan <span
                 class="required">*</span> <?php echo tooltip('sumber'); ?></label>
             <div class="col-md-4 col-sm-6 ">
-              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo $asset['sumber'] ?>"
+              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo sanitizeText($asset['sumber']) ?>"
                 placeholder="Sumber Penerimaan" required>
             </div>
           </div>

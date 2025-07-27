@@ -15,6 +15,7 @@ function getMaintenanceRequestById($connection, $id)
     $stmt->bind_param("s", $id);
     $stmt->execute();
     $result = $stmt->get_result();
+    $stmt->close();
     return $result->fetch_assoc();
 }
 
@@ -26,6 +27,7 @@ function getPemohonById($connection, $id)
     $stmt->bind_param("s", $id);
     $stmt->execute();
     $pemohon = $stmt->get_result();
+    $stmt->close();
     return $pemohon->fetch_assoc();
 }
 
@@ -215,10 +217,10 @@ if ($maintenanceRequest['maintenance_status'] == 0 || $maintenanceRequest['maint
                                             $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
                                             if (strtolower($fileExtension) == 'pdf') {
                                                 // Display PDF file as a clickable link
-                                                echo '<a href="' . $filePath . '" target="_blank" style="color: blue; cursor: pointer;">' . $fileName . '</a><br>';
+                                                echo '<a href="' . $filePath . '" target="_blank" style="color: blue; cursor: pointer;">' . sanitizeText($fileName) . '</a><br>';
                                             } else {
                                                 // Display file name as a clickable link to open modal
-                                                echo '<a href="#" class="file-link" data-file="' . $filePath . '" style="color: blue; cursor: pointer;">' . $fileName . '</a><br>';
+                                                echo '<a href="#" class="file-link" data-file="' . $filePath . '" style="color: blue; cursor: pointer;">' . sanitizeText($fileName) . '</a><br>';
 
                                             }
                                         } else {

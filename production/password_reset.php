@@ -1,6 +1,7 @@
 <?php
 // Connect to the database
 include 'includes/db.php';
+include_once 'includes/secure_function.php';
 
 // Retrieve token from URL and validate it
 
@@ -63,9 +64,9 @@ if (mysqli_num_rows($result) == 0) {
         <div class="login_wrapper">
             <section class="login_content">
                 <form role="form" action="includes/password_reset_update.php" method="POST">
-                    <input type="text" hidden name="id" value="<?= $row["staff_id"] ?>">
-                    <input type="text" hidden name="email" value="<?= $row["email"] ?>">
-                    <input type="text" hidden name="token" value="<?= $row["token"] ?>">
+                    <input type="text" hidden name="id" value="<?= sanitizeText($row["staff_id"]) ?>">
+                    <input type="text" hidden name="email" value="<?= sanitizeText($row["email"]) ?>">
+                    <input type="text" hidden name="token" value="<?= sanitizeText($row["token"]) ?>">
                     <h1>Tetapkan kata laluan</h1>
                     <div>
                         <input type="password" name="np" id="np" required class="form-control" placeholder="Masukkan kata laluan anda">

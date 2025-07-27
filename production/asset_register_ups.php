@@ -31,7 +31,7 @@ $kewpa_check = getkewpa('ups', $connection);
       var valid = true;
 
       const kewpa = document.getElementById('kewpa').value;
-      var kewpa_arr = <?php echo $kewpa_check ?>;
+      var kewpa_arr = <?php echo sanitizeText($kewpa_check) ?>;
       if (kewpa != "" && kewpa_arr.indexOf(kewpa) !== -1) {
         alert("No. KewPA sudah didaftar");
         valid = false;

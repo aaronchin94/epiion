@@ -21,12 +21,15 @@ if (isset($_POST["usetype"])) {
             `penggunaan`, `staff_id`, `asset`, `asset_id`, `model`, `tahun`,
             `serial`, `kewpa`, `status`, `jen_perolehan`, `sumber`, `InsertedAt`
         ) VALUES (
-            '$usetype', '$staff_id', 'UPS', '$assetid', '$model', '$tahun',
-            '$serial', '$kewpa', '$status', '$perolehan', '$sumber', NOW()
+            ?, ?, 'UPS', ?, ?, ?,
+            ?, ?, ?, ?, ?, NOW()
         )";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("siisisssss", 
+            $usetype, $staff_id, $assetid, $model, $tahun,
+            $serial, $kewpa, $status, $perolehan, $sumber);
 
-
-    if (mysqli_query($connection, $sql)) {
+    if ($stmt->execute()) {
         echo "<script>alert('Pendaftaran Berjaya');
             window.location.href='asset_view.php'</script>";
 

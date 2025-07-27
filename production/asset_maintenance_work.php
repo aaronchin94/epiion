@@ -3,6 +3,7 @@ include_once "header.php";
 include_once "includes/session.php";
 include_once 'includes/adminonly.php';
 //include_once 'includes/approveronly.php';
+include_once 'includes/secure_function.php';
 
 ?>
 <?php
@@ -121,13 +122,13 @@ function getPemohonById($connection, $id)
                             $id = $rowk['maintenance_id'];
                             $pemohon = getPemohonById($connection, $rowk['RequestedBy']);
                             echo "<tr>";
-                            echo '<td>' . $rowk['work_id'] . '</td>';
-                            echo '<td>' . $id . '</td>';
-                            echo '<td>' . $pemohon['email'] . '</td>';
-                            echo '<td>' . $rowk['name'] . '</td>';
-                            echo '<td>' . $rowk['maintenance_type'] . '</td>';
-                            echo '<td>' . $rowk['assignment_date'] . '</td>';
-                            echo '<td>' . ($rowk['completion_date'] !== null ? $rowk['completion_date'] : '<div style="text-align: center;">-</div>') . '</td>';
+                            echo '<td>' . intval($rowk['work_id']) . '</td>';
+                            echo '<td>' . intval($id) . '</td>';
+                            echo '<td>' . sanitizeEmail($pemohon['email']) . '</td>';
+                            echo '<td>' . sanitizeText($rowk['name']) . '</td>';
+                            echo '<td>' . sanitizeText($rowk['maintenance_type']) . '</td>';
+                            echo '<td>' . sanitizeText($rowk['assignment_date']) . '</td>';
+                            echo '<td>' . ($rowk['completion_date'] !== null ? sanitizeText($rowk['completion_date']) : '<div style="text-align: center;">-</div>') . '</td>';
 
                             $status = '';
                             $color = '';

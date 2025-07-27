@@ -1,5 +1,6 @@
 <?php
 require_once "includes/db.php";
+include_once 'includes/secure_function.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -34,7 +35,7 @@ function send_asset_email($workID, $maintenance_id, $email_pemohon)
 
         //Recipients
         $mail->setFrom('noreply.doasbh@gmail.com', 'Sistem Pengurusan Inventori ICT (e-PII)');
-        $mail->addAddress($email_pemohon); // Add a recipient
+        $mail->addAddress(sanitizeEmail($email_pemohon)); // Add a recipient
 
 
 
@@ -44,8 +45,8 @@ function send_asset_email($workID, $maintenance_id, $email_pemohon)
         $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . $maintenance_id . ' - ' . $timestamp;
         $mail->Body = "
         <p>Adalah dimaklumkan bahawa kerja penyelenggaraan:</p>
-        <p>ID Penyelenggaraan: $maintenance_id</p>
-        <p>ID Kerja: $workID</p>
+        <p>ID Penyelenggaraan: ".intval($maintenance_id)."</p>
+        <p>ID Kerja: ".intval($workID)."</p>
         <p>Penyelenggaraan Telah <b>SIAP</b>.</p>
         <p>Sila Tuntut Aset Anda.</p>
         <p style='opacity: 0.8'>Sistem Pengurusan Inventori ICT (e-PII)</p>
@@ -92,12 +93,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["proof_pickup"])) {
                 compressImage($targetFilePath, $targetFilePath, 50); // Adjust compression quality as needed
             }
 
-            $query = "UPDATE maintenance_work SET remarks = '$remark', work_status = 2, completion_date = NOW(), proof_pickup ='$newFileName'  WHERE work_id = '$workID'";
+            $query = "UPDATE maintenance_work SET remarks = ?, work_status = 2, completion_date = NOW(), proof_pickup =?  WHERE work_id = ?";
+            $stmt = $connection->prepare($query);
+            $stmt->bind_param("ssi", $remark, $newFileName, $workID);
 
-
-            $result = mysqli_query($connection, $query);
-
-            if ($result) {
+            if ($stmt->execute()) {
                 // Success message
                 echo "Remark updated successfully.";
                 send_asset_email($workID, $maintenance_id, $email_pemohon);
@@ -105,6 +105,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["proof_pickup"])) {
                 // Error message
                 echo "Error: " . mysqli_error($connection);
             }
+
+            $stmt->close();
         } else {
             // Remark or work ID is not set or empty
             echo "Remark and work ID are required.";

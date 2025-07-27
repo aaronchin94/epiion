@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/db.php';
+include_once 'includes/secure_function.php';
 
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -33,7 +34,7 @@ function send_asset_email( $maintenance_id, $email_pemohon)
         //Content
         $mail->isHTML(true); // Set email format to HTML
         $timestamp = date('Y-m-d H:i:s'); // Format the current date and time
-        $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . $maintenance_id . ' - ' . $timestamp;
+        $mail->Subject = '[TESTING] Status Permohonan Penyelenggaraan ID ' . intval($maintenance_id) . ' - ' . sanitizeText($timestamp);
         $mail->Body = "
         <p>Adalah dimaklumkan bahawa permohonan penyelenggaraan:</p>
         <p>ID Penyelenggaraan: $maintenance_id</p>
