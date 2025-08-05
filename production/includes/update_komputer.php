@@ -34,32 +34,35 @@ if (isset($_POST["submit"])) {
     // here our table name is college
     $sql = "
         UPDATE komputer SET 
-        penggunaan='$penggunaan',
-        staff_id='$staff_id',
-        model='$model',
-        tahun='$tahun',
-        serial='$serial',
-        kewpa='$kewpa',
-        status='$status',
-        jen_perolehan='$jen_perolehan',
-        sumber='$sumber',
-        os='$os',
-        app_kerja='$app_kerja',
-        anti_v='$anti_v',
-        processor='$processor',
-        ram_gb='$ram_gb',
-        kapasiti_hd_gb='$kapasiti_hd_gb',
-        kad_grafik='$kad_grafik',
-        network_lan='$network_lan',
-        modem='$modem',
-        ip_address='$ip_address',
-        subnet_mask='$subnet_mask',
-        def_gateway='$def_gateway',
-        dns_server='$dns_server'
-        WHERE k_id='$k_id'
+        penggunaan=?, 
+        staff_id=?,
+        model=?,
+        tahun=?,
+        serial=?,
+        kewpa=?,
+        status=?,
+        jen_perolehan=?,
+        sumber=?,
+        os=?,
+        app_kerja=?,
+        anti_v=?,
+        processor=?,
+        ram_gb=?,
+        kapasiti_hd_gb=?,
+        kad_grafik=?,
+        network_lan=?,
+        modem=?,
+        ip_address=?,
+        subnet_mask=?,
+        def_gateway=?,
+        dns_server=?
+        WHERE k_id=?
         ";
-
-    if (mysqli_query($connection, $sql)) {
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ssssssssssssssssssssssi", $penggunaan, $staff_id, $model, $tahun, $serial, $kewpa, $status, $jen_perolehan,$sumber, $os, $app_kerja, 
+            $anti_v, $processor, $ram_gb, $kapasiti_hd_gb, $kad_grafik, $network_lan, $modem, $ip_address, $subnet_mask, $def_gateway,
+            $dns_server, $k_id);
+    if ($stmt-execute()) {
 
 
         echo "<script>alert('Kemaskini Berjaya');

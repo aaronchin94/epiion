@@ -1,5 +1,6 @@
 <?php
-include 'db.php';
+include_once 'db.php';
+include_once 'secure_function.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -56,11 +57,11 @@ if (mysqli_num_rows($result) == 0) {
         $mail->Subject = '[Auto message e-PII] Kata laluan telah ditetapkan semula';
         $mail->Body = '
         Kata laluan telah ditetapkan semula bagi akaun anda 
-        <p> No. Kad Pengenalan : ' . $ic . ' 
+        <p> No. Kad Pengenalan : ' . sanitizeText($ic) . ' 
         <p>
         <p>Sila tetapkan semula dengan pautan berikut : 
         <p>
-        <p>' . $reset_url . '
+        <p>' . sanitizeText($reset_url) . '
         <p>
 	<p> <i> Pautan sah untuk 3 jam sahaja </i>
         <p>Sistem Pengurusan Inventori ICT (e-PII)';
@@ -68,7 +69,7 @@ if (mysqli_num_rows($result) == 0) {
 
         $mail->send();
 
-        echo "<script>alert('Tetapan semula kata laluan bagi $ic telah dihantar ke emel $email. ');
+        echo "<script>alert('Tetapan semula kata laluan bagi ".sanitizeText($ic)." telah dihantar ke emel ".sanitizeEmail($email).". ');
         window.location.href='../user_view.php'</script>";
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
