@@ -9,18 +9,15 @@ require '../../PHPMailer/src/PHPMailer.php';
 require '../../PHPMailer/src/SMTP.php';
 ?>
 
-        <?php
+<?php
+    include_once 'secure_function.php';
+
         if(isset($_POST["submit"])){
 
-        // servername => localhost
-        // username => root
-        // password => empty
-        // database name => staff
-         $conn = mysqli_connect("localhost", "sabah_wuser", "70be8036125732e724d96024de2339d15a3194f3d2f6c462", "inventory");
-
+        include_once 'db.php';
          
         // Check connection
-        if($conn === false){
+        if($connection === false){
             die("ERROR: Could not connect. "
                 . mysqli_connect_error());
         }
@@ -39,8 +36,11 @@ require '../../PHPMailer/src/SMTP.php';
 // Generate unique token and store it in the database
 	$token = bin2hex(random_bytes(32));
 	$expires = time() + 86400; // Token expires in 1 day
-	$query = "INSERT INTO password_reset_tokens (staff_id, email, token, expires) VALUES ('$id','$email', '$token', $expires)";
-	mysqli_query($conn , $query);
+	$query = "INSERT INTO password_reset_tokens (staff_id, email, token, expires) VALUES (?, ?, ?, ?)";
+    $stmt = $connection->prepare($query);
+    $stmt->bind_param("isss", $id, $email, $token, $expires);
+    $stmt->execute();
+    $stmt->close();
 
     $reset_url = "http://einventori.geosabah.my/production/password_reset.php?token=$token";
 
@@ -50,14 +50,17 @@ require '../../PHPMailer/src/SMTP.php';
         //$password = password_hash( $temp_password, PASSWORD_BCRYPT, array('cost' => 12));
         // Performing insert query execution    
         // here our table name is college
-        $sql = "UPDATE staff SET access = 1, role = '$role' WHERE id = '$id'";
-      
+        // $sql = "UPDATE staff SET access = 1, role = '$role' WHERE id = '$id'";
+        $sql = "UPDATE staff SET access = 1, role = ? WHERE id = ?";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("si", $role, $id);
+
 
          
-        if(mysqli_query($conn, $sql)){
+        if($stmt->execute()){
 
-            //Send an email to the user with the temporary password
-    $mail = new PHPMailer(true); // true enables exceptions
+        //Send an email to the user with the temporary password
+        $mail = new PHPMailer(true); // true enables exceptions
         //Server settings
         //$mail->SMTPDebug = SMTP::DEBUG_OFF; // Disable debug output
         $mail->isSMTP(); // Send using SMTP
@@ -70,19 +73,19 @@ require '../../PHPMailer/src/SMTP.php';
 
         //Recipients
         $mail->setFrom('mysystemtestemail@gmail.com', 'Sistem Pengurusan Inventori ICT (e-PII)');
-        $mail->addAddress($email); // Add a recipient
+        $mail->addAddress($email); // Add a recipient $email
 
         //Content
         $mail->isHTML(true); // Set email format to HTML
-        $mail->Subject = '[Auto message e-PII] Makluman Pendaftaran '.$name.' sebagai '.$role.' ';
+        $mail->Subject = '[Auto message e-PII] Makluman Pendaftaran '.sanitizeText($name).' sebagai '.sanitizeText($role).' ';
         $mail->Body = '
         Adalah dimaklumkan bahawa penama dibawah :  
-        <p>Nama Penuh : '.$name.'
-        <br> No. Kad Pengenalan : '.$ic.' </br>
-        <br> Emel : '.$email.' </br>
-        <br> Jawatan : '.$jawatan.' </br>
-        <br> Daerah : '.$lokasi.' </br>
-        <br> Bahagian/Seksyen/Unit : '.$unit.' </br>
+        <p>Nama Penuh : '.sanitizeText($name).'
+        <br> No. Kad Pengenalan : '.sanitizeText($ic).' </br>
+        <br> Emel : '.sanitizeEmail($email).' </br>
+        <br> Jawatan : '.sanitizeText($jawatan).' </br>
+        <br> Daerah : '.sanitizeText($lokasi).' </br>
+        <br> Bahagian/Seksyen/Unit : '.sanitizeText($unit).' </br>
         <p>
 	<p> Sila log masuk kali pertaman menggunakan pautan berikut : 
 	<p> 
@@ -96,18 +99,19 @@ require '../../PHPMailer/src/SMTP.php';
 
  		//echo "ERROR: Hush! Sorry $sql. $id"
                 //. mysqli_error($conn);
-            echo "<script>alert('Pendaftaran Berjaya bagi $name ($ic) sebagai $role. Sila semak emel untuk dapatkan kata laluan sementara.');
+            echo "<script>alert('Pendaftaran Berjaya bagi ".sanitizeText($name)." (".sanitizeText($ic).") sebagai ".sanitizeText($role).". Sila semak emel untuk dapatkan kata laluan sementara.');
             window.location.href='../user_register.php'</script>";              
- 
+        $stmt->close();
+            
         } 
         else{
             echo "ERROR: Hush! Sorry $sql. "
-                . mysqli_error($conn);
+                . mysqli_error($connection);
         }
     }
     else{
         header("Location: ../index.php");
         // Close connection
-        mysqli_close($conn);
+        mysqli_close($connection);
     }
         ?>

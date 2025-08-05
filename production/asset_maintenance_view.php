@@ -150,7 +150,7 @@ require_once "includes/db.php";
                             $id = $rowk['maintenance_id'];
                             echo "<tr>";
                             echo '<td>' . intval($rowk['maintenance_id']) . '</td>';
-                            echo '<td>' . intval($rowk['asset_id']) . '</td>';
+                            echo '<td>' . sanitizeText($rowk['asset_id']) . '</td>';
                             echo '<td>' . sanitizeText($rowk['asset']) . '</td>';
                             echo '<td>' . sanitizeText($rowk['model']) . '</td>';
 

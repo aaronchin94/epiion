@@ -8,6 +8,7 @@ require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
 include 'includes/db.php';
 include 'includes/session.php';
+include_once 'secure_function.php';
 
 function send_maintenance_email($token, $asset_id, $row)
 {
@@ -32,7 +33,7 @@ function send_maintenance_email($token, $asset_id, $row)
         //Content
         $mail->isHTML(true); // Set email format to HTML
         $timestamp = date('Y-m-d H:i:s'); // Format the current date and time
-        $mail->Subject = '[Auto message e-PII] Permohonan Penyelenggaraan Aset ID ' . $asset_id . ' - ' . $timestamp;
+        $mail->Subject = '[Auto message e-PII] Permohonan Penyelenggaraan Aset ID ' . intval($asset_id) . ' - ' . sanitizeText($timestamp);
         $mail->Body = "
         <p>Adalah dimaklumkan bahawa permohonan diminta oleh:</p>
         <p>Nama Penuh: {$row['name']}</p>
@@ -41,7 +42,7 @@ function send_maintenance_email($token, $asset_id, $row)
         <p>No Telefon: {$row['tel']}</p>
         <br>
         <p>Sila luluskan/tolak permohonan penyelenggaraan menggunakan pautan berikut:</p>
-        <p><a href='http://localhost/einventori.geosabah.my/production/asset_maintenance_details.php?token=$token'>Lihat Permohonan Penyelenggaraan</a></p>
+        <p><a href='http://localhost/einventori.geosabah.my/production/asset_maintenance_details.php?token=".sanitizeText($token)."'>Lihat Permohonan Penyelenggaraan</a></p>
         <p style='opacity: 0.8'>Sistem Pengurusan Inventori ICT (e-PII)</p>
         ";
 
@@ -135,8 +136,12 @@ if (isset($_POST["maintenance_type"])) {
     if ($stmt->execute()) {
         // get the last id, insert into maintenance_token table
         $getLast_id = $stmt->insert_id;
-        $rsql = mysqli_query($connection, "INSERT INTO `maintenance_token`(`maintenance_id`, `token`, `tokenexpiry`) VALUES ('$getLast_id', '$token', '$tokenexpirys')");
+        $lid_ins = "INSERT INTO `maintenance_token`(`maintenance_id`, `token`, `tokenexpiry`) VALUES (?, ?, ?)";
+        $stmt1 = $connection->prepare($lid_ins);
+        $stmt1->bind_param("iss", $getLast_id, $token, $tokenexpirys);
+        $stmt1->execute();
         echo "<script>alert('Permohonan Berjaya. Email Telah Dihantar Ke Pelulus Untuk Kelulusan'); window.location.href='asset_maintenance_view.php'</script>";
+        $stmt1->close();
     } else {
         echo "ERROR: Hush! Sorry " . $stmt->error;
     }

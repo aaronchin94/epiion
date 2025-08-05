@@ -10,7 +10,7 @@ include 'includes/db.php';
 include 'includes/session.php';
 include_once "includes/secure_function.php";
 
-function sanitizeText($value) { return htmlspecialchars(trim(strip_tags($value)), ENT_QUOTES, 'UTF-8'); }
+//
 
 function send_maintenance_email($token, $asset_id, $row)
 {

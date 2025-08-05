@@ -30,7 +30,10 @@ $result_drop2 = $connection->query($query_drop2);
 ?>
 <?php
 //selected name info
+$notFalse = true;
+
 if (isset($_GET['name'])) {
+  
   $user_name = mysqli_real_escape_string($connection, $_GET['name']);
   $query = "SELECT * FROM staff WHERE name = ?";
   $stmt = $connection->prepare($query);
@@ -40,6 +43,7 @@ if (isset($_GET['name'])) {
 
   if ($result->num_rows > 0) {
     $staff = $result->fetch_assoc();
+    $notFalse = false;
   }
 }
 
@@ -75,7 +79,7 @@ if (isset($_GET['name'])) {
                     class="required">*</span>
                 </label>
                 <div class="col-md-4 col-sm-3 ">
-                  <select readonly id="staffname" name="name" class="form-control" required=""
+                  <select id="staffname" name="name" class="form-control" required
                     onchange="onchangeDropdown(this.value)" ;>
                     <option value="">-- Sila Pilih --</option>
                     <?php
@@ -99,7 +103,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input readonly type="text" name="ic" id="ic" required="required" class="form-control"
-                    placeholder="No Kad Pengenalan (tanpa -)" maxlength="12" value="<?php echo sanitizeText($staff['ic']) ?>">
+                    placeholder="No Kad Pengenalan (tanpa -)" maxlength="12" value="<?php echo !$notFalse && isset($staff['ic']) ? sanitizeText($staff['ic']) : "";  ?>">
                 </div>
               </div>
 
@@ -110,7 +114,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input readonly type="text" name="jawatan" id="jawatan" required="required" class="form-control"
-                    placeholder="Jawatan" value="<?php echo sanitizeText($staff['jawatan']) ?>">
+                    placeholder="Jawatan" value="<?php echo !$notFalse && isset($staff['jawatan']) ? sanitizeText($staff['jawatan']) : "";  ?>">
                 </div>
               </div>
 
@@ -166,7 +170,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input type="email" name="email" id="email" required="required" class="form-control"
-                    placeholder="Emel Rasmi" value="<?php echo sanitizeEmail($staff['email']) ?>" readonly>
+                    placeholder="Emel Rasmi" value="<?php echo !$notFalse && isset($staff['email']) ? sanitizeText($staff['email']) : "";  ?>" readonly>
                 </div>
               </div>
 
@@ -176,7 +180,7 @@ if (isset($_GET['name'])) {
                 </label>
                 <div class="col-md-4 col-sm-6 ">
                   <input readonly type="text" name="tel" id="tel" required="required" class="form-control"
-                    placeholder="0123456789" value="<?php echo sanitizeText($staff['tel']) ?>">
+                    placeholder="0123456789" value="<?php echo !$notFalse && isset($staff['tel']) ? sanitizeText($staff['tel']) : ""; ?>">
                 </div>
               </div>
 

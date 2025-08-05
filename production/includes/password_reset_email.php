@@ -16,7 +16,7 @@ $ic = $_POST['ic'];
 // Validate inpu
 $id = mysqli_real_escape_string($connection, $_POST['id']);
 $email = mysqli_real_escape_string($connection, $_POST['email']);
-$query = "SELECT * FROM staff WHERE email='$email' && id='$id'";
+$query = "SELECT * FROM staff WHERE email='$email' AND id='$id'";
 $result = mysqli_query($connection, $query);
 
 if (mysqli_num_rows($result) == 0) {
@@ -26,8 +26,11 @@ if (mysqli_num_rows($result) == 0) {
     // Generate unique token and store it in the database
     $token = bin2hex(random_bytes(32));
     $expires = time() + 10800; // Token expires in 3 hours
-    $query = "INSERT INTO password_reset_tokens (staff_id, email, token, expires) VALUES ('$id','$email', '$token', $expires)";
-    mysqli_query($connection, $query);
+    $query = "INSERT INTO password_reset_tokens (staff_id, email, token, expires) VALUES (?, ?, ?, ?)";
+    $stmt = $connection->prepare($query);
+    $stmt->bind_param("isss", $id, $email, $token, $expires);
+    $stmt->execute();
+    
 
     $reset_url = "https://einventori.geosabah.my/production/password_reset.php?token=$token";
 

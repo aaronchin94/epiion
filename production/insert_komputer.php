@@ -46,7 +46,7 @@ if (isset($_POST["usetype"])) {
             ?, ?
         )";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param("siisissssssssssssssssss", $usetype, $staff_id, $assetid, $model, $tahun,
+    $stmt->bind_param("sississssssssssssssssss", $usetype, $staff_id, $assetid, $model, $tahun,
                         $serial, $kewpa, $status, $perolehan, $sumber,
                         $os, $app_kerja, $anti_v, $processor, $ram, $harddisk,
                         $grafik, $networklan, $modem, $ipv4, $subnet,

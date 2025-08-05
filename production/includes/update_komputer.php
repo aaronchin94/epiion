@@ -63,7 +63,7 @@ if (isset($_POST["submit"])) {
 
 
         echo "<script>alert('Kemaskini Berjaya');
-            window.location.href='../asset_review_komputer.php?id=$k_id'</script>";
+            window.location.href='../asset_review_Komputer.php?id=$k_id'</script>";
 
         //echo "<h3>data stored in a database successfully."
         //  . " Please browse your localhost php my admin"

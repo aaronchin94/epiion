@@ -83,7 +83,7 @@ $asset = getasset('scanner', 's_id', $id, $connection, $row);
             </label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
-                value="<?php echo intval($asset['asset_id']) ?>" disabled>
+                value="<?php echo sanitizeText($asset['asset_id']) ?>" disabled>
             </div>
           </div>
 
@@ -294,7 +294,7 @@ $asset = getasset('scanner', 's_id', $id, $connection, $row);
         data: {
           id: <?php echo $id; ?>, // Pass any necessary data, such as asset ID
           asset_type: '<?php echo sanitizeText($asset['asset']); ?>',
-          asset_id: '<?php echo intval($asset['asset_id']); ?>'
+          asset_id: '<?php echo sanitizeText($asset['asset_id']); ?>'
         },
         success: function (response) {
           // Handle success response if needed

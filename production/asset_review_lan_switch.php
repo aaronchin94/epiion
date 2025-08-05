@@ -94,7 +94,7 @@ $result_drop = $connection->query($query_drop);
                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Asset ID<span class="required">*</span>
                         </label>
                         <div class="col-md-4 col-sm-6 ">
-                          <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo intval($asset_id)?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
+                          <input type="text" name="ic" id="ic" required="required" class="form-control" disabled="disabled" value="<?php echo sanitizeText($asset_id)?>" placeholder="No Kad Pengenalan (tanpa -)" maxlength="12"
                           >
                         </div>
                       </div>

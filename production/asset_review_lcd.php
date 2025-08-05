@@ -233,7 +233,7 @@ $asset = getasset('lcd', 'l_id', $id, $connection, $row);
         data: {
           id: <?php echo $id; ?>, // Pass any necessary data, such as asset ID
           asset_type: '<?php echo sanitizeText($asset['asset']); ?>',
-          asset_id: '<?php echo intval($asset['asset_id']); ?>'
+          asset_id: '<?php echo sanitizeText($asset['asset_id']); ?>'
         },
         success: function (response) {
           // Handle success response if needed
