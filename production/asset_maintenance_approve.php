@@ -8,7 +8,7 @@ if (isset ($_POST['token'])) {
     $estimated_deliver_date = $_POST['estimated_deliver_date'];
 
     $getmid = "SELECT a.maintenance_id FROM maintenance a LEFT JOIN maintenance_token b ON a.maintenance_id = b.maintenance_id WHERE b.token = ?";
-    $stmtgetmid = $connection->prepare();
+    $stmtgetmid = $connection->prepare($getmid);
     $stmtgetmid->bind_param("s", $token);
     $stmtgetmid->execute();
     $resgetmid = $stmtgetmid->get_result();
@@ -61,4 +61,6 @@ if (isset ($_POST['token'])) {
     }
 
     $stmt->close();
+
+    return $sql;
 }

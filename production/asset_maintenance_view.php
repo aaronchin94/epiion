@@ -189,7 +189,7 @@ require_once "includes/db.php";
                             }
                             echo '<td style="text-align: center; vertical-align: middle; padding: 10px;"><span class="' . $class . '" style="width: 100%;"><b style="font-size: 1.3em;">' . $status . '</b></span></td>';
                             // if (($rowk['maintenance_status'] != 3) && ($row['ic'] == '000719120127')) {
-                            if (($rowk['maintenance_status'] != 3)) {
+                            if (($rowk['maintenance_status'] < 2)) {
                               echo '<td>
                               <a href="asset_maintenance_review.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                               <a href="asset_maintenance_assign.php?id=' . $id . '" ><i class="fa fa-user-plus" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Tugaskan Juruteknik"></i></a>

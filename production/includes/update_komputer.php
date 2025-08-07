@@ -62,7 +62,7 @@ if (isset($_POST["submit"])) {
     $stmt->bind_param("ssssssssssssssssssssssi", $penggunaan, $staff_id, $model, $tahun, $serial, $kewpa, $status, $jen_perolehan,$sumber, $os, $app_kerja, 
             $anti_v, $processor, $ram_gb, $kapasiti_hd_gb, $kad_grafik, $network_lan, $modem, $ip_address, $subnet_mask, $def_gateway,
             $dns_server, $k_id);
-    if ($stmt-execute()) {
+    if ($stmt->execute()) {
 
 
         echo "<script>alert('Kemaskini Berjaya');

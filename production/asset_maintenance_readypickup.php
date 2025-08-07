@@ -20,7 +20,7 @@ function send_asset_email($workID, $maintenance_id, $email_pemohon)
         $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
         $mail->SMTPAuth = true; // Enable SMTP authentication
         $mail->Username = 'noreply.doasbh@gmail.com'; // SMTP username old noreply.doasbh@gmail.com
-        $mail->Password = 'muizodpcbslaeljn'; // old> muizodpcbslaeljn
+        $mail->Password = 'idhqvrjnrwamlbbt'; // old> muizodpcbslaeljn
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //PHPMailer::ENCRYPTION_SMTPS; //PHPMailer::ENCRYPTION_STARTTSL; // Enable TLS encryption 'ssl';
         $mail->Port = 587; // TCP port to connect to . 25 for NO . & 587 -ssl;
 
@@ -62,9 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_pemohon = $_POST["email_pemohon"];
 
         // Update the record in the database
-        $query = "UPDATE maintenance_work SET remarks = '$remark', work_status = 1, completion_date = NOW() WHERE work_id = ?";
-        $stupd = $connection->prepare();
-        $stupd->bind_param("i", $workID);
+        $query = "UPDATE maintenance_work SET remarks = ?, work_status = 1, completion_date = NOW() WHERE work_id = ?";
+        $stupd = $connection->prepare($query);
+        $stupd->bind_param("si", $remark, $workID);
 
         if ($stupd->execute()) {
             // Success message

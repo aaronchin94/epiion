@@ -395,7 +395,8 @@ include_once 'footer.php'
   function approveMaintenance(id) {
     var estimatedCompletionDate = $('#estimated_completion_date').val();
     var estimated_deliver_date = $('#estimated_deliver_date').val();
-
+    console.log("thefx - id:"+id+"cmpltd:"+estimatedCompletionDate+"dlvrdte:"+estimated_deliver_date);
+    
     // Perform validation if necessary
     if (!estimatedCompletionDate || !estimated_deliver_date) {
       alert('Sila nyatakan jangkaan tarikh siap dan tarikh penghantaran aset.');
@@ -412,17 +413,18 @@ include_once 'footer.php'
       data: { id: id, estimated_completion_date: estimatedCompletionDate, estimated_deliver_date: estimated_deliver_date },
       success: function (response) {
         // Handle success response if needed
+        console.log();
         $('#approveModal').modal('hide');
         alert("Permohonan Penyelenggaraan Telah Diluluskan");
         alert("Sila Tugaskan Juruteknik Untuk Penyelenggaraan Tersebut.");
         window.location.href = "asset_maintenance_assign.php?id=" + id;
 
-      },
-      error: function (xhr, status, error) {
-        // Handle error
-        alert('Error occurred while processing your request. Please try again later.');
-        console.error(xhr, status, error);
-      }
+      }// ,
+      // error: function (xhr, status, error) {
+      //   // Handle error
+      //   alert('Error occurred while processing your request. Please try again later.');
+      //   console.error(xhr, status, error);
+      // }
     });
   }
 

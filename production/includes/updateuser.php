@@ -16,10 +16,11 @@
         $role       =   mysqli_real_escape_string($connection, $_POST['role']);
         // Performing insert query execution
         // here our table name is college
-        $sql = "UPDATE staff  SET name='$name', ic='$ic', jawatan='$jawatan', lokasi='$lokasi', unit='$unit', email='$email', tel='$tel', role='$role' 
-                WHERE id='$id'";
-         
-        if(mysqli_query($connection, $sql)){
+        $sql = "UPDATE staff  SET name=?, ic=?, jawatan=?, lokasi=?, unit=?, email=?, tel=?, role=? 
+                WHERE id=?";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ssssssssi", $name,$ic,$jawatan,$lokasi,$unit,$email,$tel,$role,$id);
+        if($stmt->execute){
 
 
             echo "<script>alert('Kemaskini Berjaya');

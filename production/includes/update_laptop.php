@@ -33,33 +33,57 @@ if (isset($_POST["submit"])) {
     // Performing insert query execution
     // here our table name is college
     $sql = "
-        UPDATE laptop SET 
-        penggunaan='$penggunaan',
-        staff_id='$staff_id',
-        model='$model',
-        tahun='$tahun',
-        serial='$serial',
-        kewpa='$kewpa',
-        status='$status',
-        jen_perolehan='$jen_perolehan',
-        sumber='$sumber',
-        os='$os',
-        app_kerja='$app_kerja',
-        anti_v='$anti_v',
-        processor='$processor',
-        ram_gb='$ram_gb',
-        kapasiti_hd_gb='$kapasiti_hd_gb',
-        kad_grafik='$kad_grafik',
-        network_lan='$network_lan',
-        modem='$modem',
-        ip_address='$ip_address',
-        subnet_mask='$subnet_mask',
-        def_gateway='$def_gateway',
-        dns_server='$dns_server'
-        WHERE la_id='$la_id'
-        ";
-
-    if (mysqli_query($connection, $sql)) {
+    UPDATE laptop SET 
+        penggunaan = ?, 
+        staff_id = ?, 
+        model = ?, 
+        tahun = ?, 
+        serial = ?, 
+        kewpa = ?, 
+        status = ?, 
+        jen_perolehan = ?, 
+        sumber = ?, 
+        os = ?, 
+        app_kerja = ?, 
+        anti_v = ?, 
+        processor = ?, 
+        ram_gb = ?, 
+        kapasiti_hd_gb = ?, 
+        kad_grafik = ?, 
+        network_lan = ?, 
+        modem = ?, 
+        ip_address = ?, 
+        subnet_mask = ?, 
+        def_gateway = ?, 
+        dns_server = ?
+    WHERE la_id = ?
+        "; 
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ssssssssssssssssssssssi",  // 23 placeholders: 22 strings + 1 int
+    $penggunaan,
+    $staff_id,
+    $model,
+    $tahun,
+    $serial,
+    $kewpa,
+    $status,
+    $jen_perolehan,
+    $sumber,
+    $os,
+    $app_kerja,
+    $anti_v,
+    $processor,
+    $ram_gb,
+    $kapasiti_hd_gb,
+    $kad_grafik,
+    $network_lan,
+    $modem,
+    $ip_address,
+    $subnet_mask,
+    $def_gateway,
+    $dns_server,
+    $la_id);
+    if ($stmt->execute()) {
 
 
         echo "<script>alert('Kemaskini Berjaya');

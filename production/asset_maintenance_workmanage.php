@@ -8,15 +8,13 @@ include 'includes/initialization.php';
 
 function getMaintenanceRequestById($connection, $id)
 {
-    $stmt = $connection->prepare("SELECT m.*, mw.*, jv.* FROM maintenance AS m 
+    $stmt2 = $connection->prepare("SELECT m.*, mw.*, jv.* FROM maintenance AS m 
     JOIN maintenance_work AS mw ON m.maintenance_id = mw.maintenance_id 
     JOIN staff AS jv ON mw.technician_id = jv.id 
     WHERE m.maintenance_id = ?");
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $result = $stmt->get_result(); 
-
-    $stmt->close();
+    $stmt2->bind_param("s", $id);
+    $stmt2->execute();
+    $result = $stmt2->get_result(); 
     return $result->fetch_assoc();
 }
 
@@ -24,12 +22,10 @@ function getMaintenanceRequestById($connection, $id)
 
 function getPemohonById($connection, $id)
 {
-    $stmt = $connection->prepare("SELECT * FROM staff WHERE id = ?");
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $pemohon = $stmt->get_result();
-    
-    $stmt->close();
+    $stmt1 = $connection->prepare("SELECT * FROM staff WHERE id = ?");
+    $stmt1->bind_param("s", $id);
+    $stmt1->execute();
+    $pemohon = $stmt1->get_result();
     return $pemohon->fetch_assoc();
 }
 
@@ -40,10 +36,10 @@ if (isset($_GET['id'])) {
 
     // Check if any technician is already assigned to this maintenance request
     $assignedQuery = "SELECT * FROM maintenance_work WHERE maintenance_id = ? AND work_status = 0";
-    $stmt = $connection->prepare($assignedQuery);
-    $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt3 = $connection->prepare($assignedQuery);
+    $stmt3->bind_param("s", $id);
+    $stmt3->execute();
+    $result = $stmt3->get_result();
 
     $maintenanceRequest = getMaintenanceRequestById($connection, $id);
     $pemohon = getPemohonById($connection, $maintenanceRequest['RequestedBy']);
@@ -461,7 +457,7 @@ include_once 'footer.php'
 
             // Serialize form data (if needed)
             var formData = $('#work_manage_form').serialize();
-
+            console.log(formData);
             // AJAX request
             $.ajax({
                 url: 'asset_maintenance_readypickup.php', // Replace with your backend endpoint

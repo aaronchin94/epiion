@@ -27,25 +27,26 @@ if (isset($_POST["submit"])) {
     // here our table name is college
     $sql = "
         UPDATE printer SET 
-        penggunaan='$penggunaan',
-        staff_id='$staff_id',
-        model='$model',
-        tahun='$tahun',
-        serial='$serial',
-        kewpa='$kewpa',
-        status='$status',
-        jen_perolehan='$jen_perolehan',
-        sumber='$sumber',
-        jen_cetakan='$jen_cetakan',
-        network='$network',
-        ip_address='$ip_address',
-        subnet_mask='$subnet_mask',
-        def_gateway='$def_gateway',
-        dns_server='$dns_server'
-        WHERE p_id='$p_id'
+        penggunaan='',
+        staff_id='',
+        model='',
+        tahun='',
+        serial='',
+        kewpa='',
+        status='',
+        jen_perolehan='',
+        sumber='',
+        jen_cetakan='',
+        network='',
+        ip_address='',
+        subnet_mask='',
+        def_gateway='',
+        dns_server=''
+        WHERE p_id=''
         ";
-
-    if (mysqli_query($connection, $sql)) {
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("ssssssssssssssssi",$penggunaan,$staff_id,$model,$tahun,$serial,$kewpa,$status,$jen_perolehan,$sumber,$jen_cetakan,$network,$ip_address,$subnet_mask,$def_gateway,$dns_server,$p_id);
+    if ($stmt->execute()) {
 
 
         echo "<script>alert('Kemaskini Berjaya');

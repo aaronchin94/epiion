@@ -20,19 +20,20 @@ if (isset($_POST["submit"])) {
     // here our table name is college
     $sql = "
         UPDATE lcd SET 
-        penggunaan='$penggunaan',
-        staff_id='$staff_id',
-        model='$model',
-        tahun='$tahun',
-        serial='$serial',
-        kewpa='$kewpa',
-        status='$status',
-        jen_perolehan='$jen_perolehan',
-        sumber='$sumber'
-        WHERE l_id='$l_id'
+        penggunaan=?,
+        staff_id=?,
+        model=?,
+        tahun=?,
+        serial=?,
+        kewpa=?,
+        status=?,
+        jen_perolehan=?,
+        sumber=?
+        WHERE l_id=?
         ";
-
-    if (mysqli_query($connection, $sql)) {
+    $stmt=$connection->prepare($sql);
+    $stmt->bind_param("sisssssssi", $penggunaan, $staff_id,$model,$tahun, $serial, $kewpa, $status,$jen_perolehan,$sumber,$l_id);
+    if ($stmt->execute()) {
 
 
         echo "<script>alert('Kemaskini Berjaya');

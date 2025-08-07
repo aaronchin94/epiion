@@ -121,7 +121,7 @@ $kewpa_check = getkewpa('tablet', $connection);
             <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Aset ID</label>
             <div class="col-md-4 col-sm-6 ">
               <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
-                value="<?php echo intval($asset['asset_id']) ?>" readonly>
+                value="<?php echo sanitizeText($asset['asset_id']) ?>" readonly>
             </div>
           </div>
 

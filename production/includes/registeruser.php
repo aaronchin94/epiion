@@ -42,7 +42,7 @@ require '../../PHPMailer/src/SMTP.php';
     $stmt->execute();
     $stmt->close();
 
-    $reset_url = "http://einventori.geosabah.my/production/password_reset.php?token=$token";
+    $reset_url = "http://10.71.98.180/production/password_reset.php?token=$token";
 
          
         // Generate a temporary password
