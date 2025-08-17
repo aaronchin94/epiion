@@ -1,4 +1,8 @@
-<?php include "db.php"; ?>
+<?php 
+    include "db.php"; 
+    include_once 'secure_function.php';
+    global $connection;
+?>
 
 <?php error_reporting (E_ALL ^ E_NOTICE); ?>
         <?php
@@ -20,7 +24,7 @@
                 WHERE id=?";
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("ssssssssi", $name,$ic,$jawatan,$lokasi,$unit,$email,$tel,$role,$id);
-        if($stmt->execute){
+        if($stmt->execute()){
 
 
             echo "<script>alert('Kemaskini Berjaya');

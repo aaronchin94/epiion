@@ -13,13 +13,15 @@ $result = $connection->query($sql);
 $row = $result->fetch_assoc();
 
 // Retrieve the total active time from the query results
-$total_active_time = $row['total_active_time'];
+$total_active_time = $row['total_active_time'] ?? 0;
 
 
 // Convert total active time to hours, minutes, and seconds format
-$hours = floor($total_active_time / 3600);
-$minutes = floor(($total_active_time / 60) % 60);
+
+$hours   = intdiv($total_active_time, 3600);
+$minutes = intdiv($total_active_time, 60) % 60;
 $seconds = $total_active_time % 60;
+
 
 // Generate HTML code using echo statement
 echo "<p><b>Jumlah waktu aktif adalah $hours jam, $minutes minit, dan $seconds saat </b></p>"; 

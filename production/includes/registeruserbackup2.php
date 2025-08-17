@@ -64,7 +64,7 @@ require '../../PHPMailer/src/SMTP.php';
         $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
         $mail->SMTPAuth = true; // Enable SMTP authentication
         $mail->Username = 'noreply.doasbh@gmail.com'; // SMTP username
-        $mail->Password = 'muizodpcbslaeljn'; // SMTP password  kifapteixcluuzeh
+        $mail->Password = 'ibqorvjgyhqgnkng'; // SMTP password  kifapteixcluuzeh
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;//PHPMailer::ENCRYPTION_SMTPS; //PHPMailer::ENCRYPTION_STARTTSL; // Enable TLS encryption 'ssl';
         $mail->Port = 587; // TCP port to connect to . 25 for NO . & 587 -ssl;
 

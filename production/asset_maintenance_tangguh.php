@@ -21,7 +21,7 @@ function send_asset_email( $maintenance_id, $email_pemohon)
         $mail->Host = 'smtp.gmail.com'; // Set the SMTP server to send through
         $mail->SMTPAuth = true; // Enable SMTP authentication
         $mail->Username = 'noreply.doasbh@gmail.com'; // SMTP username old noreply.doasbh@gmail.com
-        $mail->Password = 'muizodpcbslaeljn'; // old> muizodpcbslaeljn
+        $mail->Password = 'ibqorvjgyhqgnkng'; // old> muizodpcbslaeljn
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //PHPMailer::ENCRYPTION_SMTPS; //PHPMailer::ENCRYPTION_STARTTSL; // Enable TLS encryption 'ssl';
         $mail->Port = 587; // TCP port to connect to . 25 for NO . & 587 -ssl;
 

@@ -92,8 +92,9 @@ function checkLogout(){
                   <li><a><i class="fa fa-wrench"></i> Penyelenggaraan <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="asset_maintenance_view.php">Senarai Permohonan</a></li>
-                      <li><a href="asset_maintenance_work.php">Senarai Kerja</a></li> 
-                      
+                      <?php if($row['role'] == "Admin"){?>
+                        <li><a href="asset_maintenance_work.php">Senarai Kerja</a></li> 
+                      <?php } ?>
                     </ul>
                   </li>
 
