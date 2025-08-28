@@ -24,8 +24,18 @@ if (mysqli_num_rows($result) == 1) {
     $temp_password = password_hash( $rawtemp_password, PASSWORD_BCRYPT, array('cost' => 12));
     
     // Store the temporary password in the database
-    $query = "UPDATE staff SET password='$temp_password' , firstlogin= '1' WHERE email='$email' and id='$id' and ic='$ic'";
-    mysqli_query($connection, $query);
+    $query = "UPDATE staff SET password=? , firstlogin= '1' WHERE email=? and id='$id' and ic='$ic'";
+    $stupd = $connection->prepare($query);
+    $stupd->bind_param("ssis", $temp_password, $email, $id, $ic);
+    $stupd->execute();
+
+    // Detect protocol
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        // Get host
+        $host = $_SERVER['HTTP_HOST']; // 
+        // Build reset URL dynamically
+        $reset_url = $protocol . $host . "/login.php";
+    // mysqli_query($connection, $query);
 // Send an email to the user with the temporary password
     $mail = new PHPMailer(true); // true enables exceptions
     try {
@@ -52,7 +62,7 @@ if (mysqli_num_rows($result) == 1) {
         <p>Kata laluan sementara anda : ' . $rawtemp_password . ' 
         <p>Sila log masuk dan tukar kata laluan anda dengan segera.
         <p>
-        <p>Log masuk : https://einventori.geosabah.my/asset/production/login.php
+        <p>Log masuk : '.sanitizeText($reset_url).'
         <p>
         **Masih dalam percubaan**
         <p>-System Admin e-PII';

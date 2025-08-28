@@ -411,20 +411,23 @@ include_once 'footer.php'
       type: 'POST',
       url: 'asset_maintenance_approve.php',
       data: { id: id, estimated_completion_date: estimatedCompletionDate, estimated_deliver_date: estimated_deliver_date },
-      success: function (response) {
-        // Handle success response if needed
-        console.log();
-        $('#approveModal').modal('hide');
-        alert("Permohonan Penyelenggaraan Telah Diluluskan");
-        alert("Sila Tugaskan Juruteknik Untuk Penyelenggaraan Tersebut.");
-        window.location.href = "asset_maintenance_assign.php?id=" + id;
+      dataType: 'json',   // ✅ Add this
+      success: function (res) {
+        console.log(res);
+        
+        if (res.status == 1) {
+          $('#approveModal').modal('hide');
+          alert("Permohonan Penyelenggaraan Telah Diluluskan");
+          alert("Sila Tugaskan Juruteknik Untuk Penyelenggaraan Tersebut.");
+          window.location.href = "asset_maintenance_assign.php?id="+id;
+        } else {
+            alert("Update failed!");
+        }
 
-      }// ,
-      // error: function (xhr, status, error) {
-      //   // Handle error
-      //   alert('Error occurred while processing your request. Please try again later.');
-      //   console.error(xhr, status, error);
-      // }
+      }, 
+      error: function () {
+          alert("Error connecting to server!");
+      }
     });
   }
 

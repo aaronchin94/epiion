@@ -8,12 +8,9 @@ header('Expires: 0');
 ?>
 
 
-<?
-// error_reporting(E_ALL);
-// ini_set("display_errors", 1);
-?>
+
 <?php include "includes/db.php"; ?>
-<?php include "includes/functions.php"; ?>
+<?php include_once "includes/functions.php"; ?>
 <?php error_reporting(E_ALL ^ E_NOTICE); ?>
 <?php
 // Retrieve the asset_id from the URL
@@ -72,16 +69,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <link rel="icon" type="image/x-icon" href="images/DOA_logo.png">
 
   <!-- Bootstrap -->
-  <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
-  <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <!-- NProgress -->
-  <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+  <link href="vendors/nprogress/nprogress.css" rel="stylesheet">
   <!-- Animate.css -->
-  <link href="../vendors/animate.css/animate.min.css" rel="stylesheet">
+  <link href="vendors/animate.css/animate.min.css" rel="stylesheet">
 
   <!-- Custom Theme Style -->
-  <link href="../build/css/custom.min.css" rel="stylesheet">
+  <link href="build/css/custom.min.css" rel="stylesheet">
 </head>
 
 
@@ -104,14 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           <form role="form" action="login.php" method="post" id="login-form" autocomplete="off">
             <h1>Log Masuk</h1>
             <div class="form-group">
-              <input type="hidden" name="asset_id" value="<?php echo isset ($asset_id) ? $asset_id : null ?>">
+              <input type="hidden" name="asset_id" value="<?php echo isset ($asset_id) ? sanitizeText($asset_id) : null ?>">
               <input type="text" name="username" id="username" class="form-control" placeholder="No. Kad Pengenalan"
-                autocomplete="off" value="<?php echo isset ($username) ? $username : '' ?>">
+                autocomplete="off" value="<?php echo isset ($username) ? sanitizeText($username) : '' ?>">
 
               <div class="form-group">
                 <input type="password" name="password" id="key" class="form-control" placeholder="Kata Laluan">
                 <p class="error-message">
-                  <?php echo isset ($error['password']) ? $error['password'] : '' ?>
+                  <?php echo isset ($error['password']) ? sanitizeText($error['password']) : '' ?>
                 </p>
               </div>
               <div class="form-group">

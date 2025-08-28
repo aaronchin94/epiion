@@ -27,25 +27,25 @@ if (isset($_POST["submit"])) {
     // here our table name is college
     $sql = "
         UPDATE printer SET 
-        penggunaan='',
-        staff_id='',
-        model='',
-        tahun='',
-        serial='',
-        kewpa='',
-        status='',
-        jen_perolehan='',
-        sumber='',
-        jen_cetakan='',
-        network='',
-        ip_address='',
-        subnet_mask='',
-        def_gateway='',
-        dns_server=''
-        WHERE p_id=''
+        penggunaan=?,
+        staff_id=?,
+        model=?,
+        tahun=?,
+        serial=?,
+        kewpa=?,
+        status=?,
+        jen_perolehan=?,
+        sumber=?,
+        jen_cetakan=?,
+        network=?,
+        ip_address=?,
+        subnet_mask=?,
+        def_gateway=?,
+        dns_server=?
+        WHERE p_id=?
         ";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param("ssssssssssssssssi",$penggunaan,$staff_id,$model,$tahun,$serial,$kewpa,$status,$jen_perolehan,$sumber,$jen_cetakan,$network,$ip_address,$subnet_mask,$def_gateway,$dns_server,$p_id);
+    $stmt->bind_param("sssssssssssssssi",$penggunaan,$staff_id,$model,$tahun,$serial,$kewpa,$status,$jen_perolehan,$sumber,$jen_cetakan,$network,$ip_address,$subnet_mask,$def_gateway,$dns_server,$p_id);
     if ($stmt->execute()) {
 
 

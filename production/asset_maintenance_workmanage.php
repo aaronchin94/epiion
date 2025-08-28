@@ -106,7 +106,7 @@ if ($maintenanceRequest['maintenance_status'] == 0 || $maintenanceRequest['maint
                                 <label class="col-md-3 col-sm-3 label-align" for="asset_type">Jenis Aset</label>
                                 <div class="col-md-3 col-sm-6">
                                     <input type="hidden" id="staff_id" name="staff_id" class="custom-span"
-                                        value="<?php echo htmlspecialchars($asset['staff_id']); ?>">
+                                        value="<?php echo htmlspecialchars($maintenanceRequest['staff_id']); ?>">
                                     <input type="hidden" id="maintenance_id" name="maintenance_id" class="custom-span"
                                         value="<?php echo htmlspecialchars($maintenanceRequest['maintenance_id']); ?>">
                                     <input type="hidden" id="work_id" name="work_id" class="custom-span"

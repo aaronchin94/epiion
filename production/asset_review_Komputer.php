@@ -9,25 +9,7 @@ include_once 'includes/utils.php';
 $asset = getasset('komputer', 'k_id', $id, $connection, $row);
 ?>
 
-<head>
-  <!-- jQuery -->
-  <script src="../vendors/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FastClick -->
-  <script src="../vendors/fastclick/lib/fastclick.js"></script>
-  <!-- NProgress -->
-  <script src="../vendors/nprogress/nprogress.js"></script>
-  <!-- Custom Theme Scripts -->
-  <script src="../build/js/custom.min.js"></script>
-  <script>
-    function checkDelete() {
-      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
-        window.location.href = "asset_komputer_delete.php?id=<?php echo $_GET['id'] ?>"
-      }
-    }
-  </script>
-</head>
+
 <!-- page content -->
 <div class="right_col" role="main">
   <div class="">
@@ -341,7 +323,7 @@ $asset = getasset('komputer', 'k_id', $id, $connection, $row);
             Code</a>
         <?php else: ?>
           <!-- If no QR code found, provide button to generate QR code -->
-          <button type="button" id="generateQRBtn" class="btn btn-warning" onclick="generateQR()">Generate QR
+          <button type="button" id="generateQRBtn" class="btn btn-warning" >Generate QR
             Code</button>
         <?php endif; ?>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -361,6 +343,24 @@ $asset = getasset('komputer', 'k_id', $id, $connection, $row);
 
 </script>
 
+<!-- jQuery -->
+  <script src="../vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FastClick -->
+  <script src="../vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="../vendors/nprogress/nprogress.js"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
+  <script>
+    function checkDelete() {
+      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
+        window.location.href = "asset_komputer_delete.php?id=<?php echo $_GET['id'] ?>"
+      }
+    }
+  </script>
+
 <script>
   $(document).ready(function () {
     $('#generateQRBtn').click(function () {
@@ -371,7 +371,7 @@ $asset = getasset('komputer', 'k_id', $id, $connection, $row);
         data: {
           id: <?php echo $id; ?>, // Pass any necessary data, such as asset ID
           asset_type: '<?php echo sanitizeText($asset['asset']); ?>',
-          asset_id: '<?php echo intval($asset['asset_id']); ?>'
+          asset_id: '<?php echo sanitizeText($asset['asset_id']); ?>'
         },
         success: function (response) {
           // Handle success response if needed

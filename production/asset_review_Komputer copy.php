@@ -7,25 +7,7 @@ include 'includes/initialization.php';
 $asset = getasset('komputer', 'k_id', $id, $connection, $row);
 ?>
 
-<head>
-  <!-- jQuery -->
-  <script src="../vendors/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FastClick -->
-  <script src="../vendors/fastclick/lib/fastclick.js"></script>
-  <!-- NProgress -->
-  <script src="../vendors/nprogress/nprogress.js"></script>
-  <!-- Custom Theme Scripts -->
-  <script src="../build/js/custom.min.js"></script>
-  <script>
-    function checkDelete() {
-      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
-        window.location.href = "asset_komputer_delete.php?id=<?php echo $_GET['id'] ?>"
-      }
-    }
-  </script>
-</head>
+
 <!-- page content -->
 <div class="right_col" role="main">
   <div class="">
@@ -329,15 +311,23 @@ $asset = getasset('komputer', 'k_id', $id, $connection, $row);
   </div>
 </div>
 
-<script>
-  // check for form input
-  // const form = document.querySelector('#registration-form');
-  // form.addEventListener('submit', e => {
-  //   e.preventDefault();
-  //   const formData = new FormData(form);
-  //   console.log(Object.fromEntries(formData.entries()));
-  // });
-</script>
+<!-- jQuery -->
+  <script src="../vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FastClick -->
+  <script src="../vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="../vendors/nprogress/nprogress.js"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
+  <script>
+    function checkDelete() {
+      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
+        window.location.href = "asset_komputer_delete.php?id=<?php echo $_GET['id'] ?>"
+      }
+    }
+  </script>
 <!-- <script>
   generateBtn.addEventListener("click", () => {
     let idValue = yourDynamicPHPFunctionToGetId(); // You need to replace this with your PHP code to get the dynamic id

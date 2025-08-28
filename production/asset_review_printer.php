@@ -8,25 +8,7 @@ include_once 'includes/utils.php';
 $asset = getasset('printer', 'p_id', $id, $connection, $row);
 ?>
 
-<head>
-  <!-- jQuery -->
-  <script src="../vendors/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FastClick -->
-  <script src="../vendors/fastclick/lib/fastclick.js"></script>
-  <!-- NProgress -->
-  <script src="../vendors/nprogress/nprogress.js"></script>
-  <!-- Custom Theme Scripts -->
-  <script src="../build/js/custom.min.js"></script>
-  <script>
-    function checkDelete() {
-      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
-        window.location.href = "asset_printer_delete.php?id=<?php echo $_GET['id'] ?>"
-      }
-    }
-  </script>
-</head>
+
 <!-- page content -->
 <div class="right_col" role="main">
   <div class="">
@@ -260,6 +242,25 @@ $asset = getasset('printer', 'p_id', $id, $connection, $row);
   </div>
 </div>
 
+
+<!-- jQuery -->
+  <script src="../vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FastClick -->
+  <script src="../vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="../vendors/nprogress/nprogress.js"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
+  <script>
+    function checkDelete() {
+      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
+        window.location.href = "asset_printer_delete.php?id=<?php echo $_GET['id'] ?>"
+      }
+    }
+  </script>
+
 <script>
   function showQRModal() {
     $('#qrModal').modal('show'); // This will show the modal
@@ -294,15 +295,7 @@ $asset = getasset('printer', 'p_id', $id, $connection, $row);
   });
 </script>
 
-<script>
-  // check for form input
-  // const form = document.querySelector('#registration-form');
-  // form.addEventListener('submit', e => {
-  //   e.preventDefault();
-  //   const formData = new FormData(form);
-  //   console.log(Object.fromEntries(formData.entries()));
-  // });
-</script>
+
 </body>
 
 </html>

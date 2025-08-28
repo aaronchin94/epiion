@@ -126,7 +126,7 @@ if ($maintenanceRequest['maintenance_status'] == 0 || $maintenanceRequest['maint
                                 <label class="col-md-3 col-sm-3 col-3 label-align" for="asset_type">Jenis Aset</label>
                                 <div class="col-md-3 col-sm-6 col-3">
                                     <input type="hidden" id="staff_id" name="staff_id" class="custom-span"
-                                        value="<?php echo htmlspecialchars($asset['staff_id']); ?>">
+                                        value="<?php echo htmlspecialchars($maintenanceRequest['staff_id']); ?>">
                                     <input type="hidden" id="maintenance_id" name="maintenance_id" class="custom-span"
                                         value="<?php echo htmlspecialchars($maintenanceRequest['maintenance_id']); ?>">
                                     <span class="custom-span">
@@ -335,10 +335,10 @@ if ($maintenanceRequest['maintenance_status'] == 0 || $maintenanceRequest['maint
                                                                 $total_workload = $workload_row['total_workload'];
 
                                                                 echo "<tr>";
-                                                                echo '<td>' . $rowk['name'] . '</td>';
-                                                                echo '<td>' . $rowk['jawatan'] . '</td>';
-                                                                echo '<td>' . $rowk['lokasi'] . '</td>';
-                                                                echo '<td>' . $rowk['unit'] . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['name']) . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['jawatan']) . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['lokasi']) . '</td>';
+                                                                echo '<td>' . sanitizeText($rowk['unit']) . '</td>';
                                                                 echo '<td>' . $total_workload . '</td>';
                                                                 echo "</tr>";
                                                             }

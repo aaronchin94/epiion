@@ -61,6 +61,13 @@ require '../../PHPMailer/src/SMTP.php';
         $mail->setFrom('mysystemtestemail@gmail.com', 'e-PII Test email system');
         $mail->addAddress($email); // Add a recipient
 
+        // Detect protocol
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        // Get host
+        $host = $_SERVER['HTTP_HOST']; 
+        // Build reset URL dynamically
+        $reset_url = $protocol . $host . "/login.php";
+
         //Content
         $mail->isHTML(true); // Set email format to HTML
         $mail->Subject = '[Auto message e-PII] Makluman Pendaftaran '.$name.' sebagai '.$role.' ';
@@ -75,7 +82,7 @@ require '../../PHPMailer/src/SMTP.php';
         <br>Kata laluan sementara : ' . $temp_password . ' </br>
         <p>Sila log masuk dan tukar kata laluan anda dengan segera.
         <p>
-        <p>Log masuk : https://einventori.geosabah.my/asset/production/login.php
+        <p>Log masuk : https://einventori.geosabah.my/asset/production/
         <p>
         **Masih dalam percubaan**\r\n
         <p>-System Admin e-PII';

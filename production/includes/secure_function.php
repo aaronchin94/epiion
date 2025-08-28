@@ -13,35 +13,52 @@
     function sanitizeEmail($email) {
         return filter_var(trim($email), FILTER_SANITIZE_EMAIL);
     }
+    
 
-    function isRedundant($type, $value, $conn) {
+    function isRedundant($type, $value, $excludeId = null) {
+        global $connection;
+
         switch ($type) {
-            case 'username':
-                $sql = "SELECT COUNT(*) as count FROM users WHERE username = ?";
+            case 'useric':
+                $sqlas = "SELECT COUNT(*) as count FROM staff WHERE `ic` = ?";
+                if ($excludeId !== null) {
+                    $sqlas .= " AND id != ?";
+                }
                 break;
 
             case 'email':
-                $sql = "SELECT COUNT(*) as count FROM users WHERE email = ?";
+                $sqlas = "SELECT COUNT(*) as count FROM users WHERE email = ?";
+                if ($excludeId !== null) {
+                    $sqlas .= " AND id != ?";
+                }
                 break;
 
             case 'phone':
-                $sql = "SELECT COUNT(*) as count FROM users WHERE phone = ?";
+                $sqlas = "SELECT COUNT(*) as count FROM users WHERE phone = ?";
+                if ($excludeId !== null) {
+                    $sqlas .= " AND id != ?";
+                }
                 break;
 
             default:
-                // Invalid type — always return false
                 return false;
         }
 
         // Prepare and execute query
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $value);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        $stmtisRedundant = $connection->prepare($sqlas);
 
-        // Return true if there’s more than 1 matching row
-        return ($row['count'] > 1);
+        if ($excludeId !== null) {
+            $stmtisRedundant->bind_param("si", $value, $excludeId);
+        } else {
+            $stmtisRedundant->bind_param("s", $value);
+        }
+
+        $stmtisRedundant->execute();
+        $resultisredundatn = $stmtisRedundant->get_result();
+        $rowred = $resultisredundatn->fetch_assoc();
+
+        return ($rowred['count'] > 0);
     }
+
     
 ?>

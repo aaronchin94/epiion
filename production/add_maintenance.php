@@ -12,6 +12,8 @@ include_once "includes/secure_function.php";
 
 //
 
+
+
 function send_maintenance_email($token, $asset_id, $row)
 {
     $mail = new PHPMailer(true);
@@ -31,6 +33,12 @@ function send_maintenance_email($token, $asset_id, $row)
         $mail->addAddress('Daisy.Francis@sabah.gov.my'); // Add a recipient    aarondalejchin@gmail.com
         //$mail->addCC('kurohx@gmail.com');
 
+        // Detect protocol
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        // Get host
+        $host = $_SERVER['HTTP_HOST']; 
+        // Build reset URL dynamically
+        $reset_url = $protocol . $host . "/asset_maintenance_details.php?token=" . urlencode($token);
 
         //Content
         $mail->isHTML(true); // Set email format to HTML
@@ -44,7 +52,7 @@ function send_maintenance_email($token, $asset_id, $row)
         <p>No Telefon: {$row['tel']}</p>
         <br>
         <p>Sila luluskan/tolak permohonan penyelenggaraan menggunakan pautan berikut:</p>
-        <p><a href='http://10.71.98.180/production/asset_maintenance_details.php?token=".sanitizeText($token)."'>Lihat Permohonan Penyelenggaraan</a></p>
+        <p><a href='".sanitizeText($reset_url)."'>Lihat Permohonan Penyelenggaraan</a></p>
         <p style='opacity: 0.8'>Sistem Pengurusan Inventori ICT (e-PII)</p>
         ";
 

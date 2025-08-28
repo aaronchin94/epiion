@@ -15,32 +15,6 @@ foreach ($result_cat as $result_id) {
 $kewpa_check = getkewpa('tablet', $connection);
 ?>
 
-<head>
-  <!-- jQuery -->
-  <script src="../vendors/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FastClick -->
-  <script src="../vendors/fastclick/lib/fastclick.js"></script>
-  <!-- NProgress -->
-  <script src="../vendors/nprogress/nprogress.js"></script>
-  <!-- Custom Theme Scripts -->
-  <script src="../build/js/custom.min.js"></script>
-  <script>
-    function validate() {
-      var valid = true;
-
-      const kewpa = document.getElementById('kewpa').value;
-      var kewpa_arr = <?php echo $kewpa_check ?>;
-      if (kewpa != "" && kewpa_arr.indexOf(kewpa) !== -1) {
-        alert("No. KewPA sudah didaftar");
-        valid = false;
-      }
-
-      return valid;
-    }
-  </script>
-</head>
 <!-- page content -->
 
 <body>
@@ -205,6 +179,32 @@ $kewpa_check = getkewpa('tablet', $connection);
   <?php
   include 'footer.php';
   ?>
+
+<!-- jQuery -->
+  <script src="../vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FastClick -->
+  <script src="../vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="../vendors/nprogress/nprogress.js"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
+  <script>
+    function validate() {
+      var valid = true;
+
+      const kewpa = document.getElementById('kewpa').value;
+      var kewpa_arr = <?php echo $kewpa_check ?>;
+      if (kewpa != "" && kewpa_arr.indexOf(kewpa) !== -1) {
+        alert("No. KewPA sudah didaftar");
+        valid = false;
+      }
+
+      return valid;
+    }
+  </script>
+
 
   <script>
     // check for form input

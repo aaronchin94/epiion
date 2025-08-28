@@ -42,7 +42,13 @@ require '../../PHPMailer/src/SMTP.php';
 	$query = "INSERT INTO password_reset_tokens (staff_id, email, token, expires) VALUES ('$id','$email', '$token', $expires)";
 	mysqli_query($conn , $query);
 
-    $reset_url = "https://einventori.geosabah.my/production/password_reset.php?token=$token";
+    // Detect protocol
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        // Get host
+        $host = $_SERVER['HTTP_HOST']; 
+        // Build reset URL dynamically
+        $reset_url = $protocol . $host . "/password_reset.php?token=" . urlencode($token);
+    // $reset_url = "https://einventori.geosabah.my/production/$token";
 
          
         // Generate a temporary password

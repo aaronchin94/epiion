@@ -1,4 +1,6 @@
-<?php include "db.php"; ?>
+<?php include "db.php"; 
+    include_once 'secure_function.php';
+?>
 
 <?php error_reporting (E_ALL ^ E_NOTICE); ?>
         <?php
@@ -20,18 +22,21 @@
          //      "UPDATE staff SET name = ?, ic = ?, jawatan = ?, gred = ?, lokasi = ?, unit = ?, email = ?, tel = ?, id = ? WHERE name = ? AND ic = ? AND jawatan = ? AND gred = ? AND lokasi = ? AND unit = ? AND email = ? AND tel = ? AND id = ?"
         $stmt = $connection->prepare($sql);
         $stmt->bind_param("ssssssssi", $name, $ic, $jawatan, $gred, $lokasi, $unit, $email, $tel, $id);
-
-        if($stmt->execute()){
-
-
-            echo "<script>alert('Kemaskini Berjaya');
+        
+        if(isRedundant("useric", $ic, $id)){
+            echo "<script>alert('Kemaskini Gagal! IC telah didaftarkan untuk mengelak dari sebarang masalah!');
             window.location.href='../staff_view.php'</script>";
-
-        } 
-        else{
-            echo "ERROR: Hush! Sorry $sql. "
-                . mysqli_error($connection);
+        } else {
+            if($stmt->execute()){
+                echo "<script>alert('Kemaskini Berjaya');
+                window.location.href='../staff_view.php'</script>";
+            } 
+            else{
+                echo "ERROR: Hush! Sorry $sql. "
+                    . mysqli_error($connection);
+            }
         }
+        
     }
     else{
         header("Location: ../index.php");

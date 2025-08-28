@@ -38,7 +38,7 @@ if (isset($_POST['QRId']) && !empty($_POST['QRId'])) {
         $asset_id = $asset['asset_id'];
 
         // Redirect to asset view page with asset ID parameter
-        header("Location: http://localhost/einventori.geosabah.my/production/asset_QR_view.php?asset_id=$asset_id");
+        header("Location: http:10.71.98.180/asset_QR_view.php?asset_id=$asset_id");
         exit; // Stop further execution
     } else {
         // Handle case when no asset found for the provided QR ID

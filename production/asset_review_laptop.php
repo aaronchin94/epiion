@@ -9,25 +9,7 @@ include_once 'includes/utils.php';
 $asset = getasset('laptop', 'la_id', $id, $connection, $row);
 ?>
 
-<head>
-  <!-- jQuery -->
-  <script src="../vendors/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap -->
-  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FastClick -->
-  <script src="../vendors/fastclick/lib/fastclick.js"></script>
-  <!-- NProgress -->
-  <script src="../vendors/nprogress/nprogress.js"></script>
-  <!-- Custom Theme Scripts -->
-  <script src="../build/js/custom.min.js"></script>
-  <script>
-    function checkDelete() {
-      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
-        window.location.href = "asset_laptop_delete.php?id=<?php echo $_GET['id'] ?>"
-      }
-    }
-  </script>
-</head>
+
 <!-- page content -->
 <div class="right_col" role="main">
   <div class="">
@@ -347,7 +329,7 @@ $asset = getasset('laptop', 'la_id', $id, $connection, $row);
             Code</a>
         <?php else: ?>
           <!-- If no QR code found, provide button to generate QR code -->
-          <button type="button" id="generateQRBtn" class="btn btn-warning" onclick="generateQR()">Generate QR
+          <button type="button" id="generateQRBtn" class="btn btn-warning" >Generate QR
             Code</button>
         <?php endif; ?>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -355,6 +337,23 @@ $asset = getasset('laptop', 'la_id', $id, $connection, $row);
     </div>
   </div>
 </div>
+<!-- jQuery -->
+  <script src="../vendors/jquery/dist/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- FastClick -->
+  <script src="../vendors/fastclick/lib/fastclick.js"></script>
+  <!-- NProgress -->
+  <script src="../vendors/nprogress/nprogress.js"></script>
+  <!-- Custom Theme Scripts -->
+  <script src="../build/js/custom.min.js"></script>
+  <script>
+    function checkDelete() {
+      if (confirm('Aset akan dipadam. Adakah ingin teruskan ?')) {
+        window.location.href = "asset_laptop_delete.php?id=<?php echo $_GET['id'] ?>"
+      }
+    }
+  </script>
 
 <script>
   function showQRModal() {
@@ -365,9 +364,12 @@ $asset = getasset('laptop', 'la_id', $id, $connection, $row);
 </script>
 
 <script>
+ 
   $(document).ready(function () {
     $('#generateQRBtn').click(function () {
       // Send AJAX request to generate_qr.php
+      console.log("asdasd");
+      console.log('<?php echo $id; echo sanitizeText($asset['asset']); echo sanitizeText($asset['asset_id']);?>');
       $.ajax({
         url: 'asset_QR_update.php',
         method: 'POST',
@@ -390,15 +392,7 @@ $asset = getasset('laptop', 'la_id', $id, $connection, $row);
   });
 </script>
 
-<script>
-  // check for form input
-  // const form = document.querySelector('#registration-form');
-  // form.addEventListener('submit', e => {
-  //   e.preventDefault();
-  //   const formData = new FormData(form);
-  //   console.log(Object.fromEntries(formData.entries()));
-  // });
-</script>
+
 </body>
 
 </html>

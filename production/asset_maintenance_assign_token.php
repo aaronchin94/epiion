@@ -127,7 +127,7 @@ if (isset($_GET['token'])) {
                                 <label class="col-md-3 col-sm-3 col-3 label-align" for="asset_type">Jenis Aset</label>
                                 <div class="col-md-3 col-sm-6 col-3">
                                     <input type="hidden" id="staff_id" name="staff_id" class="custom-span"
-                                        value="<?php echo htmlspecialchars($asset['staff_id']); ?>">
+                                        value="<?php echo htmlspecialchars($maintenanceRequest['staff_id']); ?>">
                                     <input type="hidden" id="maintenance_id" name="maintenance_id" class="custom-span"
                                         value="<?php echo htmlspecialchars($maintenanceRequest['maintenance_id']); ?>">
                                     <span class="custom-span">

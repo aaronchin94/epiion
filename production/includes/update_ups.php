@@ -32,7 +32,7 @@ if (isset($_POST["submit"])) {
     WHERE u_id = ?
 ";
 
-$stmt = $conn->prepare($sql);
+$stmt = $connection->prepare($sql);
 $stmt->bind_param(
     "sssssssssi",  // 10 parameters, all assumed to be strings
     $penggunaan,
@@ -48,7 +48,7 @@ $stmt->bind_param(
 );
 
     if ($stmt->execute()) {
-        echo "<script>alert('Kemaskini Berjaya'); window.location.href='../asset_review_ups.php?id=$u_id'</script>";
+        echo "<script>alert('Kemaskini Berjaya'); window.location.href='../asset_review_UPS.php?id=$u_id'</script>";
     } else {
         echo "ERROR: Hush! Sorry $sql. "
             . mysqli_error($connection);

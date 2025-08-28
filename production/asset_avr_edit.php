@@ -9,8 +9,161 @@ $asset = getasset('avr', 'a_id', $id, $connection, $row);
 $kewpa_check = getkewpa('avr', $connection);
 ?>
 
-<head>
-  <!-- jQuery -->
+
+<!-- page content -->
+<div class="right_col" role="main">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3>Asset</h3>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Kemaskini Maklumat AVR</h2>
+            <div margin class="col-md-1 col-sm-12  float-right">
+              <a href='asset_view.php' class='btn btn-warning'>Kembali</a>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <label><?php echo $required ?></label>
+          <div class="x_content">
+            <form role="form" action="includes/update_avr.php" method="post" id="registration-form" autocomplete="off"
+              onsubmit="return validate();">
+              <input type="text" hidden name="a_id" value="<?= sanitizeText($asset['a_id']) ?>">
+
+              <div class="form-group row">
+                <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Penggunaan <span
+                    class="required">*</span> <?php echo tooltip('usetype'); ?>
+                </label>
+                <div class="col-md-4 col-sm-6 ">
+                  <select id="usetype" name="usetype" class="form-control" required onchange="checkusetype()">
+                    <?php
+                    select_options($usetype_options, $asset['penggunaan']);
+                    ?>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="username">Nama Pengguna <span
+                class="required">*</span>
+            </label>
+            <div class="col-md-4 col-sm-6 ">
+              <select id="staff_id" name="staff_id" class="form-control" required="" onchange="getvalue()">
+                <?php
+                stafflist($asset['staff_id'], $connection, $row);
+                ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Aset ID</label>
+            <div class="col-md-4 col-sm-6 ">
+              <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
+                value="<?php echo sanitizeText($asset['asset_id']) ?>" readonly>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="model">Model <span
+                class="required">*</span>
+            </label>
+            <div class="col-md-4 col-sm-6 ">
+              <input type="text" name="model" id="model" required="required" class="form-control"
+                value="<?php echo sanitizeText($asset['model']) ?>" placeholder="Model">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="tahun">Tahun Diperoleh <span
+                class="required">*</span>
+            </label>
+            <div class="col-md-4 col-sm-6 ">
+              <input type="text" name="tahun" id="tahun" required="required" class="form-control"
+                value="<?php echo sanitizeText($asset['tahun']) ?>" placeholder="Tahun Diperoleh">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="serial">No. Siri</label>
+            <div class="col-md-4 col-sm-6 ">
+              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo sanitizeText($asset['serial']) ?>"
+                placeholder="No. Siri">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="kewpa">No. KewPA</label>
+            <div class="col-md-4 col-sm-6 ">
+              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo sanitizeText($asset['kewpa']) ?>"
+                placeholder="No. KewPA">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Status <span
+                class="required">*</span> <?php tooltip('status'); ?>
+            </label>
+            <div class="col-md-4 col-sm-6 ">
+              <select id="status" name="status" class="form-control" required>
+                <?php
+                select_options($status_options, $asset['status']);
+                ?>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Jenis Perolehan <span
+                class="required">*</span>
+            </label>
+            <div class="col-md-4 col-sm-6 ">
+              <select id="jen_perolehan" name="jen_perolehan" class="form-control" required>
+                <?php
+                select_options($jen_options, $asset['jen_perolehan']);
+                ?>
+              </select>
+            </div>
+          </div>
+
+          <div class='form-group row'>
+            <label class="col-form-label col-md-3 col-sm-3 label-align" for="sumber">Sumber Penerimaan <span
+                class="required">*</span> <?php echo tooltip('sumber'); ?></label>
+            <div class="col-md-4 col-sm-6 ">
+              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo sanitizeText($asset['sumber']) ?>"
+                placeholder="Sumber Penerimaan" required>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+            <div class="col-md-4 col-sm-3 ">
+              <button class="btn btn-primary" type="reset">Set Semula</button>
+              <button type="submit" name="submit" class="btn btn-success" action="">Kemaskini</button>
+            </div>
+          </div>
+          </form>
+          <?php
+          ?>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+<!-- /page content -->
+
+
+<!-- jQuery -->
   <script src="../vendors/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap -->
   <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -63,159 +216,6 @@ $kewpa_check = getkewpa('avr', $connection);
       return valid;
     }
   </script>
-</head>
-<!-- page content -->
-<div class="right_col" role="main">
-  <div class="">
-    <div class="page-title">
-      <div class="title_left">
-        <h3>Asset</h3>
-      </div>
-    </div>
-
-    <div class="clearfix"></div>
-    <div class="row">
-      <div class="col-md-12 col-sm-12  ">
-        <div class="x_panel">
-          <div class="x_title">
-            <h2>Kemaskini Maklumat AVR</h2>
-            <div margin class="col-md-1 col-sm-12  float-right">
-              <a href='asset_view.php' class='btn btn-warning'>Kembali</a>
-            </div>
-            <div class="clearfix"></div>
-          </div>
-          <label><?php echo $required ?></label>
-          <div class="x_content">
-            <form role="form" action="includes/update_avr.php" method="post" id="registration-form" autocomplete="off"
-              onsubmit="return validate();">
-              <input type="text" hidden name="a_id" value="<?= $asset['a_id'] ?>">
-
-              <div class="form-group row">
-                <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Penggunaan <span
-                    class="required">*</span> <?php echo tooltip('usetype'); ?>
-                </label>
-                <div class="col-md-4 col-sm-6 ">
-                  <select id="usetype" name="usetype" class="form-control" required onchange="checkusetype()">
-                    <?php
-                    select_options($usetype_options, $asset['penggunaan']);
-                    ?>
-                  </select>
-                </div>
-              </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="username">Nama Pengguna <span
-                class="required">*</span>
-            </label>
-            <div class="col-md-4 col-sm-6 ">
-              <select id="staff_id" name="staff_id" class="form-control" required="" onchange="getvalue()">
-                <?php
-                stafflist($asset['staff_id'], $connection, $row);
-                ?>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="ic">Aset ID</label>
-            <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="asset_id" id="asset_id" required="required" class="form-control"
-                value="<?php echo $asset['asset_id'] ?>" readonly>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="model">Model <span
-                class="required">*</span>
-            </label>
-            <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="model" id="model" required="required" class="form-control"
-                value="<?php echo $asset['model'] ?>" placeholder="Model">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="tahun">Tahun Diperoleh <span
-                class="required">*</span>
-            </label>
-            <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="tahun" id="tahun" required="required" class="form-control"
-                value="<?php echo $asset['tahun'] ?>" placeholder="Tahun Diperoleh">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="serial">No. Siri</label>
-            <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="serial" id="serial" class="form-control" value="<?php echo $asset['serial'] ?>"
-                placeholder="No. Siri">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="kewpa">No. KewPA</label>
-            <div class="col-md-4 col-sm-6 ">
-              <input type="text" name="kewpa" id="kewpa" class="form-control" value="<?php echo $asset['kewpa'] ?>"
-                placeholder="No. KewPA">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Status <span
-                class="required">*</span> <?php tooltip('status'); ?>
-            </label>
-            <div class="col-md-4 col-sm-6 ">
-              <select id="status" name="status" class="form-control" required>
-                <?php
-                select_options($status_options, $asset['status']);
-                ?>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="name">Jenis Perolehan <span
-                class="required">*</span>
-            </label>
-            <div class="col-md-4 col-sm-6 ">
-              <select id="jen_perolehan" name="jen_perolehan" class="form-control" required>
-                <?php
-                select_options($jen_options, $asset['jen_perolehan']);
-                ?>
-              </select>
-            </div>
-          </div>
-
-          <div class='form-group row'>
-            <label class="col-form-label col-md-3 col-sm-3 label-align" for="sumber">Sumber Penerimaan <span
-                class="required">*</span> <?php echo tooltip('sumber'); ?></label>
-            <div class="col-md-4 col-sm-6 ">
-              <input id="sumber" name="sumber" type="text" class="form-control" value="<?php echo $asset['sumber'] ?>"
-                placeholder="Sumber Penerimaan" required>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-form-label col-md-3 col-sm-3 label-align"></label>
-            <div class="col-md-4 col-sm-3 ">
-              <button class="btn btn-primary" type="reset">Set Semula</button>
-              <button type="submit" name="submit" class="btn btn-success" action="">Kemaskini</button>
-            </div>
-          </div>
-          </form>
-          <?php
-          ?>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-<!-- /page content -->
-
 <script>
   // check for form input
   // const form = document.querySelector('#registration-form');

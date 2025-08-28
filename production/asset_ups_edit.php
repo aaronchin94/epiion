@@ -9,7 +9,7 @@ $asset = getasset('ups', 'u_id', $id, $connection, $row);
 $kewpa_check = getkewpa('ups', $connection);
 ?>
 
-<head>
+
   <!-- jQuery -->
   <script src="../vendors/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap -->
@@ -63,7 +63,7 @@ $kewpa_check = getkewpa('ups', $connection);
       return valid;
     }
   </script>
-</head>
+
 <!-- page content -->
 <div class="right_col" role="main">
   <div class="">

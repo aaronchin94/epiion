@@ -41,8 +41,14 @@ require '../../PHPMailer/src/SMTP.php';
     $stmt->bind_param("isss", $id, $email, $token, $expires);
     $stmt->execute();
     $stmt->close();
-
-    $reset_url = "http://10.71.98.180/production/password_reset.php?token=$token";
+    
+    // Detect protocol
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+        // Get host
+        $host = $_SERVER['HTTP_HOST']; 
+        // Build reset URL dynamically
+        $reset_url = $protocol . $host . "/password_reset.php?token=" . urlencode($token);
+    // $reset_url = "http://10.71.98.180/production/$token";
 
          
         // Generate a temporary password

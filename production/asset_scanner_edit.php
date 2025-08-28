@@ -9,7 +9,7 @@ $asset = getasset('scanner', 's_id', $id, $connection, $row);
 $kewpa_check = getkewpa('scanner', $connection);
 ?>
 
-<head>
+
   <!-- jQuery -->
   <script src="../vendors/jquery/dist/jquery.min.js"></script>
   <!-- Bootstrap -->
@@ -63,7 +63,7 @@ $kewpa_check = getkewpa('scanner', $connection);
       return valid;
     }
   </script>
-</head>
+
 <!-- page content -->
 <div class="right_col" role="main">
   <div class="">

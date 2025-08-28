@@ -10,42 +10,22 @@ require_once "includes/db.php";
 
 ?>
 
-<head>
-  <!-- Bootstrap -->
-  <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <!-- NProgress -->
-  <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-  <!-- iCheck -->
-  <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-  <!-- bootstrap-wysiwyg -->
-  <link href="../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
-  <!-- Select2 -->
-  <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
-  <!-- Switchery -->
-  <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
-  <!-- starrr -->
-  <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
-  <!-- bootstrap-daterangepicker -->
-  <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
-
-  <!-- Datatables -->
-  <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-  <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-  <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-  <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-  <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom Theme Style -->
-  <link href="../build/css/custom.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script type="text/javascript" charset="utf8">
     $(document).ready(function () {
-      var table = $("#datatable-responsive").DataTable({
-        order: [[6, 'desc'], [5, 'asc']]
-      });
+      // var table = $("#datatable-responsive").DataTable({
+      //   order: [[6, 'desc'], [5, 'asc']]
+      // });
+      var table;
+      if ($.fn.dataTable.isDataTable("#datatable-responsive")) {
+          table = $("#datatable-responsive").DataTable();
+      } else {
+          table = $("#datatable-responsive").DataTable({
+              order: [[6, 'desc'], [5, 'asc']],
+              destroy: true
+          });
+      }
 
       $('.filter-option').on('click', function () {
         var status = $(this).data('value');
@@ -78,7 +58,6 @@ require_once "includes/db.php";
 
     }
   </style>
-</head>
 
 <!-- page content -->
 <div class="right_col" role="main">
@@ -189,7 +168,7 @@ require_once "includes/db.php";
                             }
                             echo '<td style="text-align: center; vertical-align: middle; padding: 10px;"><span class="' . $class . '" style="width: 100%;"><b style="font-size: 1.3em;">' . $status . '</b></span></td>';
                             // if (($rowk['maintenance_status'] != 3) && ($row['ic'] == '000719120127')) {
-                            if (($rowk['maintenance_status'] < 2)) {
+                            if (($rowk['maintenance_status'] < 3)) {
                               echo '<td>
                               <a href="asset_maintenance_review.php?id=' . $id . '" ><i class="fa fa-eye" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Papar Maklumat"></i></a>
                               <a href="asset_maintenance_assign.php?id=' . $id . '" ><i class="fa fa-user-plus" style="font-size:20px;margin:0px 5px 0px 5px ;" title="Tugaskan Juruteknik"></i></a>
